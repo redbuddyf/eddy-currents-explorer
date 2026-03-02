@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .quiz-hero {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--background) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .quiz-container {
+            padding: 60px 0 100px;
+        }
+        
+        .quiz-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        .quiz-header {
+            padding: 32px;
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .quiz-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--background);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 50px;
+            text-align: right;
+        }
+        
+        .quiz-stats {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .quiz-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .quiz-stat i {
+            color: var(--primary);
+        }
+        
+        .quiz-body {
+            padding: 32px;
+        }
+        
+        .question-container {
+            display: none;
+        }
+        
+        .question-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-number {
+            font-size: 0.85rem;
+            color: var(--primary-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+        
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            background: var(--surface-light);
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .option:hover {
+            border-color: var(--primary);
+            background: var(--background);
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .option.correct {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .option.incorrect {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background: var(--background);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .option.correct .option-letter {
+            background: var(--success);
+            color: white;
+        }
+        
+        .option.incorrect .option-letter {
+            background: var(--error);
+            color: white;
+        }
+        
+        .option-text {
+            flex: 1;
+        }
+        
+        .option-icon {
+            font-size: 1.25rem;
+            opacity: 0;
+        }
+        
+        .option.correct .option-icon,
+        .option.incorrect .option-icon {
+            opacity: 1;
+        }
+        
+        .option.correct .option-icon {
+            color: var(--success);
+        }
+        
+        .option.incorrect .option-icon {
+            color: var(--error);
+        }
+        
+        .explanation {
+            display: none;
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--surface-light);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .explanation h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .explanation p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .quiz-footer {
+            padding: 24px 32px;
+            background: var(--surface-light);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .btn-quiz {
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-prev {
+            background: var(--background);
+            color: var(--text);
+        }
+        
+        .btn-prev:hover:not(:disabled) {
+            background: var(--border);
+        }
+        
+        .btn-prev:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-next {
+            background: var(--gradient-1);
+            color: white;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Results Screen */
+        .results-container {
+            display: none;
+            padding: 48px 32px;
+            text-align: center;
+        }
+        
+        .results-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 24px;
+        }
+        
+        .result-score {
+            font-size: 4rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .result-message {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        
+        .result-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .breakdown-item {
+            text-align: center;
+        }
+        
+        .breakdown-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .breakdown-value.correct {
+            color: var(--success);
+        }
+        
+        .breakdown-value.incorrect {
+            color: var(--error);
+        }
+        
+        .breakdown-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Start Screen */
+        .start-container {
+            padding: 48px 32px;
+            text-align: center;
+        }
+        
+        .start-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            margin: 0 auto 32px;
+        }
+        
+        .start-container h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        
+        .start-container p {
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 32px;
+        }
+        
+        .quiz-info {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+        
+        .quiz-info-item i {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link active">Quiz</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="quiz-hero">
+        <div class="container">
+            <span class="section-tag">Test Your Knowledge</span>
+            <h1 class="section-title">Eddy Currents Quiz</h1>
+            <p class="section-subtitle">How well do you understand electromagnetic induction?</p>
+        </div>
+    </section>
+
+    <!-- Quiz Container -->
+    <section class="quiz-container">
+        <div class="container">
+            <div class="quiz-card">
+                <!-- Start Screen -->
+                <div class="start-container" id="startScreen">
+                    <div class="start-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2>Ready to Test Your Knowledge?</h2>
+                    <p>This quiz covers the key concepts from the Eddy Currents episode. Answer all questions to see your score!</p>
+                    <div class="quiz-info">
+                        <div class="quiz-info-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>10 Questions</span>
+                        </div>
+                        <div class="quiz-info-item">
+                            <i class="fas fa-clock"></i>
+                            <span>~5 Minutes</span>
+                        </div>
+                        <div class="quiz-info-item">
+                            <i class="fas fa-infinity"></i>
+                            <span>Unlimited Attempts</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="startQuiz()">
+                        <i class="fas fa-play"></i>
+                        Start Quiz
+                    </button>
+                </div>
+
+                <!-- Quiz Header -->
+                <div class="quiz-header" id="quizHeader" style="display: none;">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text" id="progressText">1/10</span>
+                    </div>
+                    <div class="quiz-stats">
+                        <div class="quiz-stat">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="correctCount">0 Correct</span>
+                        </div>
+                        <div class="quiz-stat">
+                            <i class="fas fa-times-circle"></i>
+                            <span id="incorrectCount">0 Incorrect</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Body -->
+                <div class="quiz-body" id="quizBody" style="display: none;">
+                    <!-- Questions will be inserted here by JavaScript -->
+                </div>
+
+                <!-- Quiz Footer -->
+                <div class="quiz-footer" id="quizFooter" style="display: none;">
+                    <button class="btn-quiz btn-prev" id="prevBtn" onclick="prevQuestion()" disabled>
+                        <i class="fas fa-arrow-left"></i>
+                        Previous
+                    </button>
+                    <button class="btn-quiz btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
+                        Next
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Results Screen -->
+                <div class="results-container" id="resultsScreen">
+                    <div class="result-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="result-score" id="finalScore">8/10</div>
+                    <div class="result-message" id="resultMessage">Great job! You really understand eddy currents!</div>
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-value correct" id="finalCorrect">8</div>
+                            <div class="breakdown-label">Correct</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-value incorrect" id="finalIncorrect">2</div>
+                            <div class="breakdown-label">Incorrect</div>
+                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn btn-secondary" onclick="retakeQuiz()">
+                            <i class="fas fa-redo"></i>
+                            Retake Quiz
+                        </button>
+                        <a href="notes.html" class="btn btn-outline">
+                            <i class="fas fa-book"></i>
+                            Review Notes
+                        </a>
+                        <a href="index.html" class="btn btn-primary">
+                            <i class="fas fa-home"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Making physics accessible, one episode at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Educational project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

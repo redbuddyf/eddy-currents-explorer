@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Notes | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notes-hero {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--background) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .notes-content {
+            padding: 60px 0;
+        }
+        
+        .notes-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+        
+        .notes-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .sidebar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-card h3 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-card h3 i {
+            color: var(--primary);
+        }
+        
+        .toc-list {
+            list-style: none;
+        }
+        
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+        
+        .toc-list a {
+            display: block;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .toc-list a:hover,
+        .toc-list a.active {
+            background: var(--surface-light);
+            color: var(--text);
+        }
+        
+        .download-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .download-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--surface-light);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        
+        .download-item:hover {
+            background: var(--border);
+        }
+        
+        .download-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .download-info {
+            flex: 1;
+        }
+        
+        .download-info h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        
+        .download-info span {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        
+        .notes-main {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+        }
+        
+        .note-section {
+            margin-bottom: 48px;
+        }
+        
+        .note-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .note-section h2 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .note-section h2 i {
+            color: var(--primary);
+        }
+        
+        .note-section h3 {
+            font-size: 1.25rem;
+            margin: 28px 0 16px;
+            color: var(--primary-light);
+        }
+        
+        .note-section p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.8;
+        }
+        
+        .formula-box {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .formula-box .formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .formula-box .description {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        
+        .key-points {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+        
+        .key-points h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .key-points ul {
+            list-style: none;
+        }
+        
+        .key-points li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text-muted);
+        }
+        
+        .key-points li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .definition-card {
+            background: var(--surface-light);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 16px 0;
+        }
+        
+        .definition-card h4 {
+            font-size: 1.1rem;
+            color: var(--primary-light);
+            margin-bottom: 8px;
+        }
+        
+        .definition-card p {
+            margin: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .notes-sidebar {
+                position: static;
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link active">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="notes-hero">
+        <div class="container">
+            <span class="section-tag">Episode 1</span>
+            <h1 class="section-title">Eddy Currents - Study Notes</h1>
+            <p class="section-subtitle">Comprehensive revision materials for your physics assessment</p>
+        </div>
+    </section>
+
+    <!-- Notes Content -->
+    <section class="notes-content">
+        <div class="container">
+            <div class="notes-grid">
+                <!-- Sidebar -->
+                <aside class="notes-sidebar">
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-list"></i> Contents</h3>
+                        <ul class="toc-list">
+                            <li><a href="#overview" class="active">Overview</a></li>
+                            <li><a href="#theory">Theory & Physics</a></li>
+                            <li><a href="#lenz">Lenz's Law</a></li>
+                            <li><a href="#applications">Applications</a></li>
+                            <li><a href="#equations">Key Equations</a></li>
+                            <li><a href="#summary">Summary</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-download"></i> Downloads</h3>
+                        <div class="download-list">
+                            <a href="#" class="download-item" onclick="alert('PDF generation coming soon!'); return false;">
+                                <div class="download-icon"><i class="fas fa-file-pdf"></i></div>
+                                <div class="download-info">
+                                    <h4>Full Notes PDF</h4>
+                                    <span>2.4 MB</span>
+                                </div>
+                                <i class="fas fa-download" style="color: var(--text-dim);"></i>
+                            </a>
+                            <a href="#" class="download-item" onclick="alert('Flashcards coming soon!'); return false;">
+                                <div class="download-icon"><i class="fas fa-cards-blank"></i></div>
+                                <div class="download-info">
+                                    <h4>Flashcards</h4>
+                                    <span>20 cards</span>
+                                </div>
+                                <i class="fas fa-download" style="color: var(--text-dim);"></i>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="notes-main">
+                    <article class="note-section" id="overview">
+                        <h2><i class="fas fa-book-open"></i> Overview</h2>
+                        <p>
+                            Eddy currents are loops of electrical current induced within conductors by a changing magnetic field 
+                            in the conductor, according to Faraday's law of induction. They flow in closed loops within conductors, 
+                            perpendicular to the magnetic field, and dissipate energy as heat due to the electrical resistance of 
+                            the conductor.
+                        </p>
+                        
+                        <div class="key-points">
+                            <h4><i class="fas fa-lightbulb"></i> Key Points</h4>
+                            <ul>
+                                <li>Eddy currents are induced by changing magnetic fields</li>
+                                <li>They flow in closed loops within conductors</li>
+                                <li>Energy is dissipated as heat (Joule heating)</li>
+                                <li>Direction follows Lenz's Law (opposes the change)</li>
+                                <li>Can be minimized by using laminated cores</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="note-section" id="theory">
+                        <h2><i class="fas fa-atom"></i> Theory & Physics</h2>
+                        <p>
+                            When a conductor moves through a magnetic field, or when the magnetic field through a stationary 
+                            conductor changes, an electromotive force (EMF) is induced in the conductor according to Faraday's 
+                            Law of Electromagnetic Induction.
+                        </p>
+                        
+                        <div class="definition-card">
+                            <h4>Faraday's Law</h4>
+                            <p>The induced EMF in any closed circuit is equal to the negative of the time rate of change of the magnetic flux through the circuit.</p>
+                        </div>
+                        
+                        <h3>How Eddy Currents Form</h3>
+                        <p>
+                            1. A changing magnetic field passes through a conductor<br>
+                            2. This induces an EMF within the conductor<br>
+                            3. Free electrons in the conductor begin to move<br>
+                            4. Currents flow in circular paths (eddies) within the material<br>
+                            5. These currents create their own magnetic field
+                        </p>
+                    </article>
+
+                    <article class="note-section" id="lenz">
+                        <h2><i class="fas fa-arrows-spin"></i> Lenz's Law</h2>
+                        <p>
+                            Lenz's Law states that the direction of the induced current will be such that it opposes the change 
+                            that produced it. This is a consequence of the conservation of energy.
+                        </p>
+                        
+                        <div class="formula-box">
+                            <div class="formula">ε = -dΦB/dt</div>
+                            <div class="description">EMF = Negative rate of change of magnetic flux</div>
+                        </div>
+                        
+                        <div class="key-points">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Important</h4>
+                            <ul>
+                                <li>The negative sign indicates opposition to the change</li>
+                                <li>If a magnet approaches, eddy currents repel it</li>
+                                <li>If a magnet recedes, eddy currents attract it</li>
+                                <li>This explains magnetic braking and levitation</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="note-section" id="applications">
+                        <h2><i class="fas fa-cogs"></i> Real-World Applications</h2>
+                        
+                        <h3>1. Magnetic Braking</h3>
+                        <p>
+                            Used in roller coasters and trains. A powerful magnet moves past a conductive plate or rail, 
+                            inducing eddy currents that create an opposing magnetic field, slowing the vehicle smoothly 
+                            without friction or wear.
+                        </p>
+                        
+                        <h3>2. Maglev Trains</h3>
+                        <p>
+                            Magnetic levitation trains use eddy currents for both levitation and propulsion. The train 
+                            floats above the track, eliminating friction and enabling extremely high speeds.
+                        </p>
+                        
+                        <h3>3. Induction Heating</h3>
+                        <p>
+                            Rapidly alternating magnetic fields induce strong eddy currents in metal objects, heating 
+                            them efficiently. Used in induction cooktops and industrial metal processing.
+                        </p>
+                        
+                        <h3>4. Metal Detectors</h3>
+                        <p>
+                            Eddy currents induced in metallic objects create their own magnetic fields, which are detected 
+                            by the sensor, triggering an alert.
+                        </p>
+                    </article>
+
+                    <article class="note-section" id="equations">
+                        <h2><i class="fas fa-square-root-variable"></i> Key Equations</h2>
+                        
+                        <div class="formula-box">
+                            <div class="formula">Faraday's Law: ε = -N(dΦ/dt)</div>
+                            <div class="description">N = number of turns, Φ = magnetic flux</div>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <div class="formula">Magnetic Flux: Φ = BAcos(θ)</div>
+                            <div class="description">B = magnetic field, A = area, θ = angle</div>
+                        </div>
+                        
+                        <div class="formula-box">
+                            <div class="formula">Power Dissipated: P = I²R</div>
+                            <div class="description">Energy lost as heat from eddy currents</div>
+                        </div>
+                    </article>
+
+                    <article class="note-section" id="summary">
+                        <h2><i class="fas fa-clipboard-check"></i> Summary</h2>
+                        
+                        <div class="key-points">
+                            <h4><i class="fas fa-star"></i> Remember These!</h4>
+                            <ul>
+                                <li>Eddy currents are induced currents that flow in loops within conductors</li>
+                                <li>They are caused by changing magnetic fields (Faraday's Law)</li>
+                                <li>Their direction opposes the change (Lenz's Law)</li>
+                                <li>They convert kinetic energy to heat energy</li>
+                                <li>Applications include braking, levitation, and heating</li>
+                                <li>Laminated cores reduce unwanted eddy currents</li>
+                            </ul>
+                        </div>
+                    </article>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Making physics accessible, one episode at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Educational project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

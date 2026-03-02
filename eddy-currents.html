@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddy Currents | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .app-frame {
+            width: 100%;
+            height: calc(100vh - 72px);
+            border: none;
+            margin-top: 72px;
+        }
+        
+        .app-header {
+            background: var(--surface);
+            padding: 40px 0;
+            margin-top: 72px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .app-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .app-header h1 {
+            font-size: 2rem;
+        }
+        
+        .app-header p {
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        .app-notice {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .app-notice i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .app-notice-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        
+        .app-notice-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .launch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        
+        .app-preview {
+            padding: 60px 0;
+            background: var(--background);
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .preview-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: var(--transition);
+        }
+        
+        .preview-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .preview-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-1);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .preview-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .preview-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        .launch-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+        }
+        
+        .launch-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .launch-section p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link active">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="container">
+            <div class="app-header-content">
+                <div>
+                    <h1>Eddy Current Explorer</h1>
+                    <p>Interactive Physics Lab - Experiment with electromagnetic induction</p>
+                </div>
+                <div class="app-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <div class="app-notice-content">
+                        <h4>Full-Screen Experience</h4>
+                        <p>Opens in new tab for best experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Preview -->
+    <section class="app-preview">
+        <div class="container">
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <div class="preview-icon">
+                        <i class="fas fa-magnet"></i>
+                    </div>
+                    <h3>Magnetic Damping</h3>
+                    <p>Visualize how eddy currents create opposing magnetic fields that slow down moving magnets through conductors.</p>
+                </div>
+                
+                <div class="preview-card">
+                    <div class="preview-icon">
+                        <i class="fas fa-train"></i>
+                    </div>
+                    <h3>Maglev Simulation</h3>
+                    <p>Explore how maglev trains use eddy currents for frictionless levitation and propulsion.</p>
+                </div>
+                
+                <div class="preview-card">
+                    <div class="preview-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Induction Heating</h3>
+                    <p>See how rapidly changing magnetic fields generate heat in conductive materials.</p>
+                </div>
+                
+                <div class="preview-card">
+                    <div class="preview-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Interactive Lab</h3>
+                    <p>Control variables and run your own experiments in a virtual physics laboratory.</p>
+                </div>
+            </div>
+            
+            <div class="launch-section">
+                <h3>Ready to Explore?</h3>
+                <p>Launch the full interactive Eddy Current Explorer app. Features 6 interactive demonstrations, detailed explanations, and adjustable parameters.</p>
+                <a href="app/index.html" target="_blank" class="launch-btn">
+                    <i class="fas fa-external-link-alt"></i>
+                    Launch Interactive Lab
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Navigation -->
+    <section style="padding: 40px 0 80px;">
+        <div class="container">
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Home
+                </a>
+                <a href="notes.html" class="btn btn-outline">
+                    <i class="fas fa-file-alt"></i>
+                    Study Notes
+                </a>
+                <a href="quiz.html" class="btn btn-outline">
+                    <i class="fas fa-question-circle"></i>
+                    Take Quiz
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Making physics accessible, one episode at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Educational project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

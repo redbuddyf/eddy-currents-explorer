@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Science Unpacked - Educational vodcast series making complex science concepts accessible and engaging">
+    <title>Science Unpacked | Where Complex Science Becomes Simple</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+            <div class="particles" id="particles"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-play-circle"></i>
+                <span>Physics & Chemistry Series</span>
+            </div>
+            <h1 class="hero-title">
+                Where Complex Science
+                <span class="gradient-text">Becomes Simple</span>
+            </h1>
+            <p class="hero-description">
+                Join us on a journey through Physics and Chemistry. From eddy currents to chemical bonds, 
+                we unpack complex concepts into engaging, digestible episodes.
+            </p>
+            <div class="hero-buttons">
+                <a href="#latest-episode" class="btn btn-primary">
+                    <i class="fas fa-play"></i>
+                    Watch Latest Episode
+                </a>
+                <a href="topics.html" class="btn btn-secondary">
+                    <i class="fas fa-flask"></i>
+                    Browse Topics
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Subjects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">01</span>
+                <span class="stat-label">Episodes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Interactive Demos</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Episode Section -->
+    <section class="episode-section" id="latest-episode">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Current Episode</span>
+                <h2 class="section-title">Eddy Currents Explained</h2>
+                <p class="section-subtitle">Physics Series - Discover the invisible forces that power magnetic braking and levitation</p>
+            </div>
+            
+            <div class="video-container">
+                <!-- Video Player Placeholder - Replace with actual video URL -->
+                <div class="video-player" id="videoPlayer">
+                    <div class="video-placeholder">
+                        <div class="placeholder-content">
+                            <i class="fas fa-film"></i>
+                            <h3>Vodcast Coming Soon</h3>
+                            <p>Your eddy currents vodcast will appear here</p>
+                            <span class="placeholder-hint">Upload to YouTube/Vimeo and paste the embed URL in index.html</span>
+                        </div>
+                        <!-- Uncomment and replace URL when video is ready -->
+                        <!-- <iframe 
+                            src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
+                            title="Science Unpacked - Eddy Currents"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe> -->
+                    </div>
+                </div>
+                
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="subject-tag physics">Physics</span>
+                        <span class="episode-tag">Episode 1</span>
+                        <span class="duration"><i class="fas fa-clock"></i> TBD min</span>
+                        <span class="topic"><i class="fas fa-tag"></i> Electromagnetism</span>
+                    </div>
+                    <h3 class="video-title">The Hidden Force: How Eddy Currents Shape Our World</h3>
+                    <p class="video-description">
+                        From roller coaster brakes to futuristic maglev trains, eddy currents are everywhere! 
+                        In this episode, we dive deep into the physics of electromagnetic induction, 
+                        exploring how moving magnets through conductors create swirling electric currents 
+                        that can brake, levitate, and even melt metal.
+                    </p>
+                    <div class="video-actions">
+                        <a href="eddy-currents.html" class="btn btn-accent">
+                            <i class="fas fa-flask"></i>
+                            Try Interactive Lab
+                        </a>
+                        <a href="notes.html" class="btn btn-outline">
+                            <i class="fas fa-file-alt"></i>
+                            Download Notes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section class="subjects-section">
+        <div class="container">
+            <div class="section-header centered">
+                <span class="section-tag">Subjects</span>
+                <h2 class="section-title">Explore Our Series</h2>
+                <p class="section-subtitle">Choose your path through the world of science</p>
+            </div>
+            
+            <div class="subjects-grid">
+                <a href="topics.html#physics" class="subject-card physics">
+                    <div class="subject-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="subject-content">
+                        <h3>Physics</h3>
+                        <p>From classical mechanics to quantum physics and electromagnetism.</p>
+                        <div class="subject-meta">
+                            <span><i class="fas fa-play-circle"></i> 1 Episode</span>
+                            <span><i class="fas fa-vial"></i> 1 Lab</span>
+                        </div>
+                    </div>
+                    <div class="subject-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                
+                <a href="topics.html#chemistry" class="subject-card chemistry">
+                    <div class="subject-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="subject-content">
+                        <h3>Chemistry</h3>
+                        <p>From atomic structure to chemical reactions and bonding.</p>
+                        <div class="subject-meta">
+                            <span><i class="fas fa-play-circle"></i> Coming Soon</span>
+                            <span><i class="fas fa-vial"></i> Labs Coming</span>
+                        </div>
+                    </div>
+                    <div class="subject-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Grid -->
+    <section class="topics-section">
+        <div class="container">
+            <div class="section-header centered">
+                <span class="section-tag">Browse</span>
+                <h2 class="section-title">Available Topics</h2>
+            </div>
+            
+            <div class="topics-grid">
+                <div class="topic-card featured physics">
+                    <div class="topic-badge physics">Physics</div>
+                    <div class="topic-icon">
+                        <i class="fas fa-magnet"></i>
+                    </div>
+                    <h3>Eddy Currents</h3>
+                    <p>Understand the physics behind electromagnetic braking and induction heating.</p>
+                    <a href="eddy-currents.html" class="topic-link">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <span class="topic-status available">Available Now</span>
+                </div>
+                
+                <div class="topic-card coming-soon physics">
+                    <div class="topic-badge physics">Physics</div>
+                    <div class="topic-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Quantum Mechanics</h3>
+                    <p>The strange world of particles, waves, and superposition.</p>
+                    <span class="topic-status">Coming Soon</span>
+                </div>
+                
+                <div class="topic-card coming-soon chemistry">
+                    <div class="topic-badge chemistry">Chemistry</div>
+                    <div class="topic-icon" style="background: var(--gradient-chem);">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3>Chemical Bonding</h3>
+                    <p>Ionic, covalent, and metallic bonds explained with interactive models.</p>
+                    <span class="topic-status">Coming Soon</span>
+                </div>
+                
+                <div class="topic-card coming-soon chemistry">
+                    <div class="topic-badge chemistry">Chemistry</div>
+                    <div class="topic-icon" style="background: var(--gradient-chem);">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Thermochemistry</h3>
+                    <p>Heat, energy, and chemical reactions - exothermic vs endothermic.</p>
+                    <span class="topic-status">Coming Soon</span>
+                </div>
+                
+                <div class="topic-card coming-soon physics">
+                    <div class="topic-badge physics">Physics</div>
+                    <div class="topic-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Relativity</h3>
+                    <p>How time slows down and space bends at high speeds.</p>
+                    <span class="topic-status">Coming Soon</span>
+                </div>
+                
+                <div class="topic-card coming-soon chemistry">
+                    <div class="topic-badge chemistry">Chemistry</div>
+                    <div class="topic-icon" style="background: var(--gradient-chem);">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Acids & Bases</h3>
+                    <p>pH, neutralization reactions, and buffer solutions.</p>
+                    <span class="topic-status">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Lessons</h3>
+                    <p>Engaging vodcast episodes that break down complex topics</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Interactive Labs</h3>
+                    <p>Hands-on simulations for both physics and chemistry</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-download"></i>
+                    </div>
+                    <h3>Study Notes</h3>
+                    <p>Comprehensive notes and resources for revision</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3>Knowledge Quiz</h3>
+                    <p>Test your understanding with interactive quizzes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Physics & Chemistry education made simple.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="topics.html">Topics</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Physics & Chemistry Education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

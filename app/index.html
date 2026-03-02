@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive exploration of eddy currents, electromagnetic braking, and maglev technology">
+    <meta name="theme-color" content="#6366f1">
+    <title>Eddy Current Explorer | Interactive Physics Lab</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Eddy Current Lab">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-magnet">
+                <div class="magnet-n">N</div>
+                <div class="magnet-s">S</div>
+            </div>
+            <div class="loading-text">Initializing Physics Engine...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Effects -->
+    <div class="bg-particles" id="bgParticles"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+            </div>
+            <span class="brand-text">Eddy Current<span class="brand-accent">Lab</span></span>
+        </div>
+        
+        <div class="nav-links" id="navLinks">
+            <button class="nav-btn active" data-section="intro" data-tooltip="Introduction">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-btn" data-section="science" data-tooltip="The Physics">
+                <span class="nav-icon">⚛️</span>
+                <span class="nav-label">Physics</span>
+            </button>
+            <button class="nav-btn" data-section="coaster" data-tooltip="Roller Coasters">
+                <span class="nav-icon">🎢</span>
+                <span class="nav-label">Coasters</span>
+            </button>
+            <button class="nav-btn" data-section="train" data-tooltip="Maglev Trains">
+                <span class="nav-icon">🚄</span>
+                <span class="nav-label">Trains</span>
+            </button>
+            <button class="nav-btn" data-section="applications" data-tooltip="More Applications">
+                <span class="nav-icon">🔧</span>
+                <span class="nav-label">Uses</span>
+            </button>
+            <button class="nav-btn" data-section="lab" data-tooltip="Interactive Lab">
+                <span class="nav-icon">🧪</span>
+                <span class="nav-label">Lab</span>
+            </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-content">
+            <button class="mobile-nav-btn active" data-section="intro">🏠 Home</button>
+            <button class="mobile-nav-btn" data-section="science">⚛️ The Physics</button>
+            <button class="mobile-nav-btn" data-section="coaster">🎢 Roller Coasters</button>
+            <button class="mobile-nav-btn" data-section="train">🚄 Maglev Trains</button>
+            <button class="mobile-nav-btn" data-section="applications">🔧 Applications</button>
+            <button class="mobile-nav-btn" data-section="lab">🧪 Interactive Lab</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- INTRO SECTION -->
+        <section id="intro" class="section active">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">⚡ Interactive Physics Experience</div>
+                    <h1 class="hero-title">
+                        <span class="title-line">Discover</span>
+                        <span class="title-line gradient-text">Eddy Currents</span>
+                    </h1>
+                    <p class="hero-subtitle">The invisible electromagnetic force revolutionizing transportation, from roller coasters to 600 km/h levitating trains</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-value">4</span>
+                            <span class="stat-label">Interactive Labs</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">603</span>
+                            <span class="stat-label">km/h Top Speed</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Contact Friction</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-cta">
+                        <button class="btn btn-primary btn-glow" onclick="showSection('science')">
+                            <span>Start Exploring</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('lab')">
+                            <span>Jump to Lab</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="magnetic-simulation" id="heroSimulation">
+                        <div class="field-container">
+                            <div class="falling-magnet" id="heroMagnet">
+                                <div class="magnet-pole north">N</div>
+                                <div class="magnet-pole south">S</div>
+                                <div class="field-ring r1"></div>
+                                <div class="field-ring r2"></div>
+                                <div class="field-ring r3"></div>
+                            </div>
+                            <div class="conductor-plate">
+                                <div class="eddy-currents" id="eddyCurrents">
+                                    <div class="eddy-loop l1"></div>
+                                    <div class="eddy-loop l2"></div>
+                                    <div class="eddy-loop l3"></div>
+                                    <div class="eddy-loop l4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="simulation-labels">
+                            <span class="label-moving">Moving Magnet</span>
+                            <span class="label-eddy">Eddy Currents</span>
+                            <span class="label-braking">↵ Braking Force</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"/>
+                    <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"/>
+                    <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"/>
+                </svg>
+            </div>
+
+            <div class="cards-container">
+                <h2 class="section-title">Explore the Science</h2>
+                <div class="cards-grid">
+                    <article class="feature-card" onclick="showSection('science')">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-icon-container">
+                                <div class="card-icon">⚛️</div>
+                            </div>
+                            <h3>The Physics</h3>
+                            <p>Faraday's Law and Lenz's Law come alive with interactive simulations showing exactly how changing magnetic fields create opposing forces.</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Interactive</span>
+                                <span class="feature-tag">Formulas</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="feature-card" onclick="showSection('coaster')">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-icon-container">
+                                <div class="card-icon">🎢</div>
+                            </div>
+                            <h3>Roller Coasters</h3>
+                            <p>Experience frictionless braking systems that stop multi-ton coaster trains smoothly without ever touching them.</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Simulation</span>
+                                <span class="feature-tag">Safety</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="feature-card" onclick="showSection('train')">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-icon-container">
+                                <div class="card-icon">🚄</div>
+                            </div>
+                            <h3>Maglev Trains</h3>
+                            <p>Levitate and propel trains to 603 km/h using nothing but magnets and the power of eddy currents.</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Levitation</span>
+                                <span class="feature-tag">Speed</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="feature-card" onclick="showSection('lab')">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-icon-container">
+                                <div class="card-icon">🧪</div>
+                            </div>
+                            <h3>Virtual Lab</h3>
+                            <p>Conduct 5 hands-on experiments: pendulum damping, tube drops, induction heating, and more with real-time physics.</p>
+                            <div class="card-features">
+                                <span class="feature-tag">5 Experiments</span>
+                                <span class="feature-tag">Quiz</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCIENCE SECTION -->
+        <section id="science" class="section">
+            <header class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">The Physics</h2>
+                <p class="section-desc">Understanding electromagnetic induction and Lenz's Law</p>
+            </header>
+
+            <div class="science-layout">
+                <div class="theory-panel">
+                    <div class="law-card">
+                        <div class="law-header">
+                            <span class="law-number">1</span>
+                            <h3>Faraday's Law</h3>
+                        </div>
+                        <div class="formula-container">
+                            <div class="formula">
+                                <span class="formula-main">ε = -N</span>
+                                <div class="fraction">
+                                    <span class="numerator">dΦ</span>
+                                    <span class="denominator">dt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="law-desc">A changing magnetic flux through a conductor induces an electromotive force (EMF). The faster the change, the stronger the induced current.</p>
+                        <div class="variables">
+                            <div class="var"><span class="var-symbol">ε</span><span class="var-meaning">induced EMF</span></div>
+                            <div class="var"><span class="var-symbol">N</span><span class="var-meaning">number of turns</span></div>
+                            <div class="var"><span class="var-symbol">Φ</span><span class="var-meaning">magnetic flux</span></div>
+                            <div class="var"><span class="var-symbol">t</span><span class="var-meaning">time</span></div>
+                        </div>
+                    </div>
+
+                    <div class="law-card">
+                        <div class="law-header">
+                            <span class="law-number">2</span>
+                            <h3>Lenz's Law</h3>
+                        </div>
+                        <div class="formula-container">
+                            <div class="formula">
+                                <span class="formula-main">F = -k · v</span>
+                            </div>
+                        </div>
+                        <p class="law-desc">The induced current flows in a direction that <strong>opposes</strong> the change producing it. This is the fundamental principle behind magnetic braking!</p>
+                        <div class="lenz-demo">
+                            <div class="lenz-arrows">
+                                <span class="arrow-down">↓ Motion</span>
+                                <span class="arrow-up">↑ Opposition</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-panel">
+                    <div class="demo-header">
+                        <h3>Live Simulation</h3>
+                        <div class="demo-status" id="demoStatus">
+                            <span class="status-dot"></span>
+                            <span>Ready</span>
+                        </div>
+                    </div>
+                    
+                    <div class="canvas-container">
+                        <canvas id="scienceCanvas" width="600" height="500"></canvas>
+                        <div class="canvas-overlay" id="canvasOverlay">
+                            <div class="measurement-display">
+                                <div class="measure">
+                                    <span class="measure-label">Velocity</span>
+                                    <span class="measure-value" id="velValue">0.0</span>
+                                    <span class="measure-unit">m/s</span>
+                                </div>
+                                <div class="measure">
+                                    <span class="measure-label">Eddy Current</span>
+                                    <span class="measure-value" id="currentValue">0.0</span>
+                                    <span class="measure-unit">A</span>
+                                </div>
+                                <div class="measure">
+                                    <span class="measure-label">Braking Force</span>
+                                    <span class="measure-value" id="forceValue">0.0</span>
+                                    <span class="measure-unit">N</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="demo-controls">
+                        <button class="control-btn btn-drop" id="dropMagnet">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            </svg>
+                            <span>Drop Magnet</span>
+                        </button>
+                        <button class="control-btn btn-reset" id="resetScience">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/>
+                            </svg>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+
+                    <div class="material-selector">
+                        <label class="selector-label">Tube Material</label>
+                        <div class="material-options">
+                            <button class="material-btn active" data-material="copper">
+                                <div class="material-color copper"></div>
+                                <span>Copper</span>
+                                <small>High σ</small>
+                            </button>
+                            <button class="material-btn" data-material="aluminum">
+                                <div class="material-color aluminum"></div>
+                                <span>Aluminum</span>
+                                <small>Medium σ</small>
+                            </button>
+                            <button class="material-btn" data-material="pvc">
+                                <div class="material-color pvc"></div>
+                                <span>PVC</span>
+                                <small>Insulator</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="factors-section">
+                <h3 class="factors-title">Factors Affecting Eddy Currents</h3>
+                <div class="factors-grid">
+                    <div class="factor-card">
+                        <div class="factor-icon">⚡</div>
+                        <h4>Conductivity (σ)</h4>
+                        <div class="factor-bar">
+                            <div class="bar-track">
+                                <div class="bar-fill" style="width: 100%"></div>
+                            </div>
+                            <span class="bar-label">Copper</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="bar-track">
+                                <div class="bar-fill aluminum" style="width: 60%"></div>
+                            </div>
+                            <span class="bar-label">Aluminum</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="bar-track">
+                                <div class="bar-fill steel" style="width: 15%"></div>
+                            </div>
+                            <span class="bar-label">Steel</span>
+                        </div>
+                        <p class="factor-desc">Higher conductivity allows larger current loops, creating stronger opposing fields.</p>
+                    </div>
+
+                    <div class="factor-card">
+                        <div class="factor-icon">🧲</div>
+                        <h4>Magnetic Field (B)</h4>
+                        <div class="field-visual">
+                            <div class="field-circle weak">
+                                <span>Weak B</span>
+                            </div>
+                            <div class="field-arrow">→</div>
+                            <div class="field-circle strong">
+                                <span>Strong B</span>
+                            </div>
+                        </div>
+                        <p class="factor-desc">Stronger magnets induce larger EMF, resulting in stronger eddy currents and braking.</p>
+                    </div>
+
+                    <div class="factor-card">
+                        <div class="factor-icon">🏃</div>
+                        <h4>Velocity (v)</h4>
+                        <div class="velocity-visual">
+                            <div class="vel-indicator slow">
+                                <div class="vel-bar"></div>
+                                <span>Slow</span>
+                            </div>
+                            <div class="vel-indicator fast">
+                                <div class="vel-bar"></div>
+                                <span>Fast</span>
+                            </div>
+                        </div>
+                        <p class="factor-desc">dΦ/dt is proportional to velocity. Faster motion = faster flux change = stronger currents.</p>
+                    </div>
+
+                    <div class="factor-card">
+                        <div class="factor-icon">🔲</div>
+                        <h4>Geometry</h4>
+                        <div class="geometry-visual">
+                            <div class="geo-sample solid">
+                                <div class="current-loop"></div>
+                                <span>Solid</span>
+                            </div>
+                            <div class="geo-sample slotted">
+                                <div class="slot"></div>
+                                <span>Slotted</span>
+                            </div>
+                        </div>
+                        <p class="factor-desc">Slits interrupt current paths. This is why brake discs have holes - to reduce eddy current drag!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROLLER COASTER SECTION -->
+        <section id="coaster" class="section">
+            <header class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Roller Coasters</h2>
+                <p class="section-desc">Frictionless braking systems that stop multi-ton trains</p>
+            </header>
+
+            <div class="coaster-showcase">
+                <div class="simulation-viewport">
+                    <div class="coaster-world" id="coasterWorld">
+                        <div class="sky"></div>
+                        <div class="track-container">
+                            <svg class="track-svg" viewBox="0 0 1300 500" preserveAspectRatio="xMidYMid meet">
+                                <defs>
+                                    <linearGradient id="trackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#4a5568"/>
+                                        <stop offset="50%" style="stop-color:#2d3748"/>
+                                        <stop offset="100%" style="stop-color:#1a202c"/>
+                                    </linearGradient>
+                                    <filter id="glow">
+                                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                        <feMerge>
+                                            <feMergeNode in="coloredBlur"/>
+                                            <feMergeNode in="SourceGraphic"/>
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+                                
+                                <!-- Background Grid -->
+                                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#1e293b" stroke-width="1"/>
+                                </pattern>
+                                <rect width="1200" height="500" fill="url(#grid)" opacity="0.3"/>
+                                
+                                <!-- REALISTIC COASTER TRACK -->
+                                <!-- Station → Lift Hill → Drop → Loop → Turn → Brakes → Station -->
+                                
+                                <!-- Main Track -->
+                                <path class="track-path" 
+                                      d="M -80,420 
+                                         L 50,420 
+                                         C 100,420 120,410 140,380
+                                         C 160,350 180,300 200,250
+                                         C 220,200 260,120 320,100
+                                         C 380,80 440,120 460,200
+                                         C 480,280 460,380 500,420
+                                         C 540,460 600,440 650,400
+                                         C 700,360 750,340 800,340
+                                         L 1250,340" 
+                                      fill="none" stroke="url(#trackGrad)" stroke-width="14" stroke-linecap="round"/>
+                                
+                                <!-- Rail Detail -->
+                                <path class="track-rail" 
+                                      d="M -80,420 
+                                         L 50,420 
+                                         C 100,420 120,410 140,380
+                                         C 160,350 180,300 200,250
+                                         C 220,200 260,120 320,100
+                                         C 380,80 440,120 460,200
+                                         C 480,280 460,380 500,420
+                                         C 540,460 600,440 650,400
+                                         C 700,360 750,340 800,340
+                                         L 1250,340" 
+                                      fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="8,4"/>
+                                
+                                <!-- Realistic Support Towers -->
+                                <!-- Station supports -->
+                                <line x1="0" y1="420" x2="0" y2="480" stroke="#475569" stroke-width="8"/>
+                                <line x1="50" y1="420" x2="50" y2="480" stroke="#475569" stroke-width="6"/>
+                                
+                                <!-- Lift hill supports (angled) -->
+                                <line x1="100" y1="405" x2="100" y2="480" stroke="#475569" stroke-width="8"/>
+                                <line x1="150" y1="365" x2="150" y2="480" stroke="#475569" stroke-width="8"/>
+                                <line x1="190" y1="310" x2="190" y2="480" stroke="#475569" stroke-width="10"/>
+                                
+                                <!-- Top of lift -->
+                                <line x1="230" y1="220" x2="230" y2="480" stroke="#475569" stroke-width="12"/>
+                                
+                                <!-- First drop supports -->
+                                <line x1="280" y1="150" x2="280" y2="480" stroke="#475569" stroke-width="12"/>
+                                <line x1="330" y1="100" x2="330" y2="480" stroke="#475569" stroke-width="10"/>
+                                
+                                <!-- Valley after drop -->
+                                <line x1="400" y1="350" x2="400" y2="480" stroke="#475569" stroke-width="10"/>
+                                <line x1="460" y1="420" x2="460" y2="480" stroke="#475569" stroke-width="8"/>
+                                
+                                <!-- Turn supports -->
+                                <line x1="550" y1="450" x2="550" y2="480" stroke="#475569" stroke-width="8"/>
+                                <line x1="650" y1="400" x2="650" y2="480" stroke="#475569" stroke-width="8"/>
+                                <line x1="750" y1="340" x2="750" y2="480" stroke="#475569" stroke-width="6"/>
+                                
+                                <!-- Track Labels -->
+                                <text x="100" y="395" fill="#64748b" font-size="10" text-anchor="middle">LIFT HILL</text>
+                                <text x="260" y="90" fill="#64748b" font-size="10" text-anchor="middle">PEAK</text>
+                                <text x="350" y="80" fill="#ef4444" font-size="12" text-anchor="middle" font-weight="bold">MAX SPEED</text>
+                                <text x="500" y="445" fill="#64748b" font-size="10" text-anchor="middle">AIRTIME HILL</text>
+                                
+                                <!-- Brake Zone - Positioned at end of track -->
+                                <g class="brake-zone">
+                                    <!-- Brake zone background -->
+                                    <rect x="850" y="300" width="350" height="80" fill="rgba(239,68,68,0.15)" stroke="#ef4444" stroke-width="3" stroke-dasharray="10,5" rx="5"/>
+                                    
+                                    <!-- Warning stripes -->
+                                    <path d="M 850,300 L 870,320 M 870,300 L 890,320 M 890,300 L 910,320 M 910,300 L 930,320 
+                                             M 930,300 L 950,320 M 950,300 L 970,320 M 970,300 L 990,320 M 990,300 L 1010,320
+                                             M 1010,300 L 1030,320 M 1030,300 L 1050,320 M 1050,300 L 1070,320 M 1070,300 L 1090,320
+                                             M 1090,300 L 1110,320 M 1110,300 L 1130,320 M 1130,300 L 1150,320 M 1150,300 L 1170,320" 
+                                          stroke="#ef4444" stroke-width="2" opacity="0.5"/>
+                                    
+                                    <text x="1025" y="405" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="700">⚡ MAGNETIC BRAKE ZONE ⚡</text>
+                                    
+                                    <!-- Multiple Magnets -->
+                                    <g id="magnetArray">
+                                        <rect x="870" y="310" width="30" height="30" fill="#ef4444" rx="3" filter="url(#glow)"/>
+                                        <rect x="870" y="350" width="30" height="30" fill="#3b82f6" rx="3" filter="url(#glow)"/>
+                                        
+                                        <rect x="930" y="310" width="30" height="30" fill="#ef4444" rx="3" filter="url(#glow)"/>
+                                        <rect x="930" y="350" width="30" height="30" fill="#3b82f6" rx="3" filter="url(#glow)"/>
+                                        
+                                        <rect x="990" y="310" width="30" height="30" fill="#ef4444" rx="3" filter="url(#glow)"/>
+                                        <rect x="990" y="350" width="30" height="30" fill="#3b82f6" rx="3" filter="url(#glow)"/>
+                                        
+                                        <rect x="1050" y="310" width="30" height="30" fill="#ef4444" rx="3" filter="url(#glow)"/>
+                                        <rect x="1050" y="350" width="30" height="30" fill="#3b82f6" rx="3" filter="url(#glow)"/>
+                                        
+                                        <rect x="1110" y="310" width="30" height="30" fill="#ef4444" rx="3" filter="url(#glow)"/>
+                                        <rect x="1110" y="350" width="30" height="30" fill="#3b82f6" rx="3" filter="url(#glow)"/>
+                                    </g>
+                                    
+                                    <!-- Eddy current visualization -->
+                                    <g id="brakeZoneEffect" opacity="0">
+                                        <ellipse cx="1025" cy="340" rx="230" ry="45" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="10,5"/>
+                                        <ellipse cx="1025" cy="340" rx="210" ry="35" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="8,4"/>
+                                        <text x="1025" y="345" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="bold">EDDY CURRENTS ACTIVE</text>
+                                    </g>
+                                </g>
+                                
+                                <!-- Coaster Car Group - Enhanced -->
+                                <g id="coasterCar" transform="translate(-80, 395)">
+                                    <!-- Car Body - Sleek design -->
+                                    <path d="M 0,20 Q 0,0 20,0 L 50,0 Q 70,0 70,20 L 70,30 Q 70,40 50,40 L 20,40 Q 0,40 0,30 Z" fill="url(#carGradient)"/>
+                                    
+                                    <!-- Gradient for car -->
+                                    <defs>
+                                        <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#f97316"/>
+                                            <stop offset="50%" style="stop-color:#fb923c"/>
+                                            <stop offset="100%" style="stop-color:#f97316"/>
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- Cockpit window -->
+                                    <path d="M 45,5 L 60,5 Q 65,5 65,15 L 65,20 L 45,20 Z" fill="#0f172a"/>
+                                    
+                                    <!-- Side windows -->
+                                    <rect x="15" y="8" width="12" height="10" rx="2" fill="#0f172a"/>
+                                    <rect x="30" y="8" width="12" height="10" rx="2" fill="#0f172a"/>
+                                    
+                                    <!-- Wheels -->
+                                    <g id="wheels">
+                                        <circle cx="15" cy="40" r="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                                        <circle cx="15" cy="40" r="5" fill="#64748b"/>
+                                        <circle cx="55" cy="40" r="10" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+                                        <circle cx="55" cy="40" r="5" fill="#64748b"/>
+                                    </g>
+                                    
+                                    <!-- Copper Fins (for magnetic braking) - More visible -->
+                                    <rect x="10" y="38" width="50" height="8" fill="#b87333" rx="2" stroke="#d4914d" stroke-width="1"/>
+                                    <line x1="20" y1="38" x2="20" y2="46" stroke="#8b5a2b" stroke-width="1"/>
+                                    <line x1="35" y1="38" x2="35" y2="46" stroke="#8b5a2b" stroke-width="1"/>
+                                    <line x1="50" y1="38" x2="50" y2="46" stroke="#8b5a2b" stroke-width="1"/>
+                                    
+                                    <!-- Passengers with expressions -->
+                                    <circle cx="18" cy="-5" r="7" fill="#fbbf24"/>
+                                    <circle cx="18" cy="-7" r="2" fill="#1e293b"/>
+                                    <path d="M 15,-2 Q 18,1 21,-2" stroke="#1e293b" stroke-width="1.5" fill="none"/>
+                                    
+                                    <circle cx="35" cy="-5" r="7" fill="#a78bfa"/>
+                                    <circle cx="35" cy="-7" r="2" fill="#1e293b"/>
+                                    <circle cx="33" cy="-3" r="1" fill="#1e293b"/>
+                                    <circle cx="37" cy="-3" r="1" fill="#1e293b"/>
+                                    
+                                    <circle cx="52" cy="-5" r="7" fill="#34d399"/>
+                                    <circle cx="52" cy="-7" r="2" fill="#1e293b"/>
+                                    <ellipse cx="52" cy="-2" rx="3" ry="2" fill="#1e293b"/>
+                                    
+                                    <!-- Speed lines (appear at high speed) -->
+                                    <g id="speedLines" opacity="0">
+                                        <line x1="-20" y1="20" x2="-40" y2="20" stroke="white" stroke-width="2" opacity="0.6"/>
+                                        <line x1="-15" y1="30" x2="-35" y2="30" stroke="white" stroke-width="2" opacity="0.6"/>
+                                    </g>
+                                    
+                                    <!-- Enhanced Brake Effect -->
+                                    <g id="brakeEffect" opacity="0">
+                                        <!-- Outer glow -->
+                                        <circle cx="35" cy="20" r="60" fill="none" stroke="#f97316" stroke-width="4" opacity="0.8" filter="url(#glow)"/>
+                                        <!-- Middle ring -->
+                                        <circle cx="35" cy="20" r="50" fill="none" stroke="#fbbf24" stroke-width="3" opacity="0.6"/>
+                                        <!-- Inner ring -->
+                                        <circle cx="35" cy="20" r="40" fill="none" stroke="#fef3c7" stroke-width="2" opacity="0.4"/>
+                                        <!-- Sparks -->
+                                        <g id="sparks">
+                                            <circle cx="10" cy="10" r="3" fill="#fbbf24"/>
+                                            <circle cx="60" cy="15" r="2" fill="#fbbf24"/>
+                                            <circle cx="20" cy="35" r="2.5" fill="#f59e0b"/>
+                                            <circle cx="50" cy="30" r="2" fill="#f59e0b"/>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        
+                        <div class="coaster-hud">
+                            <div class="hud-panel">
+                                <div class="hud-stat">
+                                    <span class="hud-label">Velocity</span>
+                                    <span class="hud-value" id="coasterVel">0</span>
+                                    <span class="hud-unit">m/s</span>
+                                </div>
+                                <div class="hud-stat">
+                                    <span class="hud-label">G-Force</span>
+                                    <span class="hud-value" id="coasterG">1.0</span>
+                                    <span class="hud-unit">g</span>
+                                </div>
+                                <div class="hud-stat">
+                                    <span class="hud-label">Brake Force</span>
+                                    <span class="hud-value" id="coasterBrake">0</span>
+                                    <span class="hud-unit">kN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="coaster-controls-panel">
+                        <div class="control-group">
+                            <button class="launch-btn" id="launchCoaster">
+                                <span class="btn-icon">🚀</span>
+                                <span class="btn-text">Launch</span>
+                            </button>
+                            <button class="reset-btn" id="resetCoaster">
+                                <span class="btn-icon">↺</span>
+                                <span class="btn-text">Reset</span>
+                            </button>
+                        </div>
+                        
+                        <div class="brake-control">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="brakesEnabled" checked>
+                                <span class="toggle-track">
+                                    <span class="toggle-thumb"></span>
+                                </span>
+                                <span class="toggle-label">Magnetic Brakes</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panels">
+                    <div class="info-panel">
+                        <div class="panel-header">
+                            <span class="panel-icon">🔍</span>
+                            <h3>How It Works</h3>
+                        </div>
+                        <div class="panel-content">
+                            <div class="process-steps">
+                                <div class="step">
+                                    <span class="step-num">1</span>
+                                    <p>The coaster enters the brake zone at high speed</p>
+                                </div>
+                                <div class="step">
+                                    <span class="step-num">2</span>
+                                    <p>Copper fins on the car pass between powerful magnets</p>
+                                </div>
+                                <div class="step">
+                                    <span class="step-num">3</span>
+                                    <p>Changing magnetic field induces eddy currents in copper</p>
+                                </div>
+                                <div class="step">
+                                    <span class="step-num">4</span>
+                                    <p>Lenz's Law: Eddy currents create opposing magnetic field</p>
+                                </div>
+                                <div class="step">
+                                    <span class="step-num">5</span>
+                                    <p>Magnetic drag smoothly decelerates the train</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <div class="panel-header">
+                            <span class="panel-icon">✨</span>
+                            <h3>Advantages</h3>
+                        </div>
+                        <div class="panel-content">
+                            <ul class="advantages-list">
+                                <li>
+                                    <span class="adv-icon">🛡️</span>
+                                    <div>
+                                        <strong>Fail-Safe</strong>
+                                        <span>Works without power - passive safety</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="adv-icon">🔇</span>
+                                    <div>
+                                        <strong>Silent</strong>
+                                        <span>No friction = no screeching noise</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="adv-icon">❄️</span>
+                                    <div>
+                                        <strong>Cool</strong>
+                                        <span>No heat buildup from friction</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="adv-icon">🔄</span>
+                                    <div>
+                                        <strong>Durable</strong>
+                                        <span>No wear and tear - lasts decades</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="adv-icon">📊</span>
+                                    <div>
+                                        <strong>Progressive</strong>
+                                        <span>Braking force increases with speed</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="real-world-section">
+                <h3>Real World Applications</h3>
+                <div class="example-showcase">
+                    <div class="example-card featured">
+                        <div class="example-image">🗼</div>
+                        <h4>Tower of Terror</h4>
+                        <p>Disney's drop towers use eddy current braking for smooth, controlled stops at the end of the freefall experience.</p>
+                        <span class="example-tag">Drop Tower</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-image">🎢</div>
+                        <h4>Intamin Mega Coasters</h4>
+                        <p>High-speed coasters like Kingda Ka use magnetic fin brakes for reliable, maintenance-free stopping.</p>
+                        <span class="example-tag">Speed Record</span>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-image">🦅</div>
+                        <h4>B&M Dive Machines</h4>
+                        <p>Hold and drop coasters use eddy current brakes to precisely control train speed after the vertical drop.</p>
+                        <span class="example-tag">Precision Control</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAGLEV TRAIN SECTION -->
+        <section id="train" class="section">
+            <header class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Maglev Trains</h2>
+                <p class="section-desc">Levitating at 603 km/h using electromagnetic suspension</p>
+            </header>
+
+            <div class="train-simulator">
+                <div class="train-viewport">
+                    <div class="train-scene" id="trainScene">
+                        <!-- Background -->
+                        <div class="scene-bg">
+                            <div class="city-silhouette"></div>
+                            <div class="ground"></div>
+                        </div>
+                        
+                        <!-- Guideway -->
+                        <div class="guideway">
+                            <div class="guideway-track"></div>
+                            <div class="guideway-coils">
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                                <div class="coil"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Train -->
+                        <div class="maglev-train" id="maglevTrain">
+                            <div class="train-nose"></div>
+                            <div class="train-body">
+                                <div class="train-cockpit">
+                                    <div class="cockpit-window"></div>
+                                </div>
+                                <div class="train-windows">
+                                    <div class="window"></div>
+                                    <div class="window"></div>
+                                    <div class="window"></div>
+                                    <div class="window"></div>
+                                    <div class="window"></div>
+                                </div>
+                                <div class="train-logo">
+                                    <span>MAGLEV</span>
+                                    <small>L0 Series</small>
+                                </div>
+                            </div>
+                            <div class="levitation-modules">
+                                <div class="module"></div>
+                                <div class="module"></div>
+                                <div class="module"></div>
+                                <div class="module"></div>
+                            </div>
+                            
+                            <!-- Maglev Effect -->
+                            <div class="levitation-glow" id="levitationGlow"></div>
+                            <div class="magnetic-field-lines" id="fieldLines">
+                                <span></span><span></span><span></span>
+                                <span></span><span></span><span></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Gap Indicator -->
+                        <div class="gap-indicator" id="gapIndicator">
+                            <span class="gap-line"></span>
+                            <span class="gap-label">100mm Gap</span>
+                        </div>
+                        
+                        <!-- Speed Lines (visible at high speed) -->
+                        <div class="speed-lines" id="speedLines">
+                            <span></span><span></span><span></span>
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="train-dashboard">
+                        <div class="dash-section">
+                            <div class="dash-label">Levitation</div>
+                            <div class="levitation-status" id="levitationStatus">
+                                <span class="status-indicator off"></span>
+                                <span class="status-text">OFF</span>
+                            </div>
+                        </div>
+                        
+                        <div class="dash-section speed-section">
+                            <div class="speed-display-large">
+                                <span class="speed-value" id="trainSpeed">0</span>
+                                <span class="speed-unit">km/h</span>
+                            </div>
+                            <div class="speed-bar-container">
+                                <div class="speed-bar-bg">
+                                    <div class="speed-bar-fill" id="speedBarFill"></div>
+                                </div>
+                                <div class="speed-markers">
+                                    <span>0</span>
+                                    <span>200</span>
+                                    <span>400</span>
+                                    <span>603</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dash-section">
+                            <div class="dash-label">Guideway</div>
+                            <div class="guideway-status">
+                                <div class="phase-indicator" id="phaseIndicator">
+                                    <span class="phase">A</span>
+                                    <span class="phase">B</span>
+                                    <span class="phase">C</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="train-controls">
+                    <button class="train-btn levitate" id="levitateBtn">
+                        <span class="btn-icon">🛫</span>
+                        <span class="btn-label">Levitate</span>
+                    </button>
+                    <button class="train-btn propel" id="propelBtn">
+                        <span class="btn-icon">⚡</span>
+                        <span class="btn-label">Propel</span>
+                    </button>
+                    <button class="train-btn emergency" id="emergencyBtn">
+                        <span class="btn-icon">🛑</span>
+                        <span class="btn-label">Emergency Stop</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="physics-explanation">
+                <div class="physics-card">
+                    <div class="card-visual">
+                        <div class="eds-animation">
+                            <div class="train-magnet">
+                                <span class="pole">N</span>
+                                <div class="field-arrows">
+                                    <span class="arrow down">↓</span>
+                                </div>
+                            </div>
+                            <div class="guideway-conductor">
+                                <div class="eddy-swirl">↻</div>
+                                <div class="repulsion-arrow">↑</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Electrodynamic Suspension (EDS)</h3>
+                        <p>Superconducting magnets on the train move past conductive coils in the guideway. This motion induces eddy currents that create an opposing magnetic field, pushing the train upward.</p>
+                        <ul class="specs">
+                            <li><strong>Levitation Gap:</strong> 100mm (4 inches)</li>
+                            <li><strong>Lift Force:</strong> Proportional to speed</li>
+                            <li><strong>Minimum Speed:</strong> ~150 km/h for full levitation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="physics-card">
+                    <div class="card-visual">
+                        <div class="lsm-animation">
+                            <div class="coil-sequence">
+                                <div class="coil-phase active" data-phase="A">A+</div>
+                                <div class="coil-phase" data-phase="B">B-</div>
+                                <div class="coil-phase" data-phase="C">C+</div>
+                                <div class="coil-phase" data-phase="A">A-</div>
+                                <div class="coil-phase" data-phase="B">B+</div>
+                            </div>
+                            <div class="traveling-wave">→</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h3>Linear Synchronous Motor (LSM)</h3>
+                        <p>The guideway contains electromagnets arranged in phases (A, B, C). By alternating the current, a traveling magnetic wave is created that pulls the train forward.</p>
+                        <ul class="specs">
+                            <li><strong>Max Speed:</strong> 603 km/h (Japan L0 Series)</li>
+                            <li><strong>Acceleration:</strong> Smooth and precise</li>
+                            <li><strong>Efficiency:</strong> 90%+ at cruising speed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-section">
+                <h3>Maglev vs Traditional Rail</h3>
+                <div class="comparison-table-modern">
+                    <div class="table-header">
+                        <span class="col-feature">Feature</span>
+                        <span class="col-maglev">Maglev</span>
+                        <span class="col-traditional">Traditional</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Top Speed</span>
+                        <span class="col-maglev highlight">603 km/h</span>
+                        <span class="col-traditional">~320 km/h</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Contact / Friction</span>
+                        <span class="col-maglev highlight">Zero</span>
+                        <span class="col-traditional">Wheel-rail contact</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Noise Level</span>
+                        <span class="col-maglev highlight">Very Low</span>
+                        <span class="col-traditional">Moderate-High</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Maintenance</span>
+                        <span class="col-maglev highlight">Low</span>
+                        <span class="col-traditional">High (wheels, rails)</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Gradient Capability</span>
+                        <span class="col-maglev highlight">10%</span>
+                        <span class="col-traditional">~4%</span>
+                    </div>
+                    
+                    <div class="table-row">
+                        <span class="col-feature">Infrastructure Cost</span>
+                        <span class="col-maglev">Higher</span>
+                        <span class="col-traditional highlight">Lower</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- APPLICATIONS SECTION -->
+        <section id="applications" class="section">
+            <header class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">More Applications</h2>
+                <p class="section-desc">Eddy currents are everywhere - from your kitchen to particle accelerators</p>
+            </header>
+
+            <div class="applications-grid">
+                <div class="app-card">
+                    <div class="app-icon">🍳</div>
+                    <h3>Induction Cooking</h3>
+                    <p>Rapidly alternating magnetic fields create intense eddy currents in the pot, heating it directly. The cooktop stays cool!</p>
+                    <div class="app-stat">
+                        <span class="stat-num">90%</span>
+                        <span class="stat-desc">Energy efficient</span>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🔧</div>
+                    <h3>Metal Detectors</h3>
+                    <p>Eddy currents induced in metallic objects create their own magnetic field, which is detected by the sensor coil.</p>
+                    <div class="app-stat">
+                        <span class="stat-num">~1m</span>
+                        <span class="stat-desc">Detection range</span>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">⚡</div>
+                    <h3>Induction Heating</h3>
+                    <p>Used for metal hardening, brazing, and melting. Eddy currents heat the surface while the core stays cool.</p>
+                    <div class="app-stat">
+                        <span class="stat-num">&gt;1000°C</span>
+                        <span class="stat-desc">In seconds</span>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🔄</div>
+                    <h3>Eddy Current Testing</h3>
+                    <p>Non-destructive testing for cracks and flaws in metals. Used in aerospace and manufacturing quality control.</p>
+                    <div class="app-stat">
+                        <span class="stat-num">μm</span>
+                        <span class="stat-desc">Defect sensitivity</span>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🏋️</div>
+                    <h3>Gym Equipment</h3>
+                    <p>Some exercise bikes and rowing machines use eddy current resistance - smooth, silent, and infinitely adjustable.</p>
+                    <div class="app-stat">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-desc">Resistance levels</span>
+                    </div>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🔬</div>
+                    <h3>Particle Accelerators</h3>
+                    <p>Used to steer and focus particle beams. The eddy current kickers can switch beam paths in nanoseconds.</p>
+                    <div class="app-stat">
+                        <span class="stat-num">ns</span>
+                        <span class="stat-desc">Switching time</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE LAB SECTION -->
+        <section id="lab" class="section">
+            <header class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Virtual Lab</h2>
+                <p class="section-desc">Conduct experiments and discover the physics yourself</p>
+            </header>
+
+            <div class="lab-container">
+                <!-- Experiment 1: Pendulum -->
+                <div class="experiment-card">
+                    <div class="exp-header">
+                        <span class="exp-number">Exp 01</span>
+                        <h3>Magnetic Pendulum</h3>
+                    </div>
+                    <div class="exp-canvas-container">
+                        <canvas id="pendulumCanvas" width="400" height="350"></canvas>
+                        <div class="exp-overlay">
+                            <div class="exp-stat">
+                                <span>Amplitude:</span>
+                                <span id="pendulumAmp">45°</span>
+                            </div>
+                            <div class="exp-stat">
+                                <span>Damping:</span>
+                                <span id="pendulumDamping">High</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exp-controls">
+                        <div class="control-row">
+                            <button class="exp-btn" id="releasePendulum">Release</button>
+                            <button class="exp-btn secondary" id="resetPendulum">Reset</button>
+                        </div>
+                        <div class="control-row">
+                            <label>Material:</label>
+                            <select id="sheetMaterial">
+                                <option value="copper">Copper</option>
+                                <option value="aluminum">Aluminum</option>
+                                <option value="plastic">Plastic</option>
+                            </select>
+                        </div>
+                        <div class="control-row">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="addSlits">
+                                <span>Add Slits (Reduce Eddy Currents)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <p class="exp-explanation">
+                        The pendulum magnet swings over a conductive sheet. Eddy currents create magnetic drag that slows the swing. Adding slits interrupts current paths, reducing the effect.
+                    </p>
+                </div>
+
+                <!-- Experiment 2: Tube Drop -->
+                <div class="experiment-card">
+                    <div class="exp-header">
+                        <span class="exp-number">Exp 02</span>
+                        <h3>The Tube Drop Race</h3>
+                    </div>
+                    <div class="exp-canvas-container">
+                        <canvas id="tubeCanvas" width="400" height="350"></canvas>
+                        <div class="race-overlay" id="raceOverlay">
+                            <div class="race-winner" id="raceWinner"></div>
+                        </div>
+                    </div>
+                    <div class="exp-controls">
+                        <div class="control-row buttons">
+                            <button class="exp-btn" id="dropCopper">Copper Tube</button>
+                            <button class="exp-btn" id="dropPVC">PVC Tube</button>
+                        </div>
+                        <button class="exp-btn highlight" id="raceMode">🏁 Race Mode</button>
+                        <button class="exp-btn secondary" id="resetTube">Reset</button>
+                    </div>
+                    <p class="exp-explanation">
+                        Drop magnets through different tubes. Copper creates strong eddy currents that dramatically slow the fall. PVC (an insulator) has no effect - the magnet falls at nearly free-fall speed.
+                    </p>
+                </div>
+
+                <!-- Experiment 3: Induction Heating -->
+                <div class="experiment-card wide">
+                    <div class="exp-header">
+                        <span class="exp-number">Exp 03</span>
+                        <h3>Induction Heating</h3>
+                    </div>
+                    <div class="exp-canvas-container">
+                        <canvas id="heatCanvas" width="800" height="300"></canvas>
+                        <div class="temp-gauge">
+                            <div class="gauge-bg">
+                                <div class="gauge-fill" id="tempGaugeFill"></div>
+                            </div>
+                            <span class="temp-value" id="tempValue">20°C</span>
+                        </div>
+                    </div>
+                    <div class="exp-controls horizontal">
+                        <button class="exp-btn power" id="togglePower">
+                            <span class="power-icon">⚡</span>
+                            <span id="powerText">Turn On</span>
+                        </button>
+                        <div class="slider-control">
+                            <label>Frequency: <span id="freqDisplay">60 Hz</span></label>
+                            <input type="range" id="frequency" min="10" max="200" value="60">
+                        </div>
+                        <div class="info-pill">
+                            <span>Material:</span>
+                            <span class="pill-value">Iron</span>
+                        </div>
+                    </div>
+                    <p class="exp-explanation">
+                        High-frequency AC in the coil creates rapidly changing magnetic fields. Eddy currents in the metal convert electrical energy to heat. Higher frequency = more heating. This is how induction cooktops work!
+                    </p>
+                </div>
+
+                <!-- Experiment 4: Conductivity Comparison -->
+                <div class="experiment-card">
+                    <div class="exp-header">
+                        <span class="exp-number">Exp 04</span>
+                        <h3>Conductivity Comparison</h3>
+                    </div>
+                    <div class="exp-canvas-container">
+                        <canvas id="conductivityCanvas" width="400" height="350"></canvas>
+                    </div>
+                    <div class="exp-controls">
+                        <button class="exp-btn" id="compareMaterials">Compare All</button>
+                        <div class="material-legend">
+                            <div class="legend-item">
+                                <span class="dot copper"></span>
+                                <span>Copper (Best)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="dot aluminum"></span>
+                                <span>Aluminum</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="dot steel"></span>
+                                <span>Steel</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="exp-explanation">
+                        See how different materials respond to the same magnetic field. Higher conductivity = stronger eddy currents = more braking effect.
+                    </p>
+                </div>
+
+                <!-- Experiment 5: Magnetic Damping -->
+                <div class="experiment-card">
+                    <div class="exp-header">
+                        <span class="exp-number">Exp 05</span>
+                        <h3>Magnetic Damping</h3>
+                    </div>
+                    <div class="exp-canvas-container">
+                        <canvas id="dampingCanvas" width="400" height="350"></canvas>
+                    </div>
+                    <div class="exp-controls">
+                        <button class="exp-btn" id="dropWeight">Drop Weight</button>
+                        <button class="exp-btn secondary" id="resetDamping">Reset</button>
+                        <div class="magnet-toggle">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="magnetActive" checked>
+                                <span>Magnet Active</span>
+                            </label>
+                        </div>
+                    </div>
+                    <p class="exp-explanation">
+                        A weight falls through a copper tube. With the magnet active, eddy currents slow the fall. Turn off the magnet and watch it fall freely!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>🎯 Knowledge Check</h3>
+                    <div class="quiz-progress">
+                        <span id="questionNum">1</span> / <span id="totalQuestions">5</span>
+                    </div>
+                </div>
+                
+                <div class="quiz-card" id="quizCard">
+                    <p class="quiz-question" id="quizQuestion">Loading question...</p>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- Options injected by JS -->
+                    </div>
+                </div>
+
+                <div class="quiz-results hidden" id="quizResults">
+                    <div class="result-trophy">🏆</div>
+                    <h4>Quiz Complete!</h4>
+                    <div class="result-score" id="resultScore">0/5</div>
+                    <p class="result-message" id="resultMessage">Message here</p>
+                    <button class="exp-btn" id="restartQuiz">Try Again</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="brand-icon">⚡</span>
+                <span>Eddy Current Lab</span>
+            </div>
+            <p class="footer-text">Interactive physics education for the modern web</p>
+            <div class="footer-links">
+                <a href="#" onclick="showSection('intro')">Home</a>
+                <a href="#" onclick="showSection('science')">Physics</a>
+                <a href="#" onclick="showSection('lab')">Lab</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

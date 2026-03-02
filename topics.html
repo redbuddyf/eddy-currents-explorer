@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topics | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .topics-hero {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--background) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-tab {
+            padding: 12px 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-tab:hover {
+            border-color: var(--primary);
+            color: var(--text);
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .filter-tab[data-filter="chemistry"].active {
+            background: var(--chemistry);
+            border-color: var(--chemistry);
+        }
+        
+        .topics-content {
+            padding: 60px 0 100px;
+        }
+        
+        .subject-section {
+            margin-bottom: 60px;
+        }
+        
+        .subject-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .subject-header.physics {
+            border-color: var(--physics);
+        }
+        
+        .subject-header.chemistry {
+            border-color: var(--chemistry);
+        }
+        
+        .subject-icon-large {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-1);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+        
+        .subject-header.chemistry .subject-icon-large {
+            background: var(--gradient-chem);
+        }
+        
+        .subject-header h2 {
+            font-size: 2rem;
+        }
+        
+        .subject-header p {
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        .episode-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .episode-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .episode-card.physics:hover {
+            border-color: var(--physics);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .episode-card.chemistry:hover {
+            border-color: var(--chemistry);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+        }
+        
+        .episode-thumbnail {
+            height: 180px;
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--background) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+        
+        .episode-card.physics .episode-thumbnail {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, var(--surface) 100%);
+        }
+        
+        .episode-card.chemistry .episode-thumbnail {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, var(--surface) 100%);
+        }
+        
+        .episode-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .episode-badge.physics {
+            background: var(--physics);
+            color: white;
+        }
+        
+        .episode-badge.chemistry {
+            background: var(--chemistry);
+            color: white;
+        }
+        
+        .episode-badge.available {
+            background: var(--success);
+        }
+        
+        .episode-info {
+            padding: 24px;
+        }
+        
+        .episode-number {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .episode-title {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .episode-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .episode-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        
+        .episode-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .episode-actions {
+            display: flex;
+            gap: 12px;
+            padding: 0 24px 24px;
+        }
+        
+        .btn-episode {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .btn-episode-primary {
+            background: var(--gradient-1);
+            color: white;
+        }
+        
+        .btn-episode-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .episode-card.chemistry .btn-episode-primary {
+            background: var(--gradient-chem);
+        }
+        
+        .episode-card.chemistry .btn-episode-primary:hover {
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-episode-secondary {
+            background: var(--surface-light);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-episode-secondary:hover {
+            border-color: var(--primary);
+        }
+        
+        .episode-card.chemistry .btn-episode-secondary:hover {
+            border-color: var(--chemistry);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .roadmap-section {
+            padding: 60px 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+        }
+        
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        .roadmap-item {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        
+        .roadmap-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--surface-light);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .roadmap-content h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .roadmap-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .roadmap-status {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--surface-light);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link active">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="topics-hero">
+        <div class="container">
+            <span class="section-tag">Browse All Content</span>
+            <h1 class="section-title">Physics & Chemistry Topics</h1>
+            <p class="section-subtitle">Explore our complete library of science education content</p>
+            
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    <i class="fas fa-th-large"></i>
+                    All Topics
+                </button>
+                <button class="filter-tab" data-filter="physics">
+                    <i class="fas fa-atom"></i>
+                    Physics
+                </button>
+                <button class="filter-tab" data-filter="chemistry">
+                    <i class="fas fa-flask"></i>
+                    Chemistry
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Content -->
+    <section class="topics-content">
+        <div class="container">
+            <!-- Physics Section -->
+            <div class="subject-section" data-subject="physics" id="physics">
+                <div class="subject-header physics">
+                    <div class="subject-icon-large">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div>
+                        <h2>Physics</h2>
+                        <p>From electromagnetism to quantum mechanics</p>
+                    </div>
+                </div>
+                
+                <div class="episodes-grid">
+                    <div class="episode-card physics">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge physics available">Available</span>
+                            <i class="fas fa-magnet"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 1</div>
+                            <h3 class="episode-title">Eddy Currents Explained</h3>
+                            <p class="episode-description">Discover the invisible forces behind magnetic braking and levitation technology.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Lab</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <a href="eddy-currents.html" class="btn-episode btn-episode-primary">
+                                <i class="fas fa-play"></i> Watch
+                            </a>
+                            <a href="notes.html" class="btn-episode btn-episode-secondary">
+                                <i class="fas fa-file-alt"></i> Notes
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-card physics" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge physics">Coming Soon</span>
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 2</div>
+                            <h3 class="episode-title">Wave-Particle Duality</h3>
+                            <p class="episode-description">Is light a wave or a particle? The surprising answer is both!</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-card physics" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge physics">Coming Soon</span>
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 3</div>
+                            <h3 class="episode-title">Special Relativity</h3>
+                            <p class="episode-description">Why time slows down when you travel at the speed of light.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chemistry Section -->
+            <div class="subject-section" data-subject="chemistry" id="chemistry">
+                <div class="subject-header chemistry">
+                    <div class="subject-icon-large">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div>
+                        <h2>Chemistry</h2>
+                        <p>From atomic structure to chemical reactions</p>
+                    </div>
+                </div>
+                
+                <div class="episodes-grid">
+                    <div class="episode-card chemistry" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge chemistry">Coming Soon</span>
+                            <i class="fas fa-share-alt"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 1</div>
+                            <h3 class="episode-title">Chemical Bonding</h3>
+                            <p class="episode-description">Ionic, covalent, and metallic bonds explained with 3D models.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Lab</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-card chemistry" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge chemistry">Coming Soon</span>
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 2</div>
+                            <h3 class="episode-title">Exothermic vs Endothermic</h3>
+                            <p class="episode-description">Understanding heat in chemical reactions and thermochemistry.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-card chemistry" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge chemistry">Coming Soon</span>
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 3</div>
+                            <h3 class="episode-title">pH and Acidity</h3>
+                            <p class="episode-description">The pH scale, neutralization, and buffer solutions explained.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="episode-card chemistry" style="opacity: 0.6;">
+                        <div class="episode-thumbnail">
+                            <span class="episode-badge chemistry">Coming Soon</span>
+                            <i class="fas fa-circle-nodes"></i>
+                        </div>
+                        <div class="episode-info">
+                            <div class="episode-number">Episode 4</div>
+                            <h3 class="episode-title">The Mole Concept</h3>
+                            <p class="episode-description">Understanding Avogadro's number and stoichiometry made simple.</p>
+                            <div class="episode-meta">
+                                <span><i class="fas fa-clock"></i> TBD min</span>
+                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                            </div>
+                        </div>
+                        <div class="episode-actions">
+                            <button class="btn-episode btn-episode-secondary" disabled>
+                                <i class="fas fa-clock"></i> Coming Soon
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section class="roadmap-section">
+        <div class="container">
+            <div class="section-header centered">
+                <span class="section-tag">Coming Up</span>
+                <h2 class="section-title">Content Roadmap</h2>
+                <p class="section-subtitle">Planned topics for future episodes</p>
+            </div>
+            
+            <div class="roadmap-grid">
+                <div class="roadmap-item">
+                    <div class="roadmap-icon" style="color: var(--physics);">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="roadmap-content">
+                        <h4>Quantum Tunneling</h4>
+                        <p>How particles pass through impossible barriers</p>
+                        <span class="roadmap-status">Planned</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-icon" style="color: var(--chemistry);">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <div class="roadmap-content">
+                        <h4>Organic Chemistry Basics</h4>
+                        <p>Carbon compounds and functional groups</p>
+                        <span class="roadmap-status">Planned</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-icon" style="color: var(--physics);">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <div class="roadmap-content">
+                        <h4>Orbital Mechanics</h4>
+                        <p>How satellites stay in orbit</p>
+                        <span class="roadmap-status">Planned</span>
+                    </div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-icon" style="color: var(--chemistry);">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="roadmap-content">
+                        <h4>Electrochemistry</h4>
+                        <p>Batteries, electrolysis, and redox reactions</p>
+                        <span class="roadmap-status">Planned</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Physics & Chemistry education made simple.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="topics.html">Topics</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Physics & Chemistry Education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Filter functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const physicsSection = document.querySelector('[data-subject="physics"]');
+        const chemistrySection = document.querySelector('[data-subject="chemistry"]');
+        
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const filter = tab.dataset.filter;
+                
+                // Show/hide sections
+                if (filter === 'all') {
+                    physicsSection.classList.remove('hidden');
+                    chemistrySection.classList.remove('hidden');
+                } else if (filter === 'physics') {
+                    physicsSection.classList.remove('hidden');
+                    chemistrySection.classList.add('hidden');
+                } else if (filter === 'chemistry') {
+                    physicsSection.classList.add('hidden');
+                    chemistrySection.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
