@@ -498,6 +498,12 @@ class CoasterDemo {
         const brakeEffect = document.getElementById('brakeEffect');
         if (brakeEffect) brakeEffect.setAttribute('opacity', '0');
         
+        // Reset mechanical brakes display
+        const mechBrakes = document.getElementById('mechanicalBrakes');
+        const mechStatus = document.getElementById('mechBrakeStatus');
+        if (mechBrakes) mechBrakes.setAttribute('opacity', '0');
+        if (mechStatus) mechStatus.style.display = 'none';
+        
         // Reset brake zone highlight
         this.updateBrakeZoneVisual(false);
     }
@@ -561,7 +567,14 @@ class CoasterDemo {
             this.isRunning = false;
             this.velocity = 0;
             this.updateBrakeZoneVisual(false);
-            console.log('Coaster finished!');
+            
+            // Show mechanical brakes engaged
+            const mechBrakes = document.getElementById('mechanicalBrakes');
+            const mechStatus = document.getElementById('mechBrakeStatus');
+            if (mechBrakes) mechBrakes.setAttribute('opacity', '1');
+            if (mechStatus) mechStatus.style.display = 'block';
+            
+            console.log('Coaster finished! Mechanical brakes engaged.');
         }
         
         // Update visuals

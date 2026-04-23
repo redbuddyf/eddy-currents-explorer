@@ -589,6 +589,14 @@
                                     </g>
                                 </g>
                                 
+                                <!-- Mechanical brakes at station end -->
+                                <g id="mechanicalBrakes" opacity="0">
+                                    <rect x="1180" y="310" width="70" height="60" fill="rgba(100,116,139,0.2)" stroke="#64748b" stroke-width="2" rx="4"/>
+                                    <text x="1215" y="330" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="bold">🔧 MECHANICAL</text>
+                                    <text x="1215" y="345" text-anchor="middle" fill="#94a3b8" font-size="9" font-weight="bold">BRAKES</text>
+                                    <text x="1215" y="360" text-anchor="middle" fill="#22c55e" font-size="10" font-weight="bold">ENGAGED</text>
+                                </g>
+                                
                                 <!-- Coaster Car Group - Enhanced -->
                                 <g id="coasterCar" transform="translate(-80, 395)">
                                     <!-- Car Body - Sleek design -->
@@ -681,6 +689,9 @@
                                     <span class="hud-value" id="coasterBrake">0</span>
                                     <span class="hud-unit">kN</span>
                                 </div>
+                            </div>
+                            <div id="mechBrakeStatus" style="display:none; text-align:center; padding:8px; background:rgba(34,197,94,0.1); border:1px solid #22c55e; border-radius:8px; margin-top:8px;">
+                                <span style="color:#22c55e; font-weight:700; font-size:0.85rem;">🔧 MECHANICAL BRAKES ENGAGED</span>
                             </div>
                         </div>
                     </div>
