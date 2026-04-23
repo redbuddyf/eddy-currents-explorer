@@ -8,6 +8,15 @@
     const AUDIO_KEY = 'science-unpacked-audio';
     const UPDATE_INTERVAL = 500; // ms
     
+    // Detect base path (for pages in subdirectories like app/ or eddy-currents-app/)
+    function getBasePath() {
+        const path = window.location.pathname;
+        if (path.includes('/app/') || path.includes('/eddy-currents-app/')) {
+            return '../';
+        }
+        return '';
+    }
+    
     // Create mini player bar if it doesn't exist
     function createMiniPlayer() {
         if (document.getElementById('mini-audio-player')) return;
@@ -22,7 +31,7 @@
                     <span class="mini-ep">Episode 1</span>
                 </div>
                 <audio id="mini-audio" preload="none"></audio>
-                <a href="podcast.html" class="mini-link"><i class="fas fa-expand"></i></a>
+                <a href="${getBasePath()}podcast.html" class="mini-link"><i class="fas fa-expand"></i></a>
                 <button id="mini-close-btn" class="mini-btn close"><i class="fas fa-times"></i></button>
             </div>
         `;
@@ -90,12 +99,19 @@
         const closeBtn = document.getElementById('mini-close-btn');
         if (!audio || !playBtn) return;
         
-        audio.src = 'assets/audio/episode1.mp3';
+        const basePath = getBasePath();
+        const audioSrc = basePath + 'assets/audio/episode1.mp3';
+        audio.src = audioSrc;
         
         // Restore state
         const state = JSON.parse(localStorage.getItem(AUDIO_KEY) || '{}');
-        if (state.src) audio.src = state.src;
-        if (state.currentTime) audio.currentTime = state.currentTime;
+        if (state.src) {
+            // Normalize stored src to current base path
+            audio.src = audioSrc;
+        }
+        if (state.currentTime) {
+            audio.currentTime = state.currentTime;
+        }
         
         if (state.isPlaying) {
             audio.play().catch(() => {});
@@ -106,7 +122,7 @@
         // Save state periodically
         setInterval(() => {
             localStorage.setItem(AUDIO_KEY, JSON.stringify({
-                src: audio.src,
+                src: audioSrc,
                 currentTime: audio.currentTime,
                 isPlaying: !audio.paused && audio.currentTime > 0
             }));
