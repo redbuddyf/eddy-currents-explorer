@@ -818,10 +818,23 @@ class MaglevDemo {
         const speedEl = document.getElementById('trainSpeed');
         const bar = document.getElementById('speedBarFill');
         const lines = document.getElementById('speedLines');
+        const train = document.getElementById('maglevTrain');
+        const coils = document.querySelector('.guideway-coils');
+        const sceneBg = document.querySelector('.scene-bg');
         
         if (speedEl) speedEl.textContent = Math.round(this.speed);
         if (bar) bar.style.width = `${(this.speed / 603) * 100}%`;
         if (lines) lines.classList.toggle('active', this.speed > 100);
+        
+        // Movement animations based on speed
+        const isMoving = this.speed > 10;
+        const isFast = this.speed > 300;
+        if (train) {
+            train.classList.toggle('moving', isMoving);
+            train.classList.toggle('fast', isFast);
+        }
+        if (coils) coils.classList.toggle('moving', isMoving);
+        if (sceneBg) sceneBg.classList.toggle('moving', isMoving);
     }
     
     startPropulsionAnim() {

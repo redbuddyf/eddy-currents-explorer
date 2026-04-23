@@ -3232,3 +3232,52 @@ body {
         padding: var(--space-xs) 0;
     }
 }
+
+/* ===== MAGLEV MOVEMENT ANIMATIONS ===== */
+.maglev-train.moving {
+    animation: trainMove 6s linear infinite;
+}
+
+@keyframes trainMove {
+    0% { left: -40%; }
+    100% { left: 120%; }
+}
+
+.guideway-coils.moving {
+    animation: coilScroll 0.6s linear infinite;
+}
+
+@keyframes coilScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-80px); }
+}
+
+.scene-bg.moving .city-silhouette {
+    animation: bgScroll 8s linear infinite;
+}
+
+@keyframes bgScroll {
+    0% { background-position: 0 bottom; }
+    100% { background-position: -400px bottom; }
+}
+
+.scene-bg.moving .ground {
+    animation: groundScroll 2s linear infinite;
+    background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 40px,
+        rgba(255,255,255,0.03) 40px,
+        rgba(255,255,255,0.03) 80px
+    );
+    background-size: 80px 100%;
+}
+
+@keyframes groundScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: -80px 0; }
+}
+
+.maglev-train.fast .train-body {
+    filter: drop-shadow(-15px 0 15px rgba(255,255,255,0.12));
+}
