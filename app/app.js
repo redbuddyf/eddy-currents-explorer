@@ -284,17 +284,19 @@ class MagnetDropDemo {
         
         const mat = this.materials[this.material];
         
-        // Gravity
-        this.velocity += 0.5;
+        // Gravity acceleration: 0.5 px/frame² ≈ 9.8 m/s² at demo scale
+        const g = 0.5;
+        this.velocity += g;
         
         // Eddy current braking in tube (150-400)
+        // Drag force: F_drag = k·σ·v (proportional to velocity and conductivity)
+        // Terminal velocity: v_term = g / (k·σ)
         if (this.magnetY > 150 && this.magnetY < 400 && mat.cond > 0) {
-            // Braking force calculation
-            const braking = this.velocity * mat.cond * 0.25;
+            const dragCoeff = mat.cond * 0.25;
+            const braking = this.velocity * dragCoeff;
             this.velocity -= braking;
-            // Eddy current display: purely based on material conductivity (for educational clarity)
-            // Copper = 12A, Aluminum = 7A (proportional to conductivity)
-            this.eddyStrength = mat.cond * 12;
+            // Eddy current display: I ∝ σ·v (proportional to conductivity and velocity)
+            this.eddyStrength = mat.cond * 12;  /* Copper=12A, Aluminum~7A at typical speeds */
         } else {
             this.eddyStrength = 0;
         }
@@ -516,14 +518,15 @@ class CoasterDemo {
             const lookAheadDist = Math.min(currentDist + 20, this.trackLength);
             const nextPoint = this.track.getPointAtLength(lookAheadDist);
             
-            // Calculate slope angle
+            // Calculate track geometry for proper physics
             const dx = nextPoint.x - currentPoint.x;
             const dy = nextPoint.y - currentPoint.y;
             const slope = dy / Math.max(Math.abs(dx), 1);
+            const trackAngle = Math.atan(slope);
             
-            // Gravity: downhill (positive slope in SVG coords = going down visually) increases velocity
+            // Gravity component along track: a_tangential = g·sin(θ)
             // In SVG, y increases downward, so positive dy means going down
-            const gravityForce = slope * this.GRAVITY * deltaTime;
+            const gravityForce = Math.sin(trackAngle) * this.GRAVITY * deltaTime;
             this.velocity += gravityForce;
         }
         
@@ -629,14 +632,48 @@ class CoasterDemo {
         
         if (vel) vel.textContent = Math.round(this.velocity);
         
-        // Calculate G-force based on velocity changes
-        const gForce = 1 + (this.velocity / 30);
+        // Calculate G-force using proper physics: cos(θ) + v²/(g·r)
+        // cos(θ) = gravity component perpendicular to track
+        // v²/r = centripetal acceleration from track curvature
+        let gForce = 1;
+        if (this.track && this.trackLength > 0) {
+            const currentDist = this.progress * this.trackLength;
+            const p0 = this.track.getPointAtLength(Math.max(0, currentDist - 15));
+            const p1 = this.track.getPointAtLength(currentDist);
+            const p2 = this.track.getPointAtLength(Math.min(this.trackLength, currentDist + 15));
+            
+            // Find circle center through 3 points (Menger curvature)
+            const d = 2 * ((p0.x - p1.x) * (p0.y - p2.y) - (p0.y - p1.y) * (p0.x - p2.x));
+            if (Math.abs(d) > 0.001) {
+                const ux = ((p0.x*p0.x + p0.y*p0.y) - (p1.x*p1.x + p1.y*p1.y)) * (p0.y - p2.y)
+                         - ((p0.x*p0.x + p0.y*p0.y) - (p2.x*p2.x + p2.y*p2.y)) * (p0.y - p1.y);
+                const uy = ((p0.x*p0.x + p0.y*p0.y) - (p2.x*p2.x + p2.y*p2.y)) * (p0.x - p1.x)
+                         - ((p0.x*p0.x + p0.y*p0.y) - (p1.x*p1.x + p1.y*p1.y)) * (p0.x - p2.x);
+                const cx = ux / d;
+                const cy = uy / d;
+                const r = Math.hypot(p1.x - cx, p1.y - cy);
+                
+                // Valley: center below track (cy > p1.y in SVG) → g-force increases
+                // Crest: center above track (cy < p1.y) → g-force decreases
+                const isValley = cy > p1.y;
+                const sign = isValley ? 1 : -1;
+                
+                const trackAngle = Math.atan2(p2.y - p0.y, p2.x - p0.x);
+                const cosAngle = Math.cos(trackAngle);
+                const centripetalG = (this.velocity * this.velocity) / (this.GRAVITY * r) * sign;
+                
+                gForce = cosAngle + centripetalG;
+            }
+        }
+        // Clamp to realistic coaster range (-1g to +6g)
+        gForce = Math.max(-1, Math.min(6, gForce));
         if (g) g.textContent = gForce.toFixed(1);
         
         if (brake) {
             const inBrakeZone = this.progress >= this.BRAKE_ZONE_START && this.progress <= this.BRAKE_ZONE_END;
             if (inBrakeZone && this.brakesEnabled) {
-                // Calculate braking force
+                // Eddy current braking force: F_drag ∝ v·B²·σ·A
+                // Simplified: F = k·v where k depends on brake strength
                 const brakingForce = Math.round(this.velocity * (1 - this.BRAKE_STRENGTH) * 10);
                 brake.textContent = brakingForce;
             } else {
@@ -879,7 +916,10 @@ class PendulumExperiment {
     animate() {
         if (!this.isRunning) return;
         
-        const gravity = 0.4;
+        // Pendulum equation of motion: α'' = -(g/L)·sin(α)
+        // g = 0.355 px/frame², L = 120 px (~1m scale)
+        // Small-angle period: T = 2π√(L/g) ≈ 2.0s
+        const gravity = 0.355;
         const length = 120;
         
         this.acceleration = (-gravity / length) * Math.sin(this.angle);
@@ -1047,13 +1087,20 @@ class TubeDropExperiment {
             const mag = this.magnets[type];
             if (!mag || mag.y >= 320) return;
             
-            mag.velocity += 0.5;
+            // Gravity acceleration
+            const g = 0.5;
+            mag.velocity += g;
             
+            // Eddy current drag: F_drag = k·v (linear drag model)
+            // Copper has higher conductivity → stronger drag → lower terminal velocity
             if (type === 'copper') {
-                mag.velocity *= 0.92;
+                const dragCoeff = 0.18;
+                mag.velocity -= mag.velocity * dragCoeff;
             }
             
-            const maxVel = type === 'copper' ? 3 : 12;
+            // Terminal velocity limits based on conductivity
+            // v_term = g / (k·σ)  →  copper slower, PVC free-fall
+            const maxVel = type === 'copper' ? 2.8 : 12;
             if (mag.velocity > maxVel) mag.velocity = maxVel;
             
             mag.y += mag.velocity;
@@ -1424,10 +1471,15 @@ class DampingExperiment {
     animate() {
         if (!this.isRunning) return;
         
-        this.velocity += 0.8;
+        // Gravity acceleration
+        const g = 0.8;
+        this.velocity += g;
         
+        // Eddy current braking zone (copper plate)
+        // Drag force opposes motion: F_drag = k·v
         if (this.magnetActive && this.weightY > 100 && this.weightY < 280) {
-            this.velocity *= 0.93;
+            const dragCoeff = 0.07;
+            this.velocity -= this.velocity * dragCoeff;
         }
         
         this.weightY += this.velocity;
