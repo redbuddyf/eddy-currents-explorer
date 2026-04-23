@@ -543,6 +543,19 @@ class CoasterDemo {
         if (inBrakeZone && this.brakesEnabled) {
             this.velocity *= this.BRAKE_STRENGTH;
             this.updateBrakeZoneVisual(true);
+            
+            // When magnetic brakes have slowed it below threshold, mechanical brakes engage
+            if (this.velocity < 3) {
+                this.velocity = 0;
+                this.isRunning = false;
+                this.updateBrakeZoneVisual(false);
+                
+                // Show mechanical brakes engaged
+                const mechBrakes = document.getElementById('mechanicalBrakes');
+                const mechStatus = document.getElementById('mechBrakeStatus');
+                if (mechBrakes) mechBrakes.setAttribute('opacity', '1');
+                if (mechStatus) mechStatus.style.display = 'block';
+            }
         } else {
             this.updateBrakeZoneVisual(false);
             // Normal friction
