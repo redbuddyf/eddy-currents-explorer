@@ -25,12 +25,12 @@
         bar.id = 'mini-audio-player';
         bar.innerHTML = `
             <div class="mini-player-inner">
-                <button id="mini-play-btn" class="mini-btn"><i class="fas fa-pause"></i></button>
+                <button id="mini-play-btn" class="mini-btn"><i class="fas fa-play"></i></button>
                 <div class="mini-info">
                     <span class="mini-title">Eddy Currents Explained</span>
                     <span class="mini-ep">Episode 1</span>
                 </div>
-                <audio id="mini-audio" preload="none"></audio>
+                <audio id="mini-audio" preload="auto"></audio>
                 <a href="${getBasePath()}podcast.html" class="mini-link"><i class="fas fa-expand"></i></a>
                 <button id="mini-close-btn" class="mini-btn close"><i class="fas fa-times"></i></button>
             </div>
@@ -47,11 +47,11 @@
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    background: rgba(15,23,42,0.95);
+                    background: rgba(15,23,42,0.98);
                     backdrop-filter: blur(12px);
                     border-top: 1px solid #1e293b;
                     padding: 12px 24px;
-                    z-index: 9999;
+                    z-index: 99999;
                     transform: translateY(100%);
                     transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
                 }
@@ -74,13 +74,14 @@
                     align-items: center;
                     justify-content: center;
                     transition: transform 0.2s, opacity 0.2s;
+                    flex-shrink: 0;
                 }
                 .mini-btn:hover { transform: scale(1.08); }
                 .mini-btn.close { background: #334155; }
                 .mini-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
                 .mini-title { color: #f1f5f9; font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
                 .mini-ep { color: #94a3b8; font-size: 0.75rem; }
-                .mini-link { color: #94a3b8; text-decoration: none; padding: 8px; transition: color 0.2s; }
+                .mini-link { color: #94a3b8; text-decoration: none; padding: 8px; transition: color 0.2s; flex-shrink: 0; }
                 .mini-link:hover { color: #f1f5f9; }
                 @media (max-width: 640px) {
                     #mini-audio-player { padding: 10px 16px; }
@@ -104,36 +105,54 @@
         audio.src = audioSrc;
         
         // Restore state
-        const state = JSON.parse(localStorage.getItem(AUDIO_KEY) || '{}');
-        if (state.src) {
-            // Normalize stored src to current base path
-            audio.src = audioSrc;
-        }
-        if (state.currentTime) {
+        let state = {};
+        try {
+            state = JSON.parse(localStorage.getItem(AUDIO_KEY) || '{}');
+        } catch(e) {}
+        
+        if (state.currentTime && state.currentTime > 0) {
             audio.currentTime = state.currentTime;
         }
         
-        if (state.isPlaying) {
-            audio.play().catch(() => {});
+        // Show mini player if we have saved state
+        if (state.isPlaying || state.currentTime > 0) {
             bar.classList.add('active');
+        }
+        
+        // Attempt autoplay if was playing
+        if (state.isPlaying) {
             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            // Use a small delay to let the DOM settle
+            setTimeout(() => {
+                audio.play().then(() => {
+                    // Success
+                }).catch(() => {
+                    // Autoplay blocked - show play button state
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            }, 100);
         }
         
         // Save state periodically
         setInterval(() => {
-            localStorage.setItem(AUDIO_KEY, JSON.stringify({
-                src: audioSrc,
-                currentTime: audio.currentTime,
-                isPlaying: !audio.paused && audio.currentTime > 0
-            }));
+            try {
+                localStorage.setItem(AUDIO_KEY, JSON.stringify({
+                    src: audioSrc,
+                    currentTime: audio.currentTime,
+                    isPlaying: !audio.paused && audio.currentTime > 0
+                }));
+            } catch(e) {}
         }, UPDATE_INTERVAL);
         
         // Play/pause toggle
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
-                audio.play().catch(() => {});
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                bar.classList.add('active');
+                audio.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    bar.classList.add('active');
+                }).catch(() => {
+                    // Blocked
+                });
             } else {
                 audio.pause();
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
@@ -145,7 +164,7 @@
             audio.pause();
             audio.currentTime = 0;
             bar.classList.remove('active');
-            localStorage.removeItem(AUDIO_KEY);
+            try { localStorage.removeItem(AUDIO_KEY); } catch(e) {}
         });
         
         // When audio ends
