@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Listen to Science Unpacked podcasts - Educational science episodes">
+    <title>Podcast | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .podcast-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        .podcast-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .podcast-card {
+            max-width: 720px;
+            width: 100%;
+            background: var(--surface, #0f172a);
+            border: 1px solid var(--border, #1e293b);
+            border-radius: 24px;
+            padding: 48px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+        }
+        .podcast-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: rgba(99,102,241,0.15);
+            color: #818cf8;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+        .podcast-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            color: var(--text, #f1f5f9);
+        }
+        .podcast-description {
+            color: var(--text-muted, #94a3b8);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .podcast-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-dim, #64748b);
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        .podcast-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .audio-player-wrap {
+            background: rgba(15,23,42,0.6);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border, #1e293b);
+        }
+        .audio-player-wrap audio {
+            width: 100%;
+            height: 48px;
+            border-radius: 8px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim, #64748b);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 32px;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: var(--text, #f1f5f9);
+        }
+        @media (max-width: 640px) {
+            .podcast-card {
+                padding: 28px;
+            }
+            .podcast-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Podcast Player -->
+    <section class="podcast-hero">
+        <div class="podcast-card">
+            <div class="podcast-badge">
+                <i class="fas fa-headphones"></i>
+                Episode 1
+            </div>
+            <h1 class="podcast-title">Eddy Currents Explained</h1>
+            <p class="podcast-description">
+                Discover the invisible forces behind magnetic braking and levitation technology. 
+                From roller coaster brakes to futuristic maglev trains, eddy currents are everywhere!
+            </p>
+            <div class="podcast-meta">
+                <span><i class="fas fa-clock"></i> 10 min</span>
+                <span><i class="fas fa-tag"></i> Physics</span>
+                <span><i class="fas fa-bolt"></i> Electromagnetism</span>
+            </div>
+            <div class="audio-player-wrap">
+                <audio controls autoplay>
+                    <source src="assets/audio/episode1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <a href="topics.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Back to Topics
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (mobileToggle && navMenu) {
+            mobileToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>
