@@ -156,15 +156,31 @@
                 <span><i class="fas fa-bolt"></i> Electromagnetism</span>
             </div>
             <div class="audio-player-wrap">
-                <audio controls autoplay>
+                <audio id="podcast-audio" preload="auto">
                     <source src="assets/audio/episode1.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <button id="play-explore-btn" class="btn btn-primary" style="flex:1; min-width:200px; padding:14px 24px; font-size:1rem;">
+                        <i class="fas fa-play-circle"></i>
+                        Play & Explore
+                    </button>
+                    <button id="play-only-btn" class="btn btn-outline" style="padding:14px 24px; font-size:1rem;">
+                        <i class="fas fa-headphones"></i>
+                        Just Listen
+                    </button>
+                </div>
             </div>
-            <a href="topics.html" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                Back to Topics
-            </a>
+            <div style="margin-top:16px; display:flex; gap:16px; flex-wrap:wrap;">
+                <a href="eddy-currents.html" class="back-link">
+                    <i class="fas fa-flask"></i>
+                    Go to Interactive Lab
+                </a>
+                <a href="topics.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Topics
+                </a>
+            </div>
         </div>
     </section>
 
@@ -177,6 +193,43 @@
                 navMenu.classList.toggle('active');
             });
         }
+        
+        // Podcast play buttons
+        const audio = document.getElementById('podcast-audio');
+        const playExploreBtn = document.getElementById('play-explore-btn');
+        const playOnlyBtn = document.getElementById('play-only-btn');
+        
+        if (playExploreBtn) {
+            playExploreBtn.addEventListener('click', () => {
+                if (audio) {
+                    audio.play().then(() => {
+                        localStorage.setItem('science-unpacked-audio', JSON.stringify({
+                            src: audio.src,
+                            currentTime: audio.currentTime,
+                            isPlaying: true
+                        }));
+                        window.location.href = 'eddy-currents.html';
+                    }).catch(() => {
+                        window.location.href = 'eddy-currents.html';
+                    });
+                }
+            });
+        }
+        
+        if (playOnlyBtn) {
+            playOnlyBtn.addEventListener('click', () => {
+                if (audio) {
+                    if (audio.paused) {
+                        audio.play().catch(() => {});
+                        playOnlyBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+                    } else {
+                        audio.pause();
+                        playOnlyBtn.innerHTML = '<i class="fas fa-headphones"></i> Just Listen';
+                    }
+                }
+            });
+        }
     </script>
+    <script src="js/audio-player.js"></script>
 </body>
 </html>
