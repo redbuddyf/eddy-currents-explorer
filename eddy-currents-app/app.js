@@ -833,8 +833,17 @@ class MaglevDemo {
             train.classList.toggle('moving', isMoving);
             train.classList.toggle('fast', isFast);
         }
-        if (coils) coils.classList.toggle('moving', isMoving);
-        if (sceneBg) sceneBg.classList.toggle('moving', isMoving);
+        if (coils) {
+            coils.classList.toggle('moving', isMoving);
+            coils.classList.toggle('fast', isFast);
+        }
+        if (sceneBg) {
+            sceneBg.classList.toggle('moving', isMoving);
+            sceneBg.classList.toggle('fast', isFast);
+        }
+        if (lines) lines.classList.toggle('fast', isFast);
+        const track = document.querySelector('.guideway-track');
+        if (track) track.classList.toggle('moving', isMoving);
     }
     
     startPropulsionAnim() {

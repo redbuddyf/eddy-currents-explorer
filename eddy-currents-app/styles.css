@@ -3233,18 +3233,39 @@ body {
     }
 }
 
-/* ===== MAGLEV MOVEMENT ANIMATIONS ===== */
+
+
+/* ===== MAGLEV MOVEMENT - TRAIN STAYS CENTERED, WORLD MOVES ===== */
+
+/* Train stays in view but vibrates and lunges slightly */
 .maglev-train.moving {
-    animation: trainMove 6s linear infinite;
+    animation: trainVibrate 0.15s linear infinite;
 }
 
-@keyframes trainMove {
-    0% { left: -40%; }
-    100% { left: 120%; }
+.maglev-train.fast {
+    animation: trainVibrate 0.08s linear infinite, trainLunge 2s ease-in-out infinite;
 }
 
+@keyframes trainVibrate {
+    0% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-0.5px) translateX(0.5px); }
+    50% { transform: translateY(0) translateX(-0.5px); }
+    75% { transform: translateY(0.5px) translateX(0.5px); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes trainLunge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(8px); }
+}
+
+/* Coils scroll rapidly past the train */
 .guideway-coils.moving {
-    animation: coilScroll 0.6s linear infinite;
+    animation: coilScroll 0.4s linear infinite;
+}
+
+.guideway-coils.fast {
+    animation: coilScroll 0.2s linear infinite;
 }
 
 @keyframes coilScroll {
@@ -3252,32 +3273,90 @@ body {
     100% { transform: translateX(-80px); }
 }
 
+/* City silhouette scrolls continuously */
 .scene-bg.moving .city-silhouette {
-    animation: bgScroll 8s linear infinite;
+    animation: bgScroll 5s linear infinite;
+}
+
+.scene-bg.fast .city-silhouette {
+    animation: bgScroll 2.5s linear infinite;
 }
 
 @keyframes bgScroll {
     0% { background-position: 0 bottom; }
-    100% { background-position: -400px bottom; }
+    100% { background-position: -1200px bottom; }
 }
 
-.scene-bg.moving .ground {
-    animation: groundScroll 2s linear infinite;
-    background-image: repeating-linear-gradient(
+/* Ground gets scrolling track marks */
+.scene-bg.moving .ground::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
         90deg,
         transparent 0px,
-        transparent 40px,
-        rgba(255,255,255,0.03) 40px,
-        rgba(255,255,255,0.03) 80px
+        transparent 60px,
+        rgba(255,255,255,0.04) 60px,
+        rgba(255,255,255,0.04) 62px,
+        transparent 62px,
+        transparent 120px
     );
-    background-size: 80px 100%;
+    background-size: 120px 100%;
+    animation: trackMarkScroll 0.5s linear infinite;
 }
 
-@keyframes groundScroll {
+.scene-bg.fast .ground::after {
+    animation: trackMarkScroll 0.25s linear infinite;
+}
+
+@keyframes trackMarkScroll {
     0% { background-position: 0 0; }
-    100% { background-position: -80px 0; }
+    100% { background-position: -120px 0; }
 }
 
-.maglev-train.fast .train-body {
-    filter: drop-shadow(-15px 0 15px rgba(255,255,255,0.12));
+/* Motion blur streak behind train at speed */
+.maglev-train.fast .train-body::after {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 20%;
+    bottom: 20%;
+    width: 200px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+    border-radius: 50%;
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/* Speed lines streak past from right to left */
+.speed-lines.active span {
+    animation: speedLinePass 0.4s linear infinite;
+}
+
+.speed-lines.fast span {
+    animation: speedLinePass 0.2s linear infinite;
+}
+
+.speed-lines span:nth-child(1) { top: 20%; left: auto; right: -100px; width: 100px; animation-delay: 0s; }
+.speed-lines span:nth-child(2) { top: 35%; left: auto; right: -150px; width: 150px; animation-delay: 0.1s; }
+.speed-lines span:nth-child(3) { top: 50%; left: auto; right: -80px; width: 80px; animation-delay: 0.2s; }
+.speed-lines span:nth-child(4) { top: 65%; left: auto; right: -120px; width: 120px; animation-delay: 0.15s; }
+.speed-lines span:nth-child(5) { top: 40%; left: auto; right: -90px; width: 90px; animation-delay: 0.25s; }
+.speed-lines span:nth-child(6) { top: 55%; left: auto; right: -110px; width: 110px; animation-delay: 0.05s; }
+
+@keyframes speedLinePass {
+    0% { transform: translateX(0); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 0.6; }
+    100% { transform: translateX(-600px); opacity: 0; }
+}
+
+/* Guideway track gets subtle vibration */
+.guideway-track.moving {
+    animation: trackVibrate 0.1s linear infinite;
+}
+
+@keyframes trackVibrate {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(0.3px); }
 }
