@@ -122,12 +122,10 @@
         // Attempt autoplay if was playing
         if (state.isPlaying) {
             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            // Use a small delay to let the DOM settle
             setTimeout(() => {
                 audio.play().then(() => {
                     // Success
                 }).catch(() => {
-                    // Autoplay blocked - show play button state
                     playBtn.innerHTML = '<i class="fas fa-play"></i>';
                 });
             }, 100);
@@ -150,9 +148,7 @@
                 audio.play().then(() => {
                     playBtn.innerHTML = '<i class="fas fa-pause"></i>';
                     bar.classList.add('active');
-                }).catch(() => {
-                    // Blocked
-                });
+                }).catch(() => {});
             } else {
                 audio.pause();
                 playBtn.innerHTML = '<i class="fas fa-play"></i>';
