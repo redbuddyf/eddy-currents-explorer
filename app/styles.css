@@ -3274,9 +3274,6 @@ body {
 }
 
 /* Motion blur at high speed */
-.maglev-train.fast .train-body {
-    position: relative;
-}
 .maglev-train.fast .train-body::after {
     content: '';
     position: absolute;
