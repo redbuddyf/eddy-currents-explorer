@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuclear Instability & Decay | Science Unpacked</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* ===== NUCLEAR DECAY PAGE STYLES ===== */
+        .nuclear-hero {
+            padding: 140px 0 80px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .nuclear-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(239,68,68,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(59,130,246,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .nuclear-hero .container { position: relative; z-index: 1; }
+        .nuclear-hero .section-tag {
+            background: rgba(239,68,68,0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+        .nuclear-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, #fca5a5 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nuclear-hero .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 48px;
+            padding: 60px 0;
+        }
+        .chapter-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        .chapter-sidebar-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .chapter-sidebar-card h3 {
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chapter-toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        .chapter-toc-list li { margin-bottom: 8px; }
+        .chapter-toc-list a {
+            display: block;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .chapter-toc-list a:hover, .chapter-toc-list a.active {
+            background: var(--surface-light);
+            color: var(--text);
+        }
+
+        .chapter-main article {
+            margin-bottom: 80px;
+            scroll-margin-top: 100px;
+        }
+        .chapter-main h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .chapter-main h2 i {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            border-radius: var(--radius);
+            font-size: 1.25rem;
+            color: #fff;
+        }
+        .chapter-main h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            color: var(--text);
+        }
+        .chapter-main p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        .chapter-main ul, .chapter-main ol {
+            margin-bottom: 20px;
+            padding-left: 24px;
+        }
+        .chapter-main li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+        .chapter-main strong { color: var(--text); }
+
+        .nuclear-formula-box {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin: 28px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .nuclear-formula-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #3b82f6);
+        }
+        .nuclear-formula {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .nuclear-formula-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(249,115,22,0.08) 100%);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 28px 0;
+        }
+        .insight-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            color: #fca5a5;
+            font-size: 1.1rem;
+        }
+        .insight-card ul { margin-bottom: 0; }
+
+        /* ===== 3D SCENE CONTAINERS ===== */
+        .scene-container {
+            background: #050510;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            margin: 32px 0;
+            position: relative;
+        }
+        .scene-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .scene-header h4 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .scene-header .scene-badge {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+        .scene-canvas-wrap {
+            position: relative;
+            height: 420px;
+        }
+        .scene-canvas-wrap canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .scene-controls {
+            display: flex;
+            gap: 12px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-wrap: wrap;
+        }
+        .scene-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scene-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .scene-btn.primary {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            border-color: transparent;
+            color: #fff;
+        }
+        .scene-btn.primary:hover {
+            opacity: 0.9;
+        }
+        .scene-info {
+            padding: 16px 24px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.02);
+        }
+        .scene-legend {
+            display: flex;
+            gap: 20px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+        .scene-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* ===== HALF-LIFE SIMULATOR ===== */
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin: 32px 0;
+        }
+        @media (max-width: 900px) {
+            .chapter-grid { grid-template-columns: 1fr; }
+            .chapter-sidebar { display: none; }
+            .simulator-grid { grid-template-columns: 1fr; }
+        }
+        .sim-panel {
+            background: #050510;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+        .sim-panel-header {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sim-panel-body { padding: 20px; }
+        #halfLifeCanvas, #valleyCanvas {
+            width: 100%;
+            height: 320px;
+            background: #020208;
+            border-radius: var(--radius);
+        }
+        .sim-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .sim-stat {
+            background: rgba(255,255,255,0.04);
+            padding: 14px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+        .sim-stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .sim-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .sim-controls-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .comparison-table th {
+            font-weight: 600;
+            color: var(--text);
+            background: var(--surface);
+        }
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+        .decay-mode-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .badge-alpha { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .badge-beta { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .badge-gamma { background: rgba(234,179,8,0.15); color: #facc15; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-logo">
+                    <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                </div>
+                <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="topics.html" class="nav-link">Topics</a>
+                <a href="eddy-currents.html" class="nav-link">Eddy Currents</a>
+                <a href="nuclear-decay.html" class="nav-link active">Nuclear Decay</a>
+                <a href="notes.html" class="nav-link">Notes</a>
+                <a href="quiz.html" class="nav-link">Quiz</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="nuclear-hero">
+        <div class="container">
+            <span class="section-tag"><i class="fas fa-radiation"></i> Depth Study</span>
+            <h1>Nuclear Instability &amp; Decay</h1>
+            <p class="section-subtitle">
+                How do different isotopes exhibit varying modes and rates of radioactive decay, 
+                and what factors influence their stability? An interactive exploration of the forces 
+                that hold nuclei together — and the processes that tear them apart.
+            </p>
+        </div>
+    </section>
+
+    <!-- Chapter Content -->
+    <section class="chapter-content">
+        <div class="container">
+            <div class="chapter-grid">
+                <!-- Sidebar -->
+                <aside class="chapter-sidebar">
+                    <div class="chapter-sidebar-card">
+                        <h3><i class="fas fa-list"></i> Contents</h3>
+                        <ul class="chapter-toc-list">
+                            <li><a href="#instability" class="active">1. Nuclear Instability</a></li>
+                            <li><a href="#alpha">2. Alpha Decay</a></li>
+                            <li><a href="#beta-minus">3. Beta-Minus Decay</a></li>
+                            <li><a href="#beta-plus">4. Beta-Plus Decay</a></li>
+                            <li><a href="#gamma">5. Gamma Decay</a></li>
+                            <li><a href="#halflife">6. Half-Life &amp; Rates</a></li>
+                            <li><a href="#valley">7. Valley of Stability</a></li>
+                            <li><a href="#applications">8. Applications</a></li>
+                            <li><a href="#equations">9. Key Equations</a></li>
+                            <li><a href="#summary">10. Summary</a></li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="chapter-main">
+                    <!-- 1. NUCLEAR INSTABILITY -->
+                    <article id="instability">
+                        <h2><i class="fas fa-atom"></i> 1. Nuclear Instability</h2>
+                        <p>
+                            The nucleus of an atom is a battlefield of competing forces. On one side, the <strong>strong nuclear force</strong> — the most powerful force in nature — pulls protons and neutrons together, binding them into a dense cluster just femtometres across. On the other side, the <strong>electromagnetic force</strong> relentlessly pushes protons apart, since each carries a positive charge and like charges repel.
+                        </p>
+                        <p>
+                            For light nuclei, the strong force dominates. Add too many protons, however, and the cumulative electrostatic repulsion grows faster than the strong force can compensate. Beyond a certain point — roughly iron-56 on the periodic table — adding more nucleons actually <em>reduces</em> the binding energy per particle. The nucleus becomes unstable. It must shed mass and energy to reach a more stable configuration.
+                        </p>
+                        <p>
+                            This is the origin of <strong>radioactive decay</strong>: an unstable nucleus spontaneously transforms into a different nucleus, releasing energy and/or particles in the process. The decay is random for any individual nucleus, but follows precise statistical laws when applied to large populations.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> What makes a nucleus unstable?</h4>
+                            <ul>
+                                <li><strong>Proton-neutron ratio:</strong> Light stable nuclei have roughly equal protons and neutrons. Heavier nuclei need extra neutrons to dilute proton repulsion.</li>
+                                <li><strong>Total nucleon number:</strong> Nuclei heavier than lead-208 are inherently unstable due to the short range of the strong force.</li>
+                                <li><strong>Shell structure:</strong> Nucleons occupy discrete energy levels. "Magic numbers" (2, 8, 20, 28, 50, 82, 126) confer extra stability.</li>
+                                <li><strong>Pairing effect:</strong> Even numbers of protons and neutrons are more stable than odd numbers.</li>
+                            </ul>
+                        </div>
+
+                        <h3>The Four Fundamental Forces in the Nucleus</h3>
+                        <p>
+                            Only two of the four fundamental forces operate inside the nucleus. Gravity is impossibly weak at nuclear scales — a proton-proton gravitational attraction is roughly 10<sup>38</sup> times weaker than their electromagnetic repulsion. The weak nuclear force, while important in beta decay, has an even shorter range than the strong force and does not bind nucleons together.
+                        </p>
+                        <p>
+                            The strong nuclear force is unique: it is <em>charge-independent</em> (it acts equally between proton-proton, neutron-neutron, and proton-neutron pairs) and <em>saturates</em> (each nucleon only interacts with its immediate neighbours, not the entire nucleus). This saturation explains why nuclear density is roughly constant — all nuclei have approximately the same density as a droplet of water, compressed into a sphere 10,000 times smaller in radius.
+                        </p>
+                    </article>
+
+                    <!-- 2. ALPHA DECAY -->
+                    <article id="alpha">
+                        <h2><i class="fas fa-angles-right"></i> 2. Alpha Decay</h2>
+                        <p>
+                            <strong>Alpha decay</strong> is the emission of a helium-4 nucleus from a heavy parent nucleus. The alpha particle consists of 2 protons and 2 neutrons — an extraordinarily stable configuration thanks to its doubly magic structure and high binding energy per nucleon (7.07 MeV).
+                        </p>
+                        <p>
+                            Alpha decay occurs predominantly in very heavy nuclei (Z &gt; 82) where the electrostatic repulsion between protons becomes overwhelming. By ejecting an alpha particle, the parent nucleus reduces both its mass number (A decreases by 4) and atomic number (Z decreases by 2), shifting it toward the valley of stability.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                <sup>238</sup><sub>92</sub>U &rarr; <sup>234</sup><sub>90</sub>Th + <sup>4</sup><sub>2</sub>He + 4.27 MeV
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                Uranium-238 decays to Thorium-234, releasing an alpha particle and 4.27 MeV of kinetic energy.
+                            </div>
+                        </div>
+
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-cube"></i> Alpha Decay Visualization</h4>
+                                <span class="scene-badge">Interactive 3D</span>
+                            </div>
+                            <div class="scene-canvas-wrap" id="alphaScene"></div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
+                                <span><span class="legend-dot" style="background:#facc15"></span> Alpha particle</span>
+                            </div>
+                            <div class="scene-controls">
+                                <button class="scene-btn primary" id="btnAlphaTrigger">
+                                    <i class="fas fa-play"></i> Trigger Alpha Decay
+                                </button>
+                                <button class="scene-btn" id="btnAlphaReset">
+                                    <i class="fas fa-rotate-left"></i> Reset
+                                </button>
+                                <button class="scene-btn" id="btnAlphaRotate">
+                                    <i class="fas fa-sync"></i> Auto-Rotate
+                                </button>
+                            </div>
+                            <div class="scene-info">
+                                <strong>Uranium-238 &rarr; Thorium-234 + &alpha;</strong> &mdash; Drag to rotate. Scroll to zoom. Click "Trigger Alpha Decay" to watch the alpha particle tunnel through the nuclear potential barrier and escape.
+                            </div>
+                        </div>
+
+                        <h3>Quantum Tunnelling</h3>
+                        <p>
+                            Here is where alpha decay becomes truly fascinating. The alpha particle does not have enough energy to classically overcome the nuclear potential barrier. Yet it escapes anyway. How?
+                        </p>
+                        <p>
+                            The answer is <strong>quantum tunnelling</strong>. In quantum mechanics, particles exist as probability waves. There is a non-zero probability that the alpha particle can "tunnel" through the barrier — a region where classical physics says it cannot exist. The thicker and higher the barrier, the lower the tunnelling probability, and thus the longer the half-life.
+                        </p>
+                        <p>
+                            This explains the extraordinary range of alpha decay half-lives: from microseconds for polonium-212 to <strong>4.5 billion years</strong> for uranium-238. The same physical process, differing only in the tunnelling probability.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Alpha Particle Properties</h4>
+                            <ul>
+                                <li>Charge: +2e (helium nucleus without electrons)</li>
+                                <li>Mass: 4.0015 u (roughly 7300× the electron mass)</li>
+                                <li>Typical kinetic energy: 4–9 MeV</li>
+                                <li>Range in air: 2–10 cm</li>
+                                <li>Range in tissue: 0.03–0.1 mm (cannot penetrate skin)</li>
+                                <li><strong>Highly ionising but low penetrating power</strong></li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <!-- 3. BETA-MINUS DECAY -->
+                    <article id="beta-minus">
+                        <h2><i class="fas fa-minus"></i> 3. Beta-Minus Decay</h2>
+                        <p>
+                            <strong>Beta-minus decay</strong> occurs in neutron-rich nuclei — isotopes with too many neutrons relative to protons. Inside the nucleus, a neutron transforms into a proton, emitting an electron (called a <strong>beta particle</strong> in this context) and an <strong>electron antineutrino</strong>.
+                        </p>
+                        <p>
+                            This decay is mediated by the <strong>weak nuclear force</strong>, the only force that can change one flavour of quark into another. Inside the neutron, a down quark (charge −1/3) converts to an up quark (charge +2/3), changing the baryon from a neutron to a proton. The charge difference of +1 is carried away by the emitted electron. The antineutrino ensures conservation of lepton number.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                <sup>14</sup><sub>6</sub>C &rarr; <sup>14</sup><sub>7</sub>N + e<sup>&minus;</sup> + <span style="font-style:italic">&nu;</span><sub>e</sub> + 0.156 MeV
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                Carbon-14 decays to Nitrogen-14. The atomic number increases by 1 while mass number stays the same.
+                            </div>
+                        </div>
+
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-cube"></i> Beta-Minus Decay Visualization</h4>
+                                <span class="scene-badge">Interactive 3D</span>
+                            </div>
+                            <div class="scene-canvas-wrap" id="betaMinusScene"></div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
+                                <span><span class="legend-dot" style="background:#3b82f6"></span> Electron (&beta;<sup>&minus;</sup>)</span>
+                                <span><span class="legend-dot" style="background:#a855f7"></span> Antineutrino</span>
+                            </div>
+                            <div class="scene-controls">
+                                <button class="scene-btn primary" id="btnBetaMinusTrigger">
+                                    <i class="fas fa-play"></i> Trigger &beta;<sup>&minus;</sup> Decay
+                                </button>
+                                <button class="scene-btn" id="btnBetaMinusReset">
+                                    <i class="fas fa-rotate-left"></i> Reset
+                                </button>
+                                <button class="scene-btn" id="btnBetaMinusRotate">
+                                    <i class="fas fa-sync"></i> Auto-Rotate
+                                </button>
+                            </div>
+                            <div class="scene-info">
+                                <strong>Carbon-14 &rarr; Nitrogen-14 + e<sup>&minus;</sup> + <span style="font-style:italic">&nu;</span><sub>e</sub></strong> &mdash; Watch a neutron convert to a proton (colour change) while the electron and antineutrino streak away in opposite directions.
+                            </div>
+                        </div>
+
+                        <h3>The Neutrino Problem</h3>
+                        <p>
+                            The continuous energy spectrum of beta particles was one of the great puzzles of early 20th-century physics. Alpha and gamma emission produce discrete energy peaks, but beta particles emerge with a continuous spread of energies from near-zero up to a maximum value. Where did the "missing" energy go?
+                        </p>
+                        <p>
+                            Wolfgang Pauli proposed in 1930 that an undetected, electrically neutral particle carried away the remaining energy. Enrico Fermi named it the <strong>neutrino</strong> — "little neutral one" — and developed the theory of beta decay. Neutrinos interact so weakly with matter that a typical neutrino could pass through a light-year of lead without stopping. They were not directly detected until 1956.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> Why the antineutrino matters</h4>
+                            <ul>
+                                <li>Conserves <strong>lepton number</strong>: electron (lepton number +1) + antineutrino (lepton number &minus;1) = 0, matching the neutron's lepton number of 0.</li>
+                                <li>Explains the <strong>continuous energy spectrum</strong>: the kinetic energy is shared randomly between the electron and antineutrino.</li>
+                                <li>Carries away <strong>spin angular momentum</strong>: the neutron, proton, and electron spins cannot balance without it.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <!-- 4. BETA-PLUS DECAY -->
+                    <article id="beta-plus">
+                        <h2><i class="fas fa-plus"></i> 4. Beta-Plus Decay (Positron Emission)</h2>
+                        <p>
+                            <strong>Beta-plus decay</strong> is the mirror image of beta-minus decay. It occurs in proton-rich nuclei — isotopes with too many protons relative to neutrons. A proton converts into a neutron, emitting a <strong>positron</strong> (the antimatter counterpart of the electron) and an <strong>electron neutrino</strong>.
+                        </p>
+                        <p>
+                            Beta-plus decay can only occur when the parent atom's mass exceeds the daughter atom's mass by at least twice the electron rest mass (1.022 MeV), because a proton is slightly lighter than a neutron. This energy threshold means beta-plus decay is less common than beta-minus decay.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                <sup>18</sup><sub>9</sub>F &rarr; <sup>18</sup><sub>8</sub>O + e<sup>+</sup> + <span style="font-style:italic">&nu;</span><sub>e</sub> + 0.635 MeV
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                Fluorine-18 decays to Oxygen-18, releasing a positron and neutrino.
+                            </div>
+                        </div>
+
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-cube"></i> Beta-Plus Decay Visualization</h4>
+                                <span class="scene-badge">Interactive 3D</span>
+                            </div>
+                            <div class="scene-canvas-wrap" id="betaPlusScene"></div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
+                                <span><span class="legend-dot" style="background:#22c55e"></span> Positron (&beta;<sup>+</sup>)</span>
+                                <span><span class="legend-dot" style="background:#a855f7"></span> Neutrino</span>
+                            </div>
+                            <div class="scene-controls">
+                                <button class="scene-btn primary" id="btnBetaPlusTrigger">
+                                    <i class="fas fa-play"></i> Trigger &beta;<sup>+</sup> Decay
+                                </button>
+                                <button class="scene-btn" id="btnBetaPlusReset">
+                                    <i class="fas fa-rotate-left"></i> Reset
+                                </button>
+                                <button class="scene-btn" id="btnBetaPlusRotate">
+                                    <i class="fas fa-sync"></i> Auto-Rotate
+                                </button>
+                            </div>
+                            <div class="scene-info">
+                                <strong>Fluorine-18 &rarr; Oxygen-18 + e<sup>+</sup> + <span style="font-style:italic">&nu;</span><sub>e</sub></strong> &mdash; Positron emission is the basis of PET scans in medicine.
+                            </div>
+                        </div>
+
+                        <h3>Electron Capture: An Alternative Path</h3>
+                        <p>
+                            Proton-rich nuclei have another decay route: <strong>electron capture</strong>. Instead of emitting a positron, the nucleus captures one of its own inner-shell electrons. The captured electron combines with a proton to form a neutron and a neutrino. The atomic number decreases by 1, just as in beta-plus decay, but no positron is emitted.
+                        </p>
+                        <p>
+                            Electron capture becomes increasingly favoured over positron emission for heavier nuclei, because inner-shell electrons spend more time inside the nucleus (due to relativistic effects and orbital penetration). Some nuclei, like potassium-40, can decay by <em>both</em> beta-minus decay and electron capture — a remarkable example of nuclear versatility.
+                        </p>
+                    </article>
+
+                    <!-- 5. GAMMA DECAY -->
+                    <article id="gamma">
+                        <h2><i class="fas fa-sun"></i> 5. Gamma Decay</h2>
+                        <p>
+                            <strong>Gamma decay</strong> is fundamentally different from alpha and beta decay. It does not change the identity of the nucleus — no protons or neutrons are lost or converted. Instead, an <strong>excited nucleus</strong> releases excess energy as a high-energy photon, dropping to a lower, more stable energy state.
+                        </p>
+                        <p>
+                            Gamma rays are electromagnetic radiation, just like visible light or X-rays, but with far higher energy (typically 10 keV to 10 MeV) and correspondingly shorter wavelength. They are the most penetrating form of radioactive emission, requiring dense shielding such as lead or thick concrete to attenuate.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                <sup>99m</sup><sub>43</sub>Tc &rarr; <sup>99</sup><sub>43</sub>Tc + &gamma; (140 keV)
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                Technetium-99m decays to its ground state by emitting a 140 keV gamma photon. The "m" denotes a metastable (excited) state.
+                            </div>
+                        </div>
+
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-cube"></i> Gamma Decay Visualization</h4>
+                                <span class="scene-badge">Interactive 3D</span>
+                            </div>
+                            <div class="scene-canvas-wrap" id="gammaScene"></div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
+                                <span><span class="legend-dot" style="background:#facc15"></span> Gamma photon</span>
+                            </div>
+                            <div class="scene-controls">
+                                <button class="scene-btn primary" id="btnGammaTrigger">
+                                    <i class="fas fa-play"></i> Trigger &gamma; Emission
+                                </button>
+                                <button class="scene-btn" id="btnGammaReset">
+                                    <i class="fas fa-rotate-left"></i> Reset
+                                </button>
+                                <button class="scene-btn" id="btnGammaRotate">
+                                    <i class="fas fa-sync"></i> Auto-Rotate
+                                </button>
+                            </div>
+                            <div class="scene-info">
+                                <strong><sup>99m</sup>Tc &rarr; <sup>99</sup>Tc + &gamma;</strong> &mdash; The excited nucleus vibrates, then releases a gamma photon as it relaxes to ground state.
+                            </div>
+                        </div>
+
+                        <h3>Why Gamma Rays Are So Penetrating</h3>
+                        <p>
+                            Alpha particles are massive and doubly charged — they interact strongly with matter via the electromagnetic force, losing energy rapidly through ionisation. Beta particles, being much lighter, also interact electromagnetically but penetrate further because their smaller mass makes them harder to "stop."
+                        </p>
+                        <p>
+                            Gamma photons, however, carry no charge and have zero rest mass. They interact with matter primarily through three processes:
+                        </p>
+                        <ol>
+                            <li><strong>Photoelectric effect:</strong> The gamma photon transfers all its energy to an atomic electron, ejecting it.</li>
+                            <li><strong>Compton scattering:</strong> The photon bounces off an electron, losing some energy and changing direction.</li>
+                            <li><strong>Pair production:</strong> At energies above 1.022 MeV, the photon can spontaneously create an electron-positron pair near a nucleus.</li>
+                        </ol>
+                        <p>
+                            Because these interactions are probabilistic rather than continuous, gamma rays follow an <strong>exponential attenuation law</strong>: I = I<sub>0</sub>e<sup>&minus;&mu;x</sup>. Half-value layers for typical medical gamma rays are measured in centimetres of lead.
+                        </p>
+                    </article>
+                    <!-- 6. HALF-LIFE & DECAY RATES -->
+                    <article id="halflife">
+                        <h2><i class="fas fa-hourglass-half"></i> 6. Half-Life &amp; Decay Rates</h2>
+                        <p>
+                            Radioactive decay is a <strong>random process</strong>. We cannot predict when any individual nucleus will decay. But for a large population of identical nuclei, the decay follows precise statistical laws — specifically, an <strong>exponential decay curve</strong>.
+                        </p>
+                        <p>
+                            The <strong>half-life</strong> (t<sub>1/2</sub>) is the time required for half of the radioactive nuclei in a sample to decay. After one half-life, 50% remain. After two half-lives, 25%. After three, 12.5%. This pattern continues indefinitely — in theory, a tiny fraction of the original sample always remains, though in practice it eventually becomes undetectable.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                N(t) = N<sub>0</sub> &middot; (1/2)<sup>t / t<sub>1/2</sub></sup> = N<sub>0</sub> &middot; e<sup>&minus;&lambda;t</sup>
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                N(t) = number remaining at time t. N<sub>0</sub> = initial number. &lambda; = decay constant = ln(2) / t<sub>1/2</sub>.
+                            </div>
+                        </div>
+
+                        <p>
+                            The <strong>decay constant</strong> &lambda; represents the probability per unit time that any given nucleus will decay. It is related to half-life by &lambda; = ln(2) / t<sub>1/2</sub> &approx; 0.693 / t<sub>1/2</sub>. A large &lambda; means rapid decay (short half-life). A small &lambda; means slow decay (long half-life).
+                        </p>
+
+                        <div class="simulator-grid">
+                            <div class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <i class="fas fa-atom"></i> Nucleus Grid Simulator
+                                </div>
+                                <div class="sim-panel-body">
+                                    <canvas id="halfLifeCanvas"></canvas>
+                                    <div class="sim-stats">
+                                        <div class="sim-stat">
+                                            <div class="sim-stat-value" id="statRemaining">100</div>
+                                            <div class="sim-stat-label">Remaining</div>
+                                        </div>
+                                        <div class="sim-stat">
+                                            <div class="sim-stat-value" id="statDecayed">0</div>
+                                            <div class="sim-stat-label">Decayed</div>
+                                        </div>
+                                        <div class="sim-stat">
+                                            <div class="sim-stat-value" id="statHalflives">0.0</div>
+                                            <div class="sim-stat-label">Half-lives</div>
+                                        </div>
+                                        <div class="sim-stat">
+                                            <div class="sim-stat-value" id="statPercent">100%</div>
+                                            <div class="sim-stat-label">Percent Left</div>
+                                        </div>
+                                    </div>
+                                    <div class="sim-controls-row">
+                                        <button class="scene-btn primary" id="btnSimStart">
+                                            <i class="fas fa-play"></i> Start
+                                        </button>
+                                        <button class="scene-btn" id="btnSimPause">
+                                            <i class="fas fa-pause"></i> Pause
+                                        </button>
+                                        <button class="scene-btn" id="btnSimReset">
+                                            <i class="fas fa-rotate-left"></i> Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sim-panel">
+                                <div class="sim-panel-header">
+                                    <i class="fas fa-chart-line"></i> Decay Curve
+                                </div>
+                                <div class="sim-panel-body">
+                                    <canvas id="decayCurveCanvas"></canvas>
+                                    <div class="sim-stats">
+                                        <div class="sim-stat">
+                                            <div class="sim-stat-value" style="font-size:1.2rem;">N = N<sub>0</sub>e<sup>&minus;&lambda;t</sup></div>
+                                            <div class="sim-stat-label">Exponential decay law</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Activity &amp; the Becquerel</h3>
+                        <p>
+                            The <strong>activity</strong> of a radioactive sample is the number of decays per second. Its SI unit is the <strong>becquerel</strong> (Bq), where 1 Bq = 1 decay per second. Activity is proportional to the number of remaining nuclei: A = &lambda;N.
+                        </p>
+                        <p>
+                            Activity also decays exponentially: A(t) = A<sub>0</sub>e<sup>&minus;&lambda;t</sup>. This is why radioactive samples become less dangerous over time — not because individual decays become less energetic, but because there are simply fewer decays happening each second.
+                        </p>
+
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Isotope</th>
+                                    <th>Decay mode</th>
+                                    <th>Half-life</th>
+                                    <th>Decay constant &lambda;</th>
+                                    <th>Main use</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Uranium-238</td>
+                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
+                                    <td>4.47 &times; 10<sup>9</sup> years</td>
+                                    <td>4.9 &times; 10<sup>&minus;18</sup> s<sup>&minus;1</sup></td>
+                                    <td>Geological dating, nuclear fuel</td>
+                                </tr>
+                                <tr>
+                                    <td>Carbon-14</td>
+                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span></td>
+                                    <td>5730 years</td>
+                                    <td>3.8 &times; 10<sup>&minus;12</sup> s<sup>&minus;1</sup></td>
+                                    <td>Radiocarbon dating</td>
+                                </tr>
+                                <tr>
+                                    <td>Cobalt-60</td>
+                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span> + <span class="decay-mode-badge badge-gamma">&gamma;</span></td>
+                                    <td>5.27 years</td>
+                                    <td>4.2 &times; 10<sup>&minus;9</sup> s<sup>&minus;1</sup></td>
+                                    <td>Cancer radiotherapy</td>
+                                </tr>
+                                <tr>
+                                    <td>Fluorine-18</td>
+                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>+</sup></span></td>
+                                    <td>109.8 minutes</td>
+                                    <td>1.1 &times; 10<sup>&minus;4</sup> s<sup>&minus;1</sup></td>
+                                    <td>PET scans</td>
+                                </tr>
+                                <tr>
+                                    <td>Technetium-99m</td>
+                                    <td><span class="decay-mode-badge badge-gamma">&gamma;</span></td>
+                                    <td>6.01 hours</td>
+                                    <td>3.2 &times; 10<sup>&minus;5</sup> s<sup>&minus;1</sup></td>
+                                    <td>Medical imaging</td>
+                                </tr>
+                                <tr>
+                                    <td>Polonium-212</td>
+                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
+                                    <td>0.3 microseconds</td>
+                                    <td>2.3 &times; 10<sup>6</sup> s<sup>&minus;1</sup></td>
+                                    <td>Research, alpha sources</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </article>
+
+                    <!-- 7. VALLEY OF STABILITY -->
+                    <article id="valley">
+                        <h2><i class="fas fa-mountain"></i> 7. The Valley of Stability</h2>
+                        <p>
+                            Plot every known isotope on a graph of <strong>neutron number (N)</strong> versus <strong>proton number (Z)</strong>, and a remarkable pattern emerges. Stable nuclei cluster along a curved band — the <strong>valley of stability</strong> — like villages settled in a river valley between two mountain ranges.
+                        </p>
+                        <p>
+                            Isotopes to the <strong>left</strong> of the valley (neutron-rich) decay via beta-minus emission, converting excess neutrons into protons. Isotopes to the <strong>right</strong> (proton-rich) decay via beta-plus emission or electron capture, converting excess protons into neutrons. Isotopes <strong>above</strong> the valley (very heavy) shed mass through alpha decay or spontaneous fission.
+                        </p>
+                        <p>
+                            The valley curves because heavier nuclei require proportionally more neutrons to dilute proton repulsion. For light elements, N &approx; Z. For lead-208 (Z=82), N=126 — the neutron excess becomes significant.
+                        </p>
+
+                        <div class="sim-panel" style="margin: 32px 0;">
+                            <div class="sim-panel-header">
+                                <i class="fas fa-chart-scatter"></i> Interactive N-Z Chart (Valley of Stability)
+                            </div>
+                            <div class="sim-panel-body">
+                                <canvas id="valleyCanvas"></canvas>
+                                <div class="scene-legend" style="border-top: 1px solid rgba(255,255,255,0.06); margin-top: 12px; padding-top: 12px;">
+                                    <span><span class="legend-dot" style="background:#22c55e"></span> Stable isotopes</span>
+                                    <span><span class="legend-dot" style="background:#3b82f6"></span> &beta;<sup>&minus;</sup> decay</span>
+                                    <span><span class="legend-dot" style="background:#f97316"></span> &beta;<sup>+</sup> / EC decay</span>
+                                    <span><span class="legend-dot" style="background:#ef4444"></span> &alpha; decay</span>
+                                    <span><span class="legend-dot" style="background:#a855f7"></span> Spontaneous fission</span>
+                                </div>
+                                <div class="scene-info" style="margin-top: 12px;">
+                                    Hover over data points to see isotope names and predicted decay modes. The green band shows stable nuclei; coloured regions show dominant decay modes.
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Magic Numbers &amp; Nuclear Shells</h3>
+                        <p>
+                            Just as electrons in atoms occupy shells with 2, 8, 18, 32... electrons, nucleons in the nucleus occupy energy levels with <strong>magic numbers</strong>: 2, 8, 20, 28, 50, 82, and 126. Nuclei with magic numbers of protons <em>or</em> neutrons are exceptionally stable.
+                        </p>
+                        <p>
+                            Lead-208 is <strong>doubly magic</strong>: Z=82 and N=126. It is the heaviest stable nucleus. Tin-132 (Z=50, N=82) is also doubly magic and extraordinarily stable. These magic numbers arise from the quantum mechanical structure of the nucleus, where nucleons move in a mean potential well created by all other nucleons.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> Key stable isotopes to remember</h4>
+                            <ul>
+                                <li><strong>Helium-4</strong> (Z=2, N=2) — doubly magic, alpha particle itself</li>
+                                <li><strong>Oxygen-16</strong> (Z=8, N=8) — doubly magic, extremely stable</li>
+                                <li><strong>Calcium-40</strong> (Z=20, N=20) — doubly magic</li>
+                                <li><strong>Iron-56</strong> — peak binding energy per nucleon; no fusion or fission releases net energy beyond this point</li>
+                                <li><strong>Lead-208</strong> (Z=82, N=126) — heaviest stable nucleus, doubly magic</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <!-- 8. APPLICATIONS -->
+                    <article id="applications">
+                        <h2><i class="fas fa-flask-vial"></i> 8. Real-World Applications</h2>
+
+                        <h3>Medicine: Diagnosis &amp; Therapy</h3>
+                        <p>
+                            <strong>Technetium-99m</strong> is the workhorse of nuclear medicine, used in over 80% of all diagnostic scans. Its 6-hour half-life is long enough for chemical preparation and transport, but short enough to minimise patient radiation dose. The 140 keV gamma ray is ideal for gamma camera detection.
+                        </p>
+                        <p>
+                            <strong>Positron Emission Tomography (PET)</strong> uses fluorine-18 attached to glucose molecules (FDG). When the positron annihilates with an electron, two 511 keV gamma photons fly off in opposite directions. Detecting these coincident photons allows precise 3D localisation of metabolic activity — revolutionising cancer detection, neurology, and cardiology.
+                        </p>
+                        <p>
+                            <strong>Cobalt-60</strong> and <strong>caesium-137</strong> provide gamma radiation for external beam radiotherapy, targeting tumours while sparing surrounding tissue. Iodine-131 treats thyroid cancer by being selectively absorbed by thyroid tissue, then destroying it from within.
+                        </p>
+
+                        <h3>Archaeology &amp; Geology</h3>
+                        <p>
+                            <strong>Carbon-14 dating</strong> revolutionised archaeology. Living organisms constantly exchange carbon with the atmosphere, maintaining a C-14/C-12 ratio equal to atmospheric levels. Upon death, exchange stops and C-14 decays with its 5730-year half-life. By measuring the remaining ratio, archaeologists can date organic materials up to about 50,000 years old.
+                        </p>
+                        <p>
+                            <strong>Potassium-argon dating</strong> uses the decay of potassium-40 (half-life 1.25 billion years) to argon-40. Since argon is a gas that escapes from molten rock, any argon-40 trapped in volcanic rock must have come from potassium decay after solidification. This technique dates the earliest hominin fossils and the age of the Earth itself.
+                        </p>
+
+                        <h3>Energy &amp; Industry</h3>
+                        <p>
+                            Nuclear power plants harness the energy released when heavy nuclei undergo <strong>fission</strong> — a process conceptually related to alpha decay but involving the splitting of a nucleus into two roughly equal fragments. A single uranium-235 fission releases about 200 MeV, roughly 50 million times more energy per atom than burning coal.
+                        </p>
+                        <p>
+                            <strong>Smoke detectors</strong> contain a tiny amount of americium-241, an alpha emitter. The alpha particles ionise air molecules, creating a small current. Smoke particles disrupt this current, triggering the alarm. The americium's 432-year half-life means the detector remains effective for decades.
+                        </p>
+
+                        <h3>Space Exploration</h3>
+                        <p>
+                            <strong>Radioisotope Thermoelectric Generators (RTGs)</strong> power spacecraft too far from the Sun for solar panels. Plutonium-238 decays via alpha emission, releasing heat that thermocouples convert to electricity. The Voyager probes, launched in 1977, still transmit data from interstellar space thanks to their RTGs — nearly 50 years later.
+                        </p>
+                    </article>
+
+                    <!-- 9. KEY EQUATIONS -->
+                    <article id="equations">
+                        <h2><i class="fas fa-square-root-variable"></i> 9. Key Equations</h2>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">N(t) = N<sub>0</sub> e<sup>&minus;&lambda;t</sup></div>
+                            <div class="nuclear-formula-desc">Number of radioactive nuclei remaining after time t</div>
+                        </div>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">t<sub>1/2</sub> = ln(2) / &lambda; &approx; 0.693 / &lambda;</div>
+                            <div class="nuclear-formula-desc">Relationship between half-life and decay constant</div>
+                        </div>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">A = &lambda;N = A<sub>0</sub> e<sup>&minus;&lambda;t</sup></div>
+                            <div class="nuclear-formula-desc">Activity (decays per second) of a sample</div>
+                        </div>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">E = mc<sup>2</sup> &rarr; Q = (&Delta;m)c<sup>2</sup></div>
+                            <div class="nuclear-formula-desc">Energy released in decay equals mass defect times c squared</div>
+                        </div>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">E<sub>&gamma;</sub> = hf = hc / &lambda;</div>
+                            <div class="nuclear-formula-desc">Energy of a gamma photon (Planck's equation)</div>
+                        </div>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">BE = [Z m<sub>p</sub> + N m<sub>n</sub> &minus; m<sub>nucleus</sub>] c<sup>2</sup></div>
+                            <div class="nuclear-formula-desc">Nuclear binding energy — the mass defect converted to energy</div>
+                        </div>
+                    </article>
+
+                    <!-- 10. SUMMARY -->
+                    <article id="summary">
+                        <h2><i class="fas fa-clipboard-check"></i> 10. Summary</h2>
+                        <p>
+                            Nuclear instability arises from the competition between the strong nuclear force (which binds nucleons together) and the electromagnetic force (which pushes protons apart). When a nucleus has too many protons, too many neutrons, or simply too many nucleons overall, it becomes unstable and decays to reach a more stable configuration.
+                        </p>
+                        <p>
+                            The four main decay modes each address different types of instability:
+                        </p>
+                        <ul>
+                            <li><strong>Alpha decay</strong> reduces both proton and neutron count by 2, moving heavy nuclei toward lighter, more stable configurations.</li>
+                            <li><strong>Beta-minus decay</strong> converts a neutron to a proton, correcting neutron excess in light and medium-mass nuclei.</li>
+                            <li><strong>Beta-plus decay / electron capture</strong> converts a proton to a neutron, correcting proton excess.</li>
+                            <li><strong>Gamma decay</strong> releases excess excitation energy without changing the nucleus's identity.</li>
+                        </ul>
+                        <p>
+                            Decay rates follow exponential laws characterised by half-life — a property unique to each isotope ranging from fractions of a second to billions of years. The valley of stability maps which isotopes are stable and which decay modes dominate in different regions of the N-Z plane.
+                        </p>
+                        <p>
+                            From cancer therapy to archaeological dating, from smoke detectors to interstellar probes, radioactive decay is not merely a laboratory curiosity. It is a fundamental process that shapes our understanding of matter, time, and the universe itself.
+                        </p>
+                    </article>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                    </div>
+                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
+                    <p>Making physics and chemistry accessible, one episode at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="topics.html">Topics</a>
+                    <a href="eddy-currents.html">Eddy Currents</a>
+                    <a href="nuclear-decay.html">Nuclear Decay</a>
+                    <a href="notes.html">Notes</a>
+                    <a href="quiz.html">Quiz</a>
+                    <a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Science Unpacked. Physics &amp; Chemistry Education.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+
+    <!-- ===== THREE.JS & INTERACTIVE SCRIPTS ===== -->
+    <script>
+    // ===== NUCLEAR SCENE BUILDER =====
+    class NuclearScene {
+        constructor(containerId, protonCount, neutronCount, options = {}) {
+            this.container = document.getElementById(containerId);
+            this.protonCount = protonCount;
+            this.neutronCount = neutronCount;
+            this.nucleons = [];
+            this.particles = [];
+            this.isAnimating = false;
+            this.autoRotate = false;
+            this.rotationSpeed = 0.003;
+            this.mouse = { x: 0, y: 0, down: false, lastX: 0, lastY: 0 };
+            this.cameraAngle = { theta: 0.5, phi: 0.8, radius: 12 };
+            this.options = Object.assign({ sphereSize: 0.55, nucleusRadius: 3.5 }, options);
+
+            this.init();
+        }
+
+        init() {
+            const w = this.container.clientWidth;
+            const h = this.container.clientHeight;
+
+            // Scene & Camera
+            this.scene = new THREE.Scene();
+            this.scene.background = new THREE.Color(0x050510);
+
+            this.camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+            this.updateCamera();
+
+            // Renderer
+            this.renderer = new THREE.WebGLRenderer({ antialias: true });
+            this.renderer.setSize(w, h);
+            this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            this.container.appendChild(this.renderer.domElement);
+
+            // Lights
+            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+            this.scene.add(ambient);
+            const point = new THREE.PointLight(0xffffff, 1, 50);
+            point.position.set(8, 8, 8);
+            this.scene.add(point);
+            const point2 = new THREE.PointLight(0x4466ff, 0.5, 50);
+            point2.position.set(-8, -4, -6);
+            this.scene.add(point2);
+
+            // Build nucleus
+            this.buildNucleus();
+
+            // Events
+            this.bindEvents();
+            this.animate();
+        }
+
+        buildNucleus() {
+            this.nucleusGroup = new THREE.Group();
+            const total = this.protonCount + this.neutronCount;
+            const positions = this.packSpheres(total, this.options.nucleusRadius, this.options.sphereSize);
+
+            for (let i = 0; i < total; i++) {
+                const isProton = i < this.protonCount;
+                const color = isProton ? 0xef4444 : 0x94a3b8;
+                const emissive = isProton ? 0x441111 : 0x222233;
+
+                const geo = new THREE.SphereGeometry(this.options.sphereSize, 24, 24);
+                const mat = new THREE.MeshPhongMaterial({
+                    color: color,
+                    emissive: emissive,
+                    emissiveIntensity: 0.3,
+                    shininess: 60
+                });
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.position.copy(positions[i]);
+                mesh.userData = { isProton: isProton, originalColor: color, originalEmissive: emissive };
+                this.nucleusGroup.add(mesh);
+                this.nucleons.push(mesh);
+            }
+            this.scene.add(this.nucleusGroup);
+        }
+
+        packSpheres(n, radius, r) {
+            const pts = [];
+            // Fibonacci sphere for initial placement, then jitter
+            const phi = Math.PI * (3 - Math.sqrt(5));
+            for (let i = 0; i < n; i++) {
+                const y = 1 - (i / (n - 1)) * 2;
+                const r_y = Math.sqrt(1 - y * y);
+                const theta = phi * i;
+                const x = Math.cos(theta) * r_y;
+                const z = Math.sin(theta) * r_y;
+                const pos = new THREE.Vector3(x, y, z).multiplyScalar(radius * (0.3 + 0.7 * Math.random()));
+                pts.push(pos);
+            }
+            // Simple repulsion relaxation
+            for (let iter = 0; iter < 30; iter++) {
+                for (let i = 0; i < pts.length; i++) {
+                    for (let j = i + 1; j < pts.length; j++) {
+                        const d = new THREE.Vector3().subVectors(pts[i], pts[j]);
+                        const dist = d.length();
+                        if (dist < r * 2.2 && dist > 0.001) {
+                            const push = d.normalize().multiplyScalar((r * 2.2 - dist) * 0.15);
+                            pts[i].add(push);
+                            pts[j].sub(push);
+                        }
+                    }
+                    if (pts[i].length() > radius) pts[i].setLength(radius);
+                }
+            }
+            return pts;
+        }
+
+        updateCamera() {
+            const ca = this.cameraAngle;
+            this.camera.position.x = ca.radius * Math.sin(ca.phi) * Math.cos(ca.theta);
+            this.camera.position.y = ca.radius * Math.cos(ca.phi);
+            this.camera.position.z = ca.radius * Math.sin(ca.phi) * Math.sin(ca.theta);
+            this.camera.lookAt(0, 0, 0);
+        }
+
+        bindEvents() {
+            const canvas = this.renderer.domElement;
+            canvas.addEventListener('mousedown', e => {
+                this.mouse.down = true;
+                this.mouse.lastX = e.clientX;
+                this.mouse.lastY = e.clientY;
+            });
+            window.addEventListener('mouseup', () => this.mouse.down = false);
+            window.addEventListener('mousemove', e => {
+                if (!this.mouse.down) return;
+                const dx = e.clientX - this.mouse.lastX;
+                const dy = e.clientY - this.mouse.lastY;
+                this.cameraAngle.theta -= dx * 0.008;
+                this.cameraAngle.phi = Math.max(0.2, Math.min(Math.PI - 0.2, this.cameraAngle.phi - dy * 0.008));
+                this.updateCamera();
+                this.mouse.lastX = e.clientX;
+                this.mouse.lastY = e.clientY;
+            });
+            canvas.addEventListener('wheel', e => {
+                e.preventDefault();
+                this.cameraAngle.radius = Math.max(6, Math.min(25, this.cameraAngle.radius + e.deltaY * 0.01));
+                this.updateCamera();
+            });
+            window.addEventListener('resize', () => {
+                const w = this.container.clientWidth;
+                const h = this.container.clientHeight;
+                this.camera.aspect = w / h;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(w, h);
+            });
+        }
+
+        animate() {
+            requestAnimationFrame(() => this.animate());
+            if (this.autoRotate && !this.mouse.down) {
+                this.cameraAngle.theta += this.rotationSpeed;
+                this.updateCamera();
+            }
+            // Animate emitted particles
+            for (let i = this.particles.length - 1; i >= 0; i--) {
+                const p = this.particles[i];
+                p.mesh.position.add(p.velocity);
+                p.life -= 0.015;
+                if (p.mesh.material.opacity !== undefined) p.mesh.material.opacity = Math.max(0, p.life);
+                if (p.life <= 0) {
+                    this.scene.remove(p.mesh);
+                    this.particles.splice(i, 1);
+                }
+            }
+            // Gentle nucleus vibration when excited
+            if (this.excited) {
+                const t = Date.now() * 0.005;
+                this.nucleusGroup.position.set(Math.sin(t)*0.08, Math.cos(t*1.3)*0.08, Math.sin(t*0.7)*0.08);
+            }
+            this.renderer.render(this.scene, this.camera);
+        }
+
+        emitParticle(pos, dir, color, size, speed, isWave) {
+            const geo = isWave
+                ? new THREE.SphereGeometry(size, 12, 12)
+                : new THREE.SphereGeometry(size, 12, 12);
+            const mat = new THREE.MeshBasicMaterial({
+                color: color, transparent: true, opacity: 1
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.copy(pos);
+            this.scene.add(mesh);
+            this.particles.push({
+                mesh: mesh,
+                velocity: dir.normalize().multiplyScalar(speed),
+                life: 1.0
+            });
+        }
+
+        flashNucleon(nucleon, color, duration = 600) {
+            const old = nucleon.material.color.getHex();
+            const oldEm = nucleon.material.emissive.getHex();
+            nucleon.material.color.setHex(color);
+            nucleon.material.emissive.setHex(0xffffff);
+            nucleon.material.emissiveIntensity = 1;
+            setTimeout(() => {
+                nucleon.material.color.setHex(old);
+                nucleon.material.emissive.setHex(oldEm);
+                nucleon.material.emissiveIntensity = 0.3;
+            }, duration);
+        }
+
+        reset() {
+            this.isAnimating = false;
+            this.excited = false;
+            this.nucleusGroup.position.set(0,0,0);
+            // Remove emitted particles
+            for (const p of this.particles) this.scene.remove(p.mesh);
+            this.particles = [];
+            // Reset nucleons
+            for (const n of this.nucleons) {
+                n.visible = true;
+                n.material.color.setHex(n.userData.originalColor);
+                n.material.emissive.setHex(n.userData.originalEmissive);
+                n.material.emissiveIntensity = 0.3;
+            }
+        }
+    }
+
+    // ===== ALPHA DECAY SCENE =====
+    const alphaScene = new NuclearScene('alphaScene', 16, 24, { sphereSize: 0.5, nucleusRadius: 4.2 });
+    document.getElementById('btnAlphaTrigger').addEventListener('click', () => {
+        if (alphaScene.isAnimating) return;
+        alphaScene.isAnimating = true;
+        // Pick 2 protons + 2 neutrons
+        const protons = alphaScene.nucleons.filter(n => n.userData.isProton);
+        const neutrons = alphaScene.nucleons.filter(n => !n.userData.isProton);
+        const group = [protons[0], protons[1], neutrons[0], neutrons[1]];
+        // Flash them
+        group.forEach(n => alphaScene.flashNucleon(n, 0xfacc15, 800));
+        // After flash, group and eject
+        setTimeout(() => {
+            const center = new THREE.Vector3();
+            group.forEach(n => center.add(n.position));
+            center.divideScalar(4);
+            const dir = center.clone().normalize();
+            // Animate group outward
+            let step = 0;
+            const anim = setInterval(() => {
+                step += 0.025;
+                group.forEach((n, i) => {
+                    const offset = new THREE.Vector3(
+                        Math.sin(i)*0.4, Math.cos(i)*0.4, Math.sin(i+2)*0.4
+                    );
+                    n.position.copy(center).add(dir.clone().multiplyScalar(step * 6)).add(offset);
+                });
+                if (step > 1.5) {
+                    clearInterval(anim);
+                    // Leave yellow trail particles
+                    for (let k = 0; k < 8; k++) {
+                        alphaScene.emitParticle(
+                            group[0].position.clone(),
+                            dir.clone().add(new THREE.Vector3((Math.random()-0.5)*0.5, (Math.random()-0.5)*0.5, (Math.random()-0.5)*0.5)),
+                            0xfacc15, 0.12, 0.08 + Math.random()*0.08
+                        );
+                    }
+                }
+            }, 16);
+        }, 600);
+    });
+    document.getElementById('btnAlphaReset').addEventListener('click', () => alphaScene.reset());
+    document.getElementById('btnAlphaRotate').addEventListener('click', function() {
+        alphaScene.autoRotate = !alphaScene.autoRotate;
+        this.innerHTML = alphaScene.autoRotate ? '<i class="fas fa-stop"></i> Stop Rotate' : '<i class="fas fa-sync"></i> Auto-Rotate';
+    });
+
+    // ===== BETA-MINUS SCENE =====
+    const betaMinusScene = new NuclearScene('betaMinusScene', 6, 8, { sphereSize: 0.6, nucleusRadius: 3.2 });
+    document.getElementById('btnBetaMinusTrigger').addEventListener('click', () => {
+        if (betaMinusScene.isAnimating) return;
+        betaMinusScene.isAnimating = true;
+        const neutrons = betaMinusScene.nucleons.filter(n => !n.userData.isProton);
+        const target = neutrons[Math.floor(Math.random() * neutrons.length)];
+        betaMinusScene.flashNucleon(target, 0x3b82f6, 500);
+        setTimeout(() => {
+            target.userData.isProton = true;
+            target.userData.originalColor = 0xef4444;
+            target.userData.originalEmissive = 0x441111;
+            target.material.color.setHex(0xef4444);
+            target.material.emissive.setHex(0x441111);
+            // Emit electron
+            const eDir = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize();
+            betaMinusScene.emitParticle(target.position.clone(), eDir, 0x3b82f6, 0.2, 0.25);
+            // Emit antineutrino (faint, opposite direction)
+            betaMinusScene.emitParticle(target.position.clone(), eDir.clone().negate(), 0xa855f7, 0.1, 0.35);
+        }, 500);
+    });
+    document.getElementById('btnBetaMinusReset').addEventListener('click', () => betaMinusScene.reset());
+    document.getElementById('btnBetaMinusRotate').addEventListener('click', function() {
+        betaMinusScene.autoRotate = !betaMinusScene.autoRotate;
+        this.innerHTML = betaMinusScene.autoRotate ? '<i class="fas fa-stop"></i> Stop Rotate' : '<i class="fas fa-sync"></i> Auto-Rotate';
+    });
+
+    // ===== BETA-PLUS SCENE =====
+    const betaPlusScene = new NuclearScene('betaPlusScene', 9, 9, { sphereSize: 0.55, nucleusRadius: 3.5 });
+    document.getElementById('btnBetaPlusTrigger').addEventListener('click', () => {
+        if (betaPlusScene.isAnimating) return;
+        betaPlusScene.isAnimating = true;
+        const protons = betaPlusScene.nucleons.filter(n => n.userData.isProton);
+        const target = protons[Math.floor(Math.random() * protons.length)];
+        betaPlusScene.flashNucleon(target, 0x22c55e, 500);
+        setTimeout(() => {
+            target.userData.isProton = false;
+            target.userData.originalColor = 0x94a3b8;
+            target.userData.originalEmissive = 0x222233;
+            target.material.color.setHex(0x94a3b8);
+            target.material.emissive.setHex(0x222233);
+            const eDir = new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize();
+            betaPlusScene.emitParticle(target.position.clone(), eDir, 0x22c55e, 0.2, 0.25);
+            betaPlusScene.emitParticle(target.position.clone(), eDir.clone().negate(), 0xa855f7, 0.1, 0.35);
+        }, 500);
+    });
+    document.getElementById('btnBetaPlusReset').addEventListener('click', () => betaPlusScene.reset());
+    document.getElementById('btnBetaPlusRotate').addEventListener('click', function() {
+        betaPlusScene.autoRotate = !betaPlusScene.autoRotate;
+        this.innerHTML = betaPlusScene.autoRotate ? '<i class="fas fa-stop"></i> Stop Rotate' : '<i class="fas fa-sync"></i> Auto-Rotate';
+    });
+
+    // ===== GAMMA DECAY SCENE =====
+    const gammaScene = new NuclearScene('gammaScene', 20, 24, { sphereSize: 0.5, nucleusRadius: 4.0 });
+    document.getElementById('btnGammaTrigger').addEventListener('click', () => {
+        if (gammaScene.isAnimating) return;
+        gammaScene.isAnimating = true;
+        gammaScene.excited = true;
+        // Flash all nucleons brighter
+        gammaScene.nucleons.forEach(n => {
+            n.material.emissiveIntensity = 1.2;
+        });
+        setTimeout(() => {
+            gammaScene.excited = false;
+            gammaScene.nucleusGroup.position.set(0,0,0);
+            gammaScene.nucleons.forEach(n => {
+                n.material.emissiveIntensity = 0.3;
+            });
+            // Emit gamma photon (yellow expanding ring)
+            const ringGeo = new THREE.RingGeometry(0.2, 0.4, 32);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xfacc15, transparent: true, opacity: 0.9, side: THREE.DoubleSide });
+            const ring = new THREE.Mesh(ringGeo, ringMat);
+            ring.lookAt(gammaScene.camera.position);
+            gammaScene.scene.add(ring);
+            let scale = 1;
+            const ringAnim = setInterval(() => {
+                scale += 0.15;
+                ring.scale.set(scale, scale, 1);
+                ring.material.opacity = Math.max(0, 0.9 - (scale - 1) * 0.08);
+                if (ring.material.opacity <= 0) {
+                    clearInterval(ringAnim);
+                    gammaScene.scene.remove(ring);
+                }
+            }, 16);
+        }, 1500);
+    });
+    document.getElementById('btnGammaReset').addEventListener('click', () => gammaScene.reset());
+    document.getElementById('btnGammaRotate').addEventListener('click', function() {
+        gammaScene.autoRotate = !gammaScene.autoRotate;
+        this.innerHTML = gammaScene.autoRotate ? '<i class="fas fa-stop"></i> Stop Rotate' : '<i class="fas fa-sync"></i> Auto-Rotate';
+    });
+
+    // ===== HALF-LIFE SIMULATOR (Canvas 2D) =====
+    (function() {
+        const canvas = document.getElementById('halfLifeCanvas');
+        const ctx = canvas.getContext('2d');
+        const curveCanvas = document.getElementById('decayCurveCanvas');
+        const curveCtx = curveCanvas.getContext('2d');
+
+        function resizeCanvases() {
+            const dpr = Math.min(window.devicePixelRatio, 2);
+            [canvas, curveCanvas].forEach(c => {
+                const rect = c.parentElement.getBoundingClientRect();
+                c.width = rect.width * dpr;
+                c.height = 320 * dpr;
+                c.style.width = rect.width + 'px';
+                c.style.height = '320px';
+                const cctx = c.getContext('2d');
+                cctx.scale(dpr, dpr);
+            });
+        }
+        resizeCanvases();
+        window.addEventListener('resize', resizeCanvases);
+
+        const GRID_COLS = 10;
+        const GRID_ROWS = 10;
+        const TOTAL = GRID_COLS * GRID_ROWS;
+        let nuclei = [];
+        let history = [];
+        let running = false;
+        let halfLivesElapsed = 0;
+        let timer = null;
+
+        function initNuclei() {
+            nuclei = [];
+            for (let i = 0; i < TOTAL; i++) {
+                nuclei.push({ alive: true, decayTime: Math.random() });
+            }
+            history = [{ t: 0, n: TOTAL }];
+            halfLivesElapsed = 0;
+            updateStats();
+        }
+
+        function updateStats() {
+            const remaining = nuclei.filter(n => n.alive).length;
+            const decayed = TOTAL - remaining;
+            document.getElementById('statRemaining').textContent = remaining;
+            document.getElementById('statDecayed').textContent = decayed;
+            document.getElementById('statHalflives').textContent = halfLivesElapsed.toFixed(1);
+            document.getElementById('statPercent').textContent = Math.round((remaining / TOTAL) * 100) + '%';
+        }
+
+        function drawGrid() {
+            const w = canvas.width / Math.min(window.devicePixelRatio, 2);
+            const h = 320;
+            ctx.clearRect(0, 0, w, h);
+
+            const pad = 20;
+            const cellW = (w - pad * 2) / GRID_COLS;
+            const cellH = (h - pad * 2) / GRID_ROWS;
+
+            for (let i = 0; i < TOTAL; i++) {
+                const col = i % GRID_COLS;
+                const row = Math.floor(i / GRID_COLS);
+                const x = pad + col * cellW + cellW / 2;
+                const y = pad + row * cellH + cellH / 2;
+                const r = Math.min(cellW, cellH) * 0.35;
+
+                if (nuclei[i].alive) {
+                    // Glow effect
+                    const grad = ctx.createRadialGradient(x, y, r * 0.3, x, y, r * 1.5);
+                    grad.addColorStop(0, '#ef4444');
+                    grad.addColorStop(0.5, 'rgba(239,68,68,0.3)');
+                    grad.addColorStop(1, 'rgba(239,68,68,0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(x, y, r * 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#fca5a5';
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillStyle = 'rgba(148,163,184,0.15)';
+                    ctx.beginPath();
+                    ctx.arc(x, y, r * 0.6, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function drawCurve() {
+            const w = curveCanvas.width / Math.min(window.devicePixelRatio, 2);
+            const h = 320;
+            curveCtx.clearRect(0, 0, w, h);
+
+            const pad = { left: 40, right: 20, top: 20, bottom: 40 };
+            const graphW = w - pad.left - pad.right;
+            const graphH = h - pad.top - pad.bottom;
+
+            // Grid lines
+            curveCtx.strokeStyle = 'rgba(255,255,255,0.05)';
+            curveCtx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = pad.top + (graphH / 5) * i;
+                curveCtx.beginPath();
+                curveCtx.moveTo(pad.left, y);
+                curveCtx.lineTo(pad.left + graphW, y);
+                curveCtx.stroke();
+            }
+
+            // Axis labels
+            curveCtx.fillStyle = 'rgba(255,255,255,0.4)';
+            curveCtx.font = '11px Inter, sans-serif';
+            curveCtx.textAlign = 'right';
+            for (let i = 0; i <= 5; i++) {
+                const y = pad.top + (graphH / 5) * i;
+                curveCtx.fillText((100 - i * 20) + '%', pad.left - 8, y + 4);
+            }
+            curveCtx.textAlign = 'center';
+            curveCtx.fillText('0', pad.left, h - 10);
+            curveCtx.fillText('1', pad.left + graphW * 0.2, h - 10);
+            curveCtx.fillText('2', pad.left + graphW * 0.4, h - 10);
+            curveCtx.fillText('3', pad.left + graphW * 0.6, h - 10);
+            curveCtx.fillText('4', pad.left + graphW * 0.8, h - 10);
+            curveCtx.fillText('5', pad.left + graphW, h - 10);
+            curveCtx.fillText('Half-lives elapsed →', pad.left + graphW / 2, h - 2);
+
+            // Draw data
+            if (history.length > 1) {
+                curveCtx.strokeStyle = '#ef4444';
+                curveCtx.lineWidth = 2;
+                curveCtx.beginPath();
+                for (let i = 0; i < history.length; i++) {
+                    const pt = history[i];
+                    const x = pad.left + (pt.t / 5) * graphW;
+                    const y = pad.top + graphH - (pt.n / TOTAL) * graphH;
+                    if (i === 0) curveCtx.moveTo(x, y);
+                    else curveCtx.lineTo(x, y);
+                }
+                curveCtx.stroke();
+
+                // Dots
+                curveCtx.fillStyle = '#fca5a5';
+                for (let i = 0; i < history.length; i += Math.max(1, Math.floor(history.length / 20))) {
+                    const pt = history[i];
+                    const x = pad.left + (pt.t / 5) * graphW;
+                    const y = pad.top + graphH - (pt.n / TOTAL) * graphH;
+                    curveCtx.beginPath();
+                    curveCtx.arc(x, y, 3, 0, Math.PI * 2);
+                    curveCtx.fill();
+                }
+            }
+
+            // Theoretical curve
+            curveCtx.strokeStyle = 'rgba(255,255,255,0.15)';
+            curveCtx.lineWidth = 1;
+            curveCtx.setLineDash([4, 4]);
+            curveCtx.beginPath();
+            for (let x = 0; x <= graphW; x += 2) {
+                const t = (x / graphW) * 5;
+                const y = pad.top + graphH - (Math.pow(0.5, t)) * graphH;
+                if (x === 0) curveCtx.moveTo(pad.left + x, y);
+                else curveCtx.lineTo(pad.left + x, y);
+            }
+            curveCtx.stroke();
+            curveCtx.setLineDash([]);
+        }
+
+        function step() {
+            if (!running) return;
+            halfLivesElapsed += 0.05;
+            const survivalProb = Math.pow(0.5, 0.05);
+            let changed = false;
+            nuclei.forEach(n => {
+                if (n.alive && Math.random() > survivalProb) {
+                    n.alive = false;
+                    changed = true;
+                }
+            });
+            history.push({ t: halfLivesElapsed, n: nuclei.filter(n => n.alive).length });
+            if (history.length > 200) history.shift();
+            updateStats();
+            drawGrid();
+            drawCurve();
+            if (halfLivesElapsed < 5 && nuclei.some(n => n.alive)) {
+                timer = setTimeout(step, 80);
+            } else {
+                running = false;
+                document.getElementById('btnSimStart').innerHTML = '<i class="fas fa-play"></i> Start';
+            }
+        }
+
+        document.getElementById('btnSimStart').addEventListener('click', function() {
+            if (running) return;
+            if (halfLivesElapsed >= 5 || !nuclei.some(n => n.alive)) {
+                initNuclei();
+                drawGrid();
+                drawCurve();
+            }
+            running = true;
+            this.innerHTML = '<i class="fas fa-play"></i> Running...';
+            step();
+        });
+        document.getElementById('btnSimPause').addEventListener('click', function() {
+            running = false;
+            clearTimeout(timer);
+            document.getElementById('btnSimStart').innerHTML = '<i class="fas fa-play"></i> Start';
+        });
+        document.getElementById('btnSimReset').addEventListener('click', function() {
+            running = false;
+            clearTimeout(timer);
+            initNuclei();
+            drawGrid();
+            drawCurve();
+            document.getElementById('btnSimStart').innerHTML = '<i class="fas fa-play"></i> Start';
+        });
+
+        initNuclei();
+        drawGrid();
+        drawCurve();
+    })();
+
+    // ===== VALLEY OF STABILITY CHART (Canvas 2D) =====
+    (function() {
+        const canvas = document.getElementById('valleyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio, 2);
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = 320 * dpr;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = '320px';
+            ctx.scale(dpr, dpr);
+            draw();
+        }
+
+        // Key isotopes data: [Z, N, name, type]
+        // type: 'stable', 'betaMinus', 'betaPlus', 'alpha', 'fission'
+        const isotopes = [
+            [1,0,'H-1','stable'], [1,1,'H-2','stable'], [1,2,'H-3','betaMinus'],
+            [2,1,'He-3','stable'], [2,2,'He-4','stable'],
+            [6,6,'C-12','stable'], [6,7,'C-13','stable'], [6,8,'C-14','betaMinus'],
+            [7,7,'N-14','stable'], [7,8,'N-15','stable'],
+            [8,8,'O-16','stable'], [8,9,'O-17','stable'], [8,10,'O-18','stable'],
+            [9,10,'F-18','betaPlus'],
+            [11,12,'Na-22','betaPlus'], [11,13,'Na-23','stable'],
+            [17,18,'Cl-35','stable'], [17,20,'Cl-37','stable'],
+            [19,20,'K-39','stable'], [19,21,'K-40','betaMinus'], [19,22,'K-41','stable'],
+            [20,20,'Ca-40','stable'], [20,22,'Ca-42','stable'], [20,28,'Ca-48','betaMinus'],
+            [26,30,'Fe-56','stable'],
+            [43,56,'Tc-99m','gamma'],
+            [53,78,'I-131','betaMinus'],
+            [55,82,'Cs-137','betaMinus'],
+            [27,33,'Co-60','betaMinus'],
+            [82,124,'Pb-206','stable'], [82,125,'Pb-207','stable'], [82,126,'Pb-208','stable'],
+            [83,126,'Bi-209','stable'],
+            [84,125,'Po-212','alpha'],
+            [86,136,'Rn-222','alpha'],
+            [88,138,'Ra-226','alpha'],
+            [92,143,'U-235','alpha'], [92,146,'U-238','alpha'],
+            [94,145,'Pu-239','alpha'], [94,150,'Pu-244','alpha'],
+        ];
+
+        const colors = {
+            stable: '#22c55e',
+            betaMinus: '#3b82f6',
+            betaPlus: '#f97316',
+            alpha: '#ef4444',
+            gamma: '#facc15',
+            fission: '#a855f7'
+        };
+
+        let hovered = null;
+
+        function draw() {
+            const w = canvas.width / Math.min(window.devicePixelRatio, 2);
+            const h = 320;
+            ctx.clearRect(0, 0, w, h);
+
+            const pad = { left: 45, right: 20, top: 20, bottom: 40 };
+            const gw = w - pad.left - pad.right;
+            const gh = h - pad.top - pad.bottom;
+            const maxZ = 100;
+            const maxN = 160;
+
+            // Grid
+            ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 10; i++) {
+                const x = pad.left + (i / 10) * gw;
+                ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + gh); ctx.stroke();
+            }
+            for (let i = 0; i <= 8; i++) {
+                const y = pad.top + (i / 8) * gh;
+                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + gw, y); ctx.stroke();
+            }
+
+            // N=Z line
+            ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(pad.left, pad.top + gh);
+            ctx.lineTo(pad.left + (maxN / maxN) * gw * (maxZ / maxN), pad.top + gh - (maxZ / maxN) * gh);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Isotopes
+            isotopes.forEach(([z, n, name, type]) => {
+                const x = pad.left + (n / maxN) * gw;
+                const y = pad.top + gh - (z / maxZ) * gh;
+                const r = name === hovered ? 7 : 4.5;
+                ctx.fillStyle = colors[type] || '#fff';
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fill();
+                if (name === hovered) {
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '12px Inter, sans-serif';
+                    ctx.fillText(name + ' (' + type + ')', x + 12, y + 4);
+                }
+            });
+
+            // Axes
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.font = '12px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Neutrons (N) →', pad.left + gw / 2, h - 8);
+            ctx.save();
+            ctx.translate(14, pad.top + gh / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Protons (Z) →', 0, 0);
+            ctx.restore();
+        }
+
+        canvas.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            const mx = (e.clientX - rect.left);
+            const my = (e.clientY - rect.top);
+            const dpr = Math.min(window.devicePixelRatio, 2);
+            const w = rect.width;
+            const h = 320;
+            const pad = { left: 45, right: 20, top: 20, bottom: 40 };
+            const gw = w - pad.left - pad.right;
+            const gh = h - pad.top - pad.bottom;
+            const maxZ = 100;
+            const maxN = 160;
+
+            let closest = null;
+            let minDist = 12;
+            isotopes.forEach(([z, n, name]) => {
+                const x = pad.left + (n / maxN) * gw;
+                const y = pad.top + gh - (z / maxZ) * gh;
+                const dist = Math.hypot(mx - x, my - y);
+                if (dist < minDist) { minDist = dist; closest = name; }
+            });
+            if (closest !== hovered) { hovered = closest; draw(); }
+        });
+        canvas.addEventListener('mouseleave', () => { hovered = null; draw(); });
+
+        window.addEventListener('resize', resize);
+        resize();
+    })();
+    </script>
+</body>
+</html>
