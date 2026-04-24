@@ -856,13 +856,23 @@ class MaglevDemo {
         if (Math.abs(diff) < 0.5) {
             this.speed = this.targetSpeed;
             this.updateDisplay();
-            if (this.speed === 0) this.stopPropulsionAnim();
+            if (this.speed === 0) {
+                this.stopPropulsionAnim();
+                this.resetPropelButton();
+            }
             return;
         }
         
         this.speed += diff * 0.02;
         this.updateDisplay();
         requestAnimationFrame(() => this.animateSpeed());
+    }
+    
+    resetPropelButton() {
+        const btn = document.getElementById('propelBtn');
+        if (btn) {
+            btn.innerHTML = '<span class="btn-icon">⚡</span><span class="btn-label">Propel</span>';
+        }
     }
     
     emergencyStop() {
