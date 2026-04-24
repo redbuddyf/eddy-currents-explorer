@@ -19,6 +19,53 @@
     
     <!-- Favicon placeholder (you can add real icons later) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <style>
+        /* Coaster explosion effect */
+        .explosion-container {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            display: none;
+        }
+        .explosion-container.active { display: block; }
+        .explosion-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f97316;
+        }
+        .explosion-particle:nth-child(odd) { background: #ef4444; }
+        .explosion-particle:nth-child(3n) { background: #fbbf24; }
+        .explosion-particle:nth-child(5n) { background: #fff; }
+        .crash-message {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(239,68,68,0.9);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            z-index: 101;
+            display: none;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(239,68,68,0.5);
+            animation: crashShake 0.5s ease-in-out;
+        }
+        .crash-message.active { display: block; }
+        .crash-message small { display: block; font-size: 0.8rem; font-weight: 500; margin-top: 4px; opacity: 0.9; }
+        @keyframes explode {
+            0% { transform: translate(0,0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+        @keyframes crashShake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-2deg) scale(1.05); }
+            75% { transform: translate(-50%, -50%) rotate(2deg) scale(1.05); }
+        }
+    </style>
 </head>
 <body>
     <!-- Back to Science Unpacked -->
@@ -672,6 +719,11 @@
                             </svg>
                         </div>
                         
+                        <div class="explosion-container" id="explosionContainer"></div>
+                        <div class="crash-message" id="crashMessage">
+                            💥 CRASH!
+                            <small>Magnetic brakes were disabled</small>
+                        </div>
                         <div class="coaster-hud">
                             <div class="hud-panel">
                                 <div class="hud-stat">

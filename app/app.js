@@ -582,18 +582,27 @@ class CoasterDemo {
         
         // Check if finished (allow going slightly past 1 for smooth ending)
         if (this.progress >= 0.98) {
-            this.progress = 0.98;
-            this.isRunning = false;
-            this.velocity = 0;
-            this.updateBrakeZoneVisual(false);
-            
-            // Show mechanical brakes engaged
-            const mechBrakes = document.getElementById('mechanicalBrakes');
-            const mechStatus = document.getElementById('mechBrakeStatus');
-            if (mechBrakes) mechBrakes.setAttribute('opacity', '1');
-            if (mechStatus) mechStatus.style.display = 'block';
-            
-            console.log('Coaster finished! Mechanical brakes engaged.');
+            if (this.brakesEnabled) {
+                // Normal stop with mechanical brakes
+                this.progress = 0.98;
+                this.isRunning = false;
+                this.velocity = 0;
+                this.updateBrakeZoneVisual(false);
+                
+                const mechBrakes = document.getElementById('mechanicalBrakes');
+                const mechStatus = document.getElementById('mechBrakeStatus');
+                if (mechBrakes) mechBrakes.setAttribute('opacity', '1');
+                if (mechStatus) mechStatus.style.display = 'block';
+                
+                console.log('Coaster finished! Mechanical brakes engaged.');
+            } else {
+                // Brakes disabled! Let it fly off and explode
+                this.progress += 0.005;
+                if (this.progress >= 1.05) {
+                    this.isRunning = false;
+                    this.explode();
+                }
+            }
         }
         
         // Update visuals
@@ -605,6 +614,53 @@ class CoasterDemo {
         if (this.isRunning) {
             requestAnimationFrame((t) => this.animate(t));
         }
+    }
+    
+    explode() {
+        // Hide the train
+        const car = document.getElementById('coasterCar');
+        if (car) car.style.display = 'none';
+        
+        // Get train position for explosion origin
+        const container = document.querySelector('.track-container');
+        const explosion = document.getElementById('explosionContainer');
+        const crashMsg = document.getElementById('crashMessage');
+        if (!explosion || !container) return;
+        
+        // Position explosion at right side of track (where train flew off)
+        const rect = container.getBoundingClientRect();
+        explosion.style.left = (rect.width * 0.85) + 'px';
+        explosion.style.top = (rect.height * 0.5) + 'px';
+        explosion.innerHTML = '';
+        explosion.classList.add('active');
+        
+        // Create particles
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'explosion-particle';
+            const angle = (Math.PI * 2 * i) / 30;
+            const dist = 60 + Math.random() * 120;
+            const tx = Math.cos(angle) * dist;
+            const ty = Math.sin(angle) * dist;
+            p.style.setProperty('--tx', tx + 'px');
+            p.style.setProperty('--ty', ty + 'px');
+            p.style.animation = `explode ${0.4 + Math.random() * 0.4}s ease-out forwards`;
+            p.style.animationDelay = (Math.random() * 0.1) + 's';
+            explosion.appendChild(p);
+        }
+        
+        // Show crash message
+        if (crashMsg) crashMsg.classList.add('active');
+        
+        console.log('💥 COASTER CRASH! Brakes were disabled.');
+        
+        // Auto-reset after 3 seconds
+        setTimeout(() => {
+            if (crashMsg) crashMsg.classList.remove('active');
+            if (explosion) explosion.classList.remove('active');
+            if (car) car.style.display = '';
+            this.reset();
+        }, 3000);
     }
     
     updateSpeedLines() {
