@@ -541,11 +541,17 @@ class CoasterDemo {
         
         // Apply magnetic brakes if enabled and in brake zone
         if (inBrakeZone && this.brakesEnabled) {
-            this.velocity *= this.BRAKE_STRENGTH;
             this.updateBrakeZoneVisual(true);
             
-            // When magnetic brakes have slowed it below threshold, mechanical brakes engage
-            if (this.velocity < 3) {
+            // Smooth two-stage braking:
+            // Stage 1: Gentle exponential decay at high speed
+            // Stage 2: Linear subtraction at low speed for smooth stop
+            if (this.velocity > 8) {
+                this.velocity *= 0.94;
+            } else if (this.velocity > 0.3) {
+                this.velocity -= 0.12 * deltaTime;
+            } else {
+                // Final smooth stop
                 this.velocity = 0;
                 this.isRunning = false;
                 this.updateBrakeZoneVisual(false);
