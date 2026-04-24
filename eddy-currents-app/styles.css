@@ -1959,7 +1959,9 @@ body {
     right: 0;
     height: 150px;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200'%3E%3Cpath fill='%231e293b' d='M0,200 L0,150 L50,150 L50,100 L100,100 L100,120 L150,120 L150,80 L200,80 L200,140 L250,140 L250,60 L300,60 L300,130 L400,130 L400,90 L450,90 L450,150 L550,150 L550,70 L600,70 L600,110 L700,110 L700,140 L800,140 L800,50 L850,50 L850,120 L950,120 L950,100 L1000,100 L1000,160 L1100,160 L1100,80 L1150,80 L1150,140 L1200,140 L1200,200 Z'/%3E%3C/svg%3E") repeat-x bottom;
+    background-position: var(--city-offset, 0px) bottom;
     opacity: 0.5;
+    will-change: background-position;
 }
 
 .ground {
@@ -1969,6 +1971,7 @@ body {
     right: 0;
     height: 100px;
     background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+    overflow: hidden;
 }
 
 .guideway {
@@ -2202,10 +2205,6 @@ body {
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
-}
-
-.speed-lines.active {
-    opacity: 1;
 }
 
 .speed-lines span {
@@ -3241,98 +3240,58 @@ body {
 
     50% { transform: translateY(0.4px); }
 }
-/* ===== MAGLEV MOVEMENT ===== */
+/* ===== MAGLEV MOVEMENT - SPEED-RESPONSIVE ===== */
 
-/* Gentle hover when levitating */
+/* Gentle hover when levitating - always smooth */
 .maglev-train.levitating {
     animation: trainHover 2.4s ease-in-out infinite;
 }
 
 @keyframes trainHover {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    50% { transform: translateY(-5px); }
 }
 
-/* Smooth background scrolling - controlled by play-state */
+/* Coils scroll via JS transform for speed-matched movement */
 .guideway-coils {
-    animation: coilScroll 0.5s linear infinite;
-    animation-play-state: paused;
-}
-.guideway-coils.moving {
-    animation-play-state: running;
-}
-@keyframes coilScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-80px); }
+    will-change: transform;
 }
 
-/* City scroll */
-.city-silhouette {
-    animation: bgScroll 8s linear infinite;
-    animation-play-state: paused;
-}
-.scene-bg.moving .city-silhouette {
-    animation-play-state: running;
-}
-@keyframes bgScroll {
-    0% { background-position: 0 bottom; }
-    100% { background-position: -1200px bottom; }
-}
-
-/* Ground track marks */
+/* Ground track marks via JS transform on pseudo-element */
 .ground::after {
     content: '';
     position: absolute;
     inset: 0;
     background: repeating-linear-gradient(
         90deg,
-        transparent 0px, transparent 50px,
-        rgba(255,255,255,0.025) 50px, rgba(255,255,255,0.025) 52px,
-        transparent 52px, transparent 100px
+        transparent 0px, transparent 40px,
+        rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 42px,
+        transparent 42px, transparent 80px
     );
-    background-size: 100px 100%;
-    animation: trackScroll 0.5s linear infinite;
-    animation-play-state: paused;
-}
-.scene-bg.moving .ground::after {
-    animation-play-state: running;
-}
-@keyframes trackScroll {
-    0% { background-position: 0 0; }
-    100% { background-position: -100px 0; }
+    background-size: 80px 100%;
+    transform: translateX(var(--ground-offset, 0px));
+    will-change: transform;
 }
 
-/* Speed lines */
-.speed-lines span {
-    animation: speedLine 0.5s ease-out infinite;
-    animation-play-state: paused;
+/* Motion blur at high speed */
+.maglev-train.fast .train-body {
+    position: relative;
 }
-.speed-lines.active span {
-    animation-play-state: running;
-}
-.speed-lines span:nth-child(1) { top: 18%; right: -80px; width: 80px; animation-delay: 0s; }
-.speed-lines span:nth-child(2) { top: 32%; right: -140px; width: 140px; animation-delay: 0.12s; }
-.speed-lines span:nth-child(3) { top: 48%; right: -60px; width: 60px; animation-delay: 0.24s; }
-.speed-lines span:nth-child(4) { top: 62%; right: -110px; width: 110px; animation-delay: 0.08s; }
-.speed-lines span:nth-child(5) { top: 38%; right: -90px; width: 90px; animation-delay: 0.18s; }
-.speed-lines span:nth-child(6) { top: 55%; right: -130px; width: 130px; animation-delay: 0.04s; }
-
-@keyframes speedLine {
-    0% { transform: translateX(0) scaleX(1); opacity: 0; }
-    15% { opacity: 0.7; }
-    100% { transform: translateX(-500px) scaleX(0.2); opacity: 0; }
-}
-
-/* Motion blur streak at speed */
 .maglev-train.fast .train-body::after {
     content: '';
     position: absolute;
     right: 85%;
-    top: 20%;
-    bottom: 20%;
-    width: 160px;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+    top: 15%;
+    bottom: 15%;
+    width: 200px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%);
     border-radius: 50%;
-    filter: blur(10px);
+    filter: blur(14px);
     pointer-events: none;
+    animation: blurFade 1s ease-in-out infinite alternate;
+}
+
+@keyframes blurFade {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
 }

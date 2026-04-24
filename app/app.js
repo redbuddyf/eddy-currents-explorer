@@ -780,6 +780,13 @@ class MaglevDemo {
         this.propulsionInterval = null;
         this.phaseIndex = 0;
         
+        // Visual scroll state - JS-driven for smooth speed-linked parallax
+        this.coilOffset = 0;
+        this.groundOffset = 0;
+        this.cityOffset = 0;
+        this.visualRafId = null;
+        this.lastVisualTime = 0;
+        
         this.init();
     }
     
@@ -859,6 +866,7 @@ class MaglevDemo {
             if (this.speed === 0) {
                 this.stopPropulsionAnim();
                 this.resetPropelButton();
+                this.stopVisualLoop();
             }
             return;
         }
@@ -881,6 +889,13 @@ class MaglevDemo {
         this.speed = 0;
         this.updateDisplay();
         this.stopPropulsionAnim();
+        this.stopVisualLoop();
+        
+        // Reset scroll positions so next start is clean
+        this.coilOffset = 0;
+        this.groundOffset = 0;
+        this.cityOffset = 0;
+        this.applyScrollPositions();
         
         // Also land the train
         if (this.isLevitating) {
@@ -894,7 +909,7 @@ class MaglevDemo {
             const text = document.querySelector('.status-text');
             const levBtn = document.getElementById('levitateBtn');
             
-            if (train) train.classList.remove('levitating');
+            if (train) train.classList.remove('levitating', 'fast');
             if (glow) glow.classList.remove('active');
             if (fields) fields.classList.remove('active');
             if (gap) gap.classList.remove('active');
@@ -912,24 +927,77 @@ class MaglevDemo {
         if (btn) btn.innerHTML = '<span class="btn-icon">⚡</span><span class="btn-label">Propel</span>';
     }
     
+    /* ===== JS-driven visual parallax loop ===== */
+    startVisualLoop() {
+        if (this.visualRafId) return;
+        this.lastVisualTime = performance.now();
+        this.visualRafId = requestAnimationFrame((t) => this.visualTick(t));
+    }
+    
+    stopVisualLoop() {
+        if (this.visualRafId) {
+            cancelAnimationFrame(this.visualRafId);
+            this.visualRafId = null;
+        }
+    }
+    
+    visualTick(timestamp) {
+        // Frame-rate-independent scrolling, clamped to avoid big jumps on tab switch
+        const dt = Math.min((timestamp - this.lastVisualTime) / 16.667, 3);
+        this.lastVisualTime = timestamp;
+        
+        const s = this.speed;
+        
+        // Scroll speeds proportional to train speed (km/h → px/frame factor)
+        // Different layers = different multipliers for parallax depth
+        this.coilOffset   = (this.coilOffset   + s * 0.22 * dt) % 80;
+        this.groundOffset = (this.groundOffset + s * 0.28 * dt) % 80;
+        this.cityOffset   = (this.cityOffset   + s * 0.045 * dt) % 1200;
+        
+        this.applyScrollPositions();
+        
+        // Continue loop while train is moving or accelerating/decelerating
+        if (s > 0.5 || this.targetSpeed > 0) {
+            this.visualRafId = requestAnimationFrame((t) => this.visualTick(t));
+        } else {
+            this.visualRafId = null;
+        }
+    }
+    
+    applyScrollPositions() {
+        const coils = document.querySelector('.guideway-coils');
+        const ground = document.querySelector('.ground');
+        const city = document.querySelector('.city-silhouette');
+        
+        if (coils) coils.style.transform = `translateX(-${this.coilOffset.toFixed(1)}px)`;
+        if (ground) ground.style.setProperty('--ground-offset', `-${this.groundOffset.toFixed(1)}px`);
+        if (city) city.style.setProperty('--city-offset', `-${this.cityOffset.toFixed(1)}px`);
+    }
+    
     updateDisplay() {
         const speedEl = document.getElementById('trainSpeed');
         const bar = document.getElementById('speedBarFill');
         const lines = document.getElementById('speedLines');
         const train = document.getElementById('maglevTrain');
-        const coils = document.querySelector('.guideway-coils');
-        const sceneBg = document.querySelector('.scene-bg');
         
         if (speedEl) speedEl.textContent = Math.round(this.speed);
         if (bar) bar.style.width = `${(this.speed / 603) * 100}%`;
-        if (lines) lines.classList.toggle('active', this.speed > 100);
         
-        // Movement animations - only on/off, no speed changes to avoid jumps
-        const isMoving = this.speed > 10;
-        if (train) train.classList.toggle('moving', isMoving);
-        if (coils) coils.classList.toggle('moving', isMoving);
-        if (sceneBg) sceneBg.classList.toggle('moving', isMoving);
-        if (lines) lines.classList.toggle('active', this.speed > 100);
+        // Speed lines fade in smoothly as speed builds
+        if (lines) {
+            const lineOpacity = Math.min(Math.max((this.speed - 40) / 200, 0), 1);
+            lines.style.opacity = lineOpacity;
+        }
+        
+        // Motion blur and "fast" feel at high speed
+        if (train) {
+            train.classList.toggle('fast', this.speed > 320);
+        }
+        
+        // Kick off the JS visual loop whenever there's movement
+        if (this.speed > 0.5 || this.targetSpeed > 0) {
+            this.startVisualLoop();
+        }
     }
     
     startPropulsionAnim() {
