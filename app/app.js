@@ -924,24 +924,12 @@ class MaglevDemo {
         if (bar) bar.style.width = `${(this.speed / 603) * 100}%`;
         if (lines) lines.classList.toggle('active', this.speed > 100);
         
-        // Movement animations based on speed
+        // Movement animations - only on/off, no speed changes to avoid jumps
         const isMoving = this.speed > 10;
-        const isFast = this.speed > 300;
-        if (train) {
-            train.classList.toggle('moving', isMoving);
-            train.classList.toggle('fast', isFast);
-        }
-        if (coils) {
-            coils.classList.toggle('moving', isMoving);
-            coils.classList.toggle('fast', isFast);
-        }
-        if (sceneBg) {
-            sceneBg.classList.toggle('moving', isMoving);
-            sceneBg.classList.toggle('fast', isFast);
-        }
-        if (lines) lines.classList.toggle('fast', isFast);
-        const track = document.querySelector('.guideway-track');
-        if (track) track.classList.toggle('moving', isMoving);
+        if (train) train.classList.toggle('moving', isMoving);
+        if (coils) coils.classList.toggle('moving', isMoving);
+        if (sceneBg) sceneBg.classList.toggle('moving', isMoving);
+        if (lines) lines.classList.toggle('active', this.speed > 100);
     }
     
     startPropulsionAnim() {
