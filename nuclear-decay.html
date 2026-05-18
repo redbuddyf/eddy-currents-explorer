@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuclear Instability & Decay | Science Unpacked</title>
+    <title>Chapter 1: The Atomic Nucleus &amp; Radioactive Decay | Science Unpacked</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +48,526 @@
             color: var(--text-muted);
             max-width: 700px;
         }
+
+        /* ===== LEARNING COMPONENT STYLES ===== */
+        .physics-inquiry {
+            background: linear-gradient(135deg, rgba(20,184,166,0.08) 0%, rgba(6,182,212,0.08) 100%);
+            border: 2px dashed rgba(20,184,166,0.3);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin: 40px 0;
+        }
+        .physics-inquiry-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .physics-inquiry-header i {
+            font-size: 1.5rem;
+            color: #14b8a6;
+        }
+        .physics-inquiry h3 {
+            font-size: 1.3rem;
+            color: #5eead4;
+            margin: 0;
+        }
+        .physics-inquiry h4 {
+            font-size: 1rem;
+            color: var(--text);
+            margin: 20px 0 10px;
+        }
+        .physics-inquiry ol, .physics-inquiry ul {
+            padding-left: 24px;
+            color: var(--text-muted);
+        }
+        .physics-inquiry li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .worked-example {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 28px 0;
+            border-top: 3px solid #f97316;
+        }
+        .worked-example-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .worked-example-header i { color: #f97316; font-size: 1.2rem; }
+        .worked-example h4 {
+            font-size: 1.1rem;
+            color: #fdba74;
+            margin: 0;
+        }
+        .worked-example-topic {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+        .worked-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        .worked-table th {
+            width: 50%;
+            padding: 12px 16px;
+            text-align: left;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 2px solid var(--border);
+            color: #fdba74;
+            font-weight: 600;
+        }
+        .worked-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            vertical-align: top;
+        }
+
+        .try-yourself {
+            background: linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(124,58,237,0.08) 100%);
+            border: 1px solid rgba(139,92,246,0.2);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 28px 0;
+        }
+        .try-yourself h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #c4b5fd;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+        .try-yourself h4 i { color: #a78bfa; }
+        .try-yourself .solution {
+            display: none;
+            margin-top: 16px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius);
+            border-left: 3px solid #a78bfa;
+        }
+        .try-yourself .solution.visible { display: block; }
+        .try-yourself .solution-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(139,92,246,0.15);
+            border: 1px solid rgba(139,92,246,0.3);
+            color: #c4b5fd;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .try-yourself .solution-toggle:hover {
+            background: rgba(139,92,246,0.25);
+        }
+
+        .physics-file {
+            background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(37,99,235,0.08) 100%);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .physics-file-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .physics-file-header span {
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .physics-file h4 {
+            color: #93c5fd;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+        .physics-file p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .physics-in-action {
+            background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(5,150,105,0.08) 100%);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 28px 0;
+        }
+        .physics-in-action-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .physics-in-action-header span {
+            background: rgba(16,185,129,0.15);
+            color: #34d399;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .physics-in-action h4 {
+            color: #6ee7b7;
+            font-size: 1.15rem;
+            margin-bottom: 12px;
+        }
+        .physics-in-action p, .physics-in-action li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .recite-review {
+            background: linear-gradient(135deg, rgba(234,179,8,0.08) 0%, rgba(202,138,4,0.08) 100%);
+            border: 1px solid rgba(234,179,8,0.2);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .recite-review-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .recite-review-header i { color: #facc15; }
+        .recite-review h4 {
+            color: #fde047;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .recite-review p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .recite-review .recite-summary {
+            display: none;
+            padding: 16px;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius);
+            border-left: 3px solid #facc15;
+            margin-top: 12px;
+        }
+        .recite-review .recite-summary.visible { display: block; }
+        .recite-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(234,179,8,0.15);
+            border: 1px solid rgba(234,179,8,0.3);
+            color: #fde047;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .recite-toggle:hover { background: rgba(234,179,8,0.25); }
+
+        .self-test {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .self-test-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .self-test-header i { color: #f472b6; }
+        .self-test h4 {
+            color: #f9a8d4;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .self-test-question {
+            margin-bottom: 16px;
+            color: var(--text);
+            font-size: 1rem;
+        }
+        .self-test-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .self-test-option {
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .self-test-option:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.12);
+        }
+        .self-test-option.correct {
+            background: rgba(34,197,94,0.15);
+            border-color: rgba(34,197,94,0.4);
+            color: #86efac;
+        }
+        .self-test-option.incorrect {
+            background: rgba(239,68,68,0.15);
+            border-color: rgba(239,68,68,0.4);
+            color: #fca5a5;
+        }
+        .self-test-feedback {
+            display: none;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        .self-test-feedback.correct {
+            display: block;
+            background: rgba(34,197,94,0.1);
+            color: #86efac;
+            border: 1px solid rgba(34,197,94,0.2);
+        }
+        .self-test-feedback.incorrect {
+            display: block;
+            background: rgba(239,68,68,0.1);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+
+        .elaboration-prompt {
+            background: linear-gradient(135deg, rgba(236,72,153,0.08) 0%, rgba(219,39,119,0.08) 100%);
+            border: 1px solid rgba(236,72,153,0.2);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .elaboration-prompt h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f9a8d4;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        .elaboration-prompt h4 i { color: #f472b6; }
+        .elaboration-prompt p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .elaboration-prompt textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .elaboration-prompt textarea:focus {
+            outline: none;
+            border-color: rgba(236,72,153,0.4);
+        }
+
+        .section-review {
+            background: var(--surface);
+            border: 2px dashed rgba(239,68,68,0.3);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin: 40px 0;
+        }
+        .section-review h3 {
+            font-size: 1.5rem;
+            color: #fca5a5;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-review h3 i { color: #ef4444; }
+        .section-review .review-summary {
+            background: rgba(255,255,255,0.03);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        .section-review .review-summary h4 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .section-review .review-summary ul {
+            padding-left: 20px;
+            color: var(--text-muted);
+        }
+        .section-review .review-summary li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .section-review .key-questions h4 {
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .section-review .key-questions ol {
+            padding-left: 24px;
+            color: var(--text-muted);
+        }
+        .section-review .key-questions li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* ===== FLASHCARD WIDGET ===== */
+        .flashcard-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+        }
+        .flashcard-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(239,68,68,0.3);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flashcard-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(239,68,68,0.4);
+        }
+        .flashcard-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            width: 360px;
+            max-width: calc(100vw - 48px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            display: none;
+            z-index: 100;
+        }
+        .flashcard-panel.visible { display: block; }
+        .flashcard-panel h4 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        .flashcard-panel h4 i { color: #ef4444; }
+        .flashcard-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .flashcard-card {
+            background: linear-gradient(135deg, var(--background) 0%, var(--surface-light) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 24px;
+            text-align: center;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 16px;
+        }
+        .flashcard-card:hover { border-color: rgba(239,68,68,0.3); }
+        .flashcard-card .term {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .flashcard-card .definition {
+            display: none;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        .flashcard-card.flipped .term { display: none; }
+        .flashcard-card.flipped .definition { display: block; }
+        .flashcard-progress {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        .flashcard-nav button {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+        .flashcard-nav button:hover { background: rgba(255,255,255,0.1); }
+        .flashcard-nav button.known { color: #86efac; border-color: rgba(34,197,94,0.3); }
+        .flashcard-nav button.unknown { color: #fca5a5; border-color: rgba(239,68,68,0.3); }
 
         .chapter-grid {
             display: grid;
@@ -313,7 +833,7 @@
             gap: 10px;
         }
         .sim-panel-body { padding: 20px; }
-        #halfLifeCanvas, #valleyCanvas {
+        #halfLifeCanvas, #decayCurveCanvas {
             width: 100%;
             height: 320px;
             background: #020208;
@@ -407,12 +927,13 @@
     <!-- Hero -->
     <section class="nuclear-hero">
         <div class="container">
-            <span class="section-tag"><i class="fas fa-radiation"></i> Depth Study</span>
-            <h1>Nuclear Instability &amp; Decay</h1>
+            <span class="section-tag"><i class="fas fa-book-open"></i> Chapter 1</span>
+            <h1>The Atomic Nucleus &amp; Radioactive Decay</h1>
             <p class="section-subtitle">
-                How do different isotopes exhibit varying modes and rates of radioactive decay, 
-                and what factors influence their stability? An interactive exploration of the forces 
-                that hold nuclei together — and the processes that tear them apart.
+                What is inside the atomic nucleus? Why do some nuclei stay stable for billions of years
+                while others break apart in fractions of a second? Explore the forces that bind nucleons
+                together, the conditions that make nuclei unstable, and the remarkable ways atoms transform
+                themselves — with interactive 3D visualisations and real-world applications.
             </p>
         </div>
     </section>
@@ -426,25 +947,170 @@
                     <div class="chapter-sidebar-card">
                         <h3><i class="fas fa-list"></i> Contents</h3>
                         <ul class="chapter-toc-list">
-                            <li><a href="#instability" class="active">1. Nuclear Instability</a></li>
-                            <li><a href="#alpha">2. Alpha Decay</a></li>
-                            <li><a href="#beta-minus">3. Beta-Minus Decay</a></li>
-                            <li><a href="#beta-plus">4. Beta-Plus Decay</a></li>
-                            <li><a href="#gamma">5. Gamma Decay</a></li>
-                            <li><a href="#halflife">6. Half-Life &amp; Rates</a></li>
-                            <li><a href="#valley">7. Valley of Stability</a></li>
-                            <li><a href="#applications">8. Applications</a></li>
-                            <li><a href="#equations">9. Key Equations</a></li>
-                            <li><a href="#summary">10. Summary</a></li>
+                            <li><a href="#nucleus" class="active">1.1 Inside the Nucleus</a></li>
+                            <li><a href="#forces">1.2 Nuclear Forces &amp; Binding</a></li>
+                            <li><a href="#instability">1.3 Why Nuclei Decay</a></li>
+                            <li><a href="#decay">1.4 Modes of Radioactive Decay</a></li>
+                            <li><a href="#halflife">1.5 Half-Life &amp; Mathematics</a></li>
+                            <li><a href="#applications">1.6 Applications</a></li>
+                            <li><a href="#review">1.7 Chapter Review</a></li>
                         </ul>
                     </div>
                 </aside>
 
                 <!-- Main Content -->
                 <main class="chapter-main">
-                    <!-- 1. NUCLEAR INSTABILITY -->
+                    <!-- 1.1 INSIDE THE NUCLEUS -->
+                    <article id="nucleus">
+                        <h2><i class="fas fa-atom"></i> 1.1 Inside the Nucleus</h2>
+                        <p>
+                            Every atom has a tiny core at its centre — the <strong>nucleus</strong>. It contains two types of particles: positively charged <strong>protons</strong> and electrically neutral <strong>neutrons</strong>. Together, these are called <strong>nucleons</strong>. The number of protons determines what element the atom is; the number of neutrons determines which <strong>isotope</strong> of that element it is.
+                        </p>
+                        <p>
+                            We describe any nucleus using standard nuclear notation. The <strong>atomic number</strong> (<em>Z</em>) is the number of protons. The <strong>mass number</strong> (<em>A</em>) is the total number of protons plus neutrons. The number of neutrons is therefore <em>N = A &minus; Z</em>.
+                        </p>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">
+                                <sup>A</sup><sub>Z</sub>X
+                            </div>
+                            <div class="nuclear-formula-desc">
+                                <strong>X</strong> = element symbol &nbsp;|&nbsp; <strong>Z</strong> = atomic number (protons) &nbsp;|&nbsp; <strong>A</strong> = mass number (nucleons)
+                            </div>
+                        </div>
+
+                        <p>
+                            <strong>Isotopes</strong> are atoms of the same element that have different numbers of neutrons. For example, carbon-12 (<sup>12</sup><sub>6</sub>C) has 6 protons and 6 neutrons, while carbon-14 (<sup>14</sup><sub>6</sub>C) has 6 protons and 8 neutrons. Carbon-12 is stable; carbon-14 is radioactive and decays over time. An unstable isotope is called a <strong>radioisotope</strong>.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> Key distinctions</h4>
+                            <ul>
+                                <li><strong>Nucleon</strong> = any particle in the nucleus (proton or neutron)</li>
+                                <li><strong>Isotope</strong> = same element, different neutron count</li>
+                                <li><strong>Radioisotope</strong> = an unstable isotope that undergoes radioactive decay</li>
+                                <li><strong>Nuclide</strong> = a specific combination of protons and neutrons</li>
+                            </ul>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite in your own words: What is the difference between atomic number and mass number?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>The atomic number (<em>Z</em>) is the number of protons in the nucleus, which defines the element. The mass number (<em>A</em>) is the total number of protons plus neutrons. The atomic number never changes for a given element, but different isotopes have different mass numbers because they contain different numbers of neutrons.</p>
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">1. What is the collective term used for protons and neutrons?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q1')">Electrons</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q1')">Nucleons</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q1')">Isotopes</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q1')">Quarks</button>
+                            </div>
+                            <div class="self-test-feedback" id="q1-feedback">Nucleons is the collective term for protons and neutrons, the particles that make up the nucleus.</div>
+                        </div>
+
+                        <div class="elaboration-prompt">
+                            <h4><i class="fas fa-brain"></i> Elaboration: Connect to chemistry</h4>
+                            <p>In chemistry you learned about electrons and electron shells. How does the behaviour of electrons in chemical reactions compare to the behaviour of nucleons in nuclear reactions? Write your thoughts:</p>
+                            <textarea placeholder="Chemical reactions involve electrons... Nuclear reactions involve the nucleus... (This is for your own learning — your answer is not stored.)"></textarea>
+                        </div>
+                    </article>
+                    <!-- 1.2 NUCLEAR FORCES & BINDING ENERGY -->
+                    <article id="forces">
+                        <h2><i class="fas fa-magnet"></i> 1.2 Nuclear Forces &amp; Binding Energy</h2>
+                        <p>
+                            The nucleus of an atom is a battlefield of competing forces. On one side, the <strong>strong nuclear force</strong> — the most powerful force in nature — pulls protons and neutrons together, binding them into a dense cluster just femtometres across. On the other side, the <strong>electromagnetic force</strong> relentlessly pushes protons apart, since each carries a positive charge and like charges repel.
+                        </p>
+                        <p>
+                            For light nuclei, the strong force dominates. Add too many protons, however, and the cumulative electrostatic repulsion grows faster than the strong force can compensate. Beyond a certain point — roughly iron-56 on the periodic table — adding more nucleons actually <em>reduces</em> the binding energy per particle. The nucleus becomes unstable. It must shed mass and energy to reach a more stable configuration.
+                        </p>
+                        <p>
+                            This is the origin of <strong>radioactive decay</strong>: an unstable nucleus spontaneously transforms into a different nucleus, releasing energy and/or particles in the process. The decay is random for any individual nucleus, but follows precise statistical laws when applied to large populations.
+                        </p>
+
+                                                <h3>The Four Fundamental Forces in the Nucleus</h3>
+                        <p>
+                            Only two of the four fundamental forces operate inside the nucleus. Gravity is impossibly weak at nuclear scales — a proton-proton gravitational attraction is roughly 10<sup>38</sup> times weaker than their electromagnetic repulsion. The weak nuclear force, while important in beta decay, has an even shorter range than the strong force and does not bind nucleons together.
+                        </p>
+                        <p>
+                            The strong nuclear force is unique: it is <em>charge-independent</em> (it acts equally between proton-proton, neutron-neutron, and proton-neutron pairs) and <em>saturates</em> (each nucleon only interacts with its immediate neighbours, not the entire nucleus). This saturation explains why nuclear density is roughly constant — all nuclei have approximately the same density as a droplet of water, compressed into a sphere 10,000 times smaller in radius.
+                        </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> The binding energy puzzle</h4>
+                            <ul>
+                                <li>If you add up the masses of all the individual protons and neutrons in a nucleus, you get a <em>larger</em> number than the actual mass of the nucleus.</li>
+                                <li>The difference is called the <strong>mass defect</strong> (Δm).</li>
+                                <li>Einstein's equation <strong>E = mc²</strong> tells us this missing mass was converted into the energy that binds the nucleus together — the <strong>binding energy</strong>.</li>
+                                <li>The more binding energy per nucleon, the more stable the nucleus.</li>
+                            </ul>
+                        </div>
+
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">E = mc² &rarr; BE = [Z m<sub>p</sub> + N m<sub>n</sub> &minus; m<sub>nucleus</sub>] c²</div>
+                            <div class="nuclear-formula-desc">Nuclear binding energy — the mass defect converted to energy</div>
+                        </div>
+
+                        <div class="physics-file">
+                            <div class="physics-file-header">
+                                <span>Physics File</span>
+                            </div>
+                            <h4>Heavy water</h4>
+                            <p>A compound of oxygen and deuterium has identical chemical properties to ordinary water. However, the molecular mass of ordinary water is about 18 (16 + 1 + 1), while the molecular mass of water containing deuterium is 20 (16 + 2 + 2). Thus, water that contains deuterium has a higher density (by about 11%) and is commonly known as 'heavy water'. One use of heavy water is in nuclear reactors.</p>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite the main points in your own words. Why does the strong nuclear force have to be so much stronger than the electromagnetic force for nuclei to exist?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>Every proton in the nucleus repels every other proton via the electromagnetic force. The strong nuclear force must overcome this repulsion to hold the nucleus together. It is roughly 100 times stronger than the electromagnetic force at nuclear distances, but it has a very short range (about 1&ndash;3 fm). Without the strong force, no nucleus larger than hydrogen-1 could exist.</p>
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">2. Which two fundamental forces are most important inside the nucleus?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q2')">Gravity and electromagnetism</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q2')">Gravity and weak force</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q2')">Strong nuclear and electromagnetic</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q2')">Weak and electromagnetic</button>
+                            </div>
+                            <div class="self-test-feedback" id="q2-feedback">The strong nuclear force binds nucleons together, while the electromagnetic force pushes protons apart. The competition between these two forces determines whether a nucleus is stable.</div>
+                        </div>
+
+                        <div class="elaboration-prompt">
+                            <h4><i class="fas fa-brain"></i> Elaboration: Why does this matter?</h4>
+                            <p>Explain in your own words: <strong>If the strong nuclear force were just slightly weaker, how would the universe be different?</strong></p>
+                            <textarea placeholder="Type your explanation here... (This is for your own learning — your answer is not stored.)"></textarea>
+                        </div>
+                    </article>
+                    <!-- 1.3 WHY NUCLEI DECAY -->
                     <article id="instability">
-                        <h2><i class="fas fa-atom"></i> 1. Nuclear Instability</h2>
+                        <h2><i class="fas fa-mountain"></i> 1.3 Why Nuclei Decay</h2>
+                        
                         <p>
                             The nucleus of an atom is a battlefield of competing forces. On one side, the <strong>strong nuclear force</strong> — the most powerful force in nature — pulls protons and neutrons together, binding them into a dense cluster just femtometres across. On the other side, the <strong>electromagnetic force</strong> relentlessly pushes protons apart, since each carries a positive charge and like charges repel.
                         </p>
@@ -465,18 +1131,115 @@
                             </ul>
                         </div>
 
-                        <h3>The Four Fundamental Forces in the Nucleus</h3>
-                        <p>
-                            Only two of the four fundamental forces operate inside the nucleus. Gravity is impossibly weak at nuclear scales — a proton-proton gravitational attraction is roughly 10<sup>38</sup> times weaker than their electromagnetic repulsion. The weak nuclear force, while important in beta decay, has an even shorter range than the strong force and does not bind nucleons together.
-                        </p>
-                        <p>
-                            The strong nuclear force is unique: it is <em>charge-independent</em> (it acts equally between proton-proton, neutron-neutron, and proton-neutron pairs) and <em>saturates</em> (each nucleon only interacts with its immediate neighbours, not the entire nucleus). This saturation explains why nuclear density is roughly constant — all nuclei have approximately the same density as a droplet of water, compressed into a sphere 10,000 times smaller in radius.
-                        </p>
-                    </article>
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite the main points in your own words. What makes a nucleus unstable?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>A nucleus becomes unstable when the electrostatic repulsion between protons overcomes the strong nuclear force that binds nucleons together. Key factors include: an unfavourable proton-neutron ratio, having too many total nucleons (heavier than lead-208), not having "magic numbers" of nucleons, and having odd numbers of protons or neutrons.</p>
+                            </div>
+                        </div>
 
-                    <!-- 2. ALPHA DECAY -->
-                    <article id="alpha">
-                        <h2><i class="fas fa-angles-right"></i> 2. Alpha Decay</h2>
+                        
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-lightbulb"></i> What makes a nucleus unstable?</h4>
+                            <ul>
+                                <li><strong>Proton-neutron ratio:</strong> Light stable nuclei have roughly equal protons and neutrons. Heavier nuclei need extra neutrons to dilute proton repulsion.</li>
+                                <li><strong>Total nucleon number:</strong> Nuclei heavier than lead-208 are inherently unstable due to the short range of the strong force.</li>
+                                <li><strong>Shell structure:</strong> Nucleons occupy discrete energy levels. "Magic numbers" (2, 8, 20, 28, 50, 82, 126) confer extra stability.</li>
+                                <li><strong>Pairing effect:</strong> Even numbers of protons and neutrons are more stable than odd numbers.</li>
+                            </ul>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite the main points in your own words. What makes a nucleus unstable?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>A nucleus becomes unstable when the electrostatic repulsion between protons overcomes the strong nuclear force that binds nucleons together. Key factors include: an unfavourable proton-neutron ratio, having too many total nucleons (heavier than lead-208), not having "magic numbers" of nucleons, and having odd numbers of protons or neutrons.</p>
+                            </div>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite the main points in your own words. What makes a nucleus unstable?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>A nucleus becomes unstable when the electrostatic repulsion between protons overcomes the strong nuclear force that binds nucleons together. Key factors include: an unfavourable proton-neutron ratio, having too many total nucleons (heavier than lead-208), not having "magic numbers" of nucleons, and having odd numbers of protons or neutrons.</p>
+                            </div>
+                        </div>
+
+                        <h3>The Valley of Stability</h3>
+                        <p>
+                            Not all combinations of protons and neutrons are equally stable. If you plot every known nuclide on a graph with neutrons (<em>N</em>) on one axis and protons (<em>Z</em>) on the other, the stable nuclides form a narrow band called the <strong>valley of stability</strong>.
+                        </p>
+                        <p>
+                            For light nuclei, the stable ones have roughly equal numbers of protons and neutrons (N ≈ Z). As nuclei get heavier, the stable ones need proportionally more neutrons to dilute the proton repulsion. The valley curves upward — away from the N = Z line — for heavy elements.
+                        </p>
+                        <p>
+                            Nuclides above the valley (too many neutrons) tend to undergo <strong>beta-minus decay</strong> to convert a neutron into a proton. Nuclides below the valley (too many protons) tend to undergo <strong>beta-plus decay</strong> or <strong>alpha decay</strong> to reduce their proton count.
+                        </p>
+
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-chart-scatter"></i> Valley of Stability</h4>
+                                <span class="scene-badge">Interactive Chart</span>
+                            </div>
+                            <div class="scene-canvas-wrap">
+                                <canvas id="valleyCanvas"></canvas>
+                            </div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
+                                <span><span class="legend-dot" style="background:#3b82f6"></span> β⁻ decay</span>
+                                <span><span class="legend-dot" style="background:#f97316"></span> β⁺ decay</span>
+                                <span><span class="legend-dot" style="background:#ef4444"></span> α decay</span>
+                                <span><span class="legend-dot" style="background:#facc15"></span> γ decay</span>
+                            </div>
+                            <div class="scene-info">
+                                <i class="fas fa-mouse-pointer"></i> Hover over points to see isotope names and decay modes. The dashed line shows N = Z.
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">3. Which of the following is a "doubly magic" nucleus?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q3')">Carbon-12</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q3')">Iron-56</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q3')">Lead-208</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q3')">Uranium-238</button>
+                            </div>
+                            <div class="self-test-feedback" id="q3-feedback">Lead-208 is doubly magic with Z=82 and N=126, making it the heaviest stable nucleus.</div>
+                        </div>
+
+                        <div class="elaboration-prompt">
+                            <h4><i class="fas fa-brain"></i> Elaboration: Connect concepts</h4>
+                            <p>Explain why heavy stable nuclei need more neutrons than protons, using what you know about the strong nuclear force and electromagnetic repulsion:</p>
+                            <textarea placeholder="The strong nuclear force... The electromagnetic force... (This is for your own learning — your answer is not stored.)"></textarea>
+                        </div>
+                    </article>
+                    <!-- 1.4 MODES OF RADIOACTIVE DECAY -->
+                    <article id="decay">
+                        <h2><i class="fas fa-radiation"></i> 1.4 Modes of Radioactive Decay</h2>
                         <p>
                             <strong>Alpha decay</strong> is the emission of a helium-4 nucleus from a heavy parent nucleus. The alpha particle consists of 2 protons and 2 neutrons — an extraordinarily stable configuration thanks to its doubly magic structure and high binding energy per nucleon (7.07 MeV).
                         </p>
@@ -535,23 +1298,88 @@
                             <h4><i class="fas fa-exclamation-triangle"></i> Alpha Particle Properties</h4>
                             <ul>
                                 <li>Charge: +2e (helium nucleus without electrons)</li>
-                                <li>Mass: 4.0015 u (roughly 7300× the electron mass)</li>
-                                <li>Typical kinetic energy: 4–9 MeV</li>
-                                <li>Range in air: 2–10 cm</li>
-                                <li>Range in tissue: 0.03–0.1 mm (cannot penetrate skin)</li>
+                                <li>Mass: 4.0015 u (roughly 7300&times; the electron mass)</li>
+                                <li>Typical kinetic energy: 4&ndash;9 MeV</li>
+                                <li>Range in air: 2&ndash;10 cm</li>
+                                <li>Range in tissue: 0.03&ndash;0.1 mm (cannot penetrate skin)</li>
                                 <li><strong>Highly ionising but low penetrating power</strong></li>
                             </ul>
                         </div>
-                    </article>
 
-                    <!-- 3. BETA-MINUS DECAY -->
-                    <article id="beta-minus">
-                        <h2><i class="fas fa-minus"></i> 3. Beta-Minus Decay</h2>
+                        <div class="worked-example">
+                            <div class="worked-example-header">
+                                <i class="fas fa-calculator"></i>
+                                <h4>Worked Example 16.1.1</h4>
+                            </div>
+                            <div class="worked-example-topic">BALANCING NUCLEAR EQUATIONS</div>
+                            <p>Consider the isotope of molybdenum, <sup>95</sup><sub>42</sub>Mo. Work out the number of protons, nucleons and neutrons in this isotope.</p>
+                            <table class="worked-table">
+                                <tr>
+                                    <th>Thinking</th>
+                                    <th>Working</th>
+                                </tr>
+                                <tr>
+                                    <td>The lower number is the atomic number.</td>
+                                    <td>atomic number = 42<br>This nuclide has 42 protons.</td>
+                                </tr>
+                                <tr>
+                                    <td>The upper number is the mass number. This indicates the number of particles in the nucleus, i.e. the number of nucleons.</td>
+                                    <td>mass number = 95<br>This nuclide has 95 nucleons.</td>
+                                </tr>
+                                <tr>
+                                    <td>Subtract the atomic number from the mass number to find the number of neutrons.</td>
+                                    <td>This isotope has 95 &minus; 42 = 53 neutrons.</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="try-yourself">
+                            <h4><i class="fas fa-pen"></i> Try Yourself 16.1.1</h4>
+                            <p>Consider the isotope of thorium, <sup>230</sup><sub>90</sub>Th. Work out the number of protons, nucleons and neutrons in this isotope.</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">
+                                <i class="fas fa-eye"></i> Reveal solution
+                            </button>
+                            <div class="solution">
+                                <p><strong>Solution:</strong> Atomic number = 90 protons. Mass number = 230 nucleons. Neutrons = 230 &minus; 90 = 140 neutrons.</p>
+                            </div>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 2:</strong> Without looking, explain what an alpha particle is and why alpha decay mainly occurs in heavy nuclei.</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>An alpha particle is a helium-4 nucleus (2 protons + 2 neutrons). Alpha decay mainly occurs in heavy nuclei (Z &gt; 82) because the electrostatic repulsion between many protons becomes so great that ejecting an alpha particle helps the nucleus move toward a more stable configuration. The alpha particle escapes via quantum tunnelling.</p>
+                            </div>
+                        </div>
+
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>Radioactive lamps</h4>
+                            <p>The wicks or mantles used in old-style camping lamps are slightly radioactive. They contain a radioisotope of thorium, an alpha-particle emitter. They have not been banned from sale so far because they contain only small amounts of the radioisotope and can be used safely by taking simple precautions such as washing hands and avoiding inhalation or ingestion.</p>
+                            <p>However, a scientist from the Australian National University in Canberra has called for these mantles to be banned because they tend to crumble and turn to dust as they age. If this dust were inhaled, alpha particles could settle in someone's lung tissue, possibly causing cancers to form.</p>
+                        </div>
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>Smoke detectors</h4>
+                            <p>Domestic smoke detectors contain a tiny amount of americium-241, an alpha emitter. The alpha particles ionise air molecules between two electrodes, creating a small electric current. When smoke enters the chamber, it absorbs the alpha particles, reducing the current and triggering the alarm. Because alpha particles cannot penetrate the plastic casing, the device is completely safe in normal use.</p>
+                        </div>
+
+                    <h3><i class="fas fa-minus"></i> Beta-Minus Decay</h3>
                         <p>
                             <strong>Beta-minus decay</strong> occurs in neutron-rich nuclei — isotopes with too many neutrons relative to protons. Inside the nucleus, a neutron transforms into a proton, emitting an electron (called a <strong>beta particle</strong> in this context) and an <strong>electron antineutrino</strong>.
                         </p>
                         <p>
-                            This decay is mediated by the <strong>weak nuclear force</strong>, the only force that can change one flavour of quark into another. Inside the neutron, a down quark (charge −1/3) converts to an up quark (charge +2/3), changing the baryon from a neutron to a proton. The charge difference of +1 is carried away by the emitted electron. The antineutrino ensures conservation of lepton number.
+                            This decay is mediated by the <strong>weak nuclear force</strong>, the only force that can change one flavour of quark into another. Inside the neutron, a down quark (charge &minus;1/3) converts to an up quark (charge +2/3), changing the baryon from a neutron to a proton. The charge difference of +1 is carried away by the emitted electron. The antineutrino ensures conservation of lepton number.
                         </p>
 
                         <div class="nuclear-formula-box">
@@ -607,11 +1435,72 @@
                                 <li>Carries away <strong>spin angular momentum</strong>: the neutron, proton, and electron spins cannot balance without it.</li>
                             </ul>
                         </div>
-                    </article>
 
-                    <!-- 4. BETA-PLUS DECAY -->
-                    <article id="beta-plus">
-                        <h2><i class="fas fa-plus"></i> 4. Beta-Plus Decay (Positron Emission)</h2>
+                        <div class="worked-example">
+                            <div class="worked-example-header">
+                                <i class="fas fa-calculator"></i>
+                                <h4>Worked Example 16.1.2</h4>
+                            </div>
+                            <div class="worked-example-topic">RADIOACTIVE DECAY</div>
+                            <p>Strontium-90 decays by radioactive emission to form yttrium-90. The equation is:</p>
+                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>90</sup><sub>38</sub>Sr &rarr; <sup>90</sup><sub>39</sub>Y + X</p>
+                            <p>Determine the atomic and mass numbers for X and identify the type of radiation being emitted.</p>
+                            <table class="worked-table">
+                                <tr>
+                                    <th>Thinking</th>
+                                    <th>Working</th>
+                                </tr>
+                                <tr>
+                                    <td>The mass numbers of 90 are already balanced.</td>
+                                    <td>The mass number of X is zero.</td>
+                                </tr>
+                                <tr>
+                                    <td>Balance the atomic numbers.</td>
+                                    <td>38 = 39 + a<br>a = 38 &minus; 39 = &minus;1</td>
+                                </tr>
+                                <tr>
+                                    <td>X has an atomic number of &minus;1 and a mass number of zero.</td>
+                                    <td>X is a beta-minus particle, <sup>0</sup><sub>&minus;1</sub>&beta;.</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="try-yourself">
+                            <h4><i class="fas fa-pen"></i> Try Yourself 16.1.2</h4>
+                            <p>Polonium-218 decays by emitting an alpha particle and a gamma ray. The nuclear equation is:</p>
+                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>218</sup><sub>84</sub>Po &rarr; X + <sup>4</sup><sub>2</sub>&alpha; + &gamma;</p>
+                            <p>Determine the atomic number and mass number for X, then use the periodic table to identify the element.</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">
+                                <i class="fas fa-eye"></i> Reveal solution
+                            </button>
+                            <div class="solution">
+                                <p><strong>Solution:</strong> Mass number: 218 &minus; 4 = 214. Atomic number: 84 &minus; 2 = 82. Element with Z = 82 is lead (Pb). X = <sup>214</sup><sub>82</sub>Pb.</p>
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">2. What type of decay occurs when a nucleus has too many neutrons?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q4')">Alpha decay</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q4')">Beta-minus decay</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q4')">Beta-plus decay</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q4')">Gamma decay</button>
+                            </div>
+                            <div class="self-test-feedback" id="q4-feedback">Beta-minus decay occurs in neutron-rich nuclei. A neutron transforms into a proton, emitting an electron (beta particle) and an antineutrino.</div>
+                        </div>
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>PET scans</h4>
+                            <p>Positron emission tomography (PET) uses fluorine-18, a beta-plus emitter, to image metabolic activity in the body. The emitted positron quickly meets an electron and they annihilate, producing two gamma rays travelling in opposite directions. Detectors around the patient pick up these coincident gamma rays and build a 3D image of where the tracer has accumulated — revealing tumours, brain activity, or heart function.</p>
+                        </div>
+
+                    <h3><i class="fas fa-plus"></i> Beta-Plus Decay</h3>
                         <p>
                             <strong>Beta-plus decay</strong> is the mirror image of beta-minus decay. It occurs in proton-rich nuclei — isotopes with too many protons relative to neutrons. A proton converts into a neutron, emitting a <strong>positron</strong> (the antimatter counterpart of the electron) and an <strong>electron neutrino</strong>.
                         </p>
@@ -663,11 +1552,36 @@
                         <p>
                             Electron capture becomes increasingly favoured over positron emission for heavier nuclei, because inner-shell electrons spend more time inside the nucleus (due to relativistic effects and orbital penetration). Some nuclei, like potassium-40, can decay by <em>both</em> beta-minus decay and electron capture — a remarkable example of nuclear versatility.
                         </p>
-                    </article>
 
-                    <!-- 5. GAMMA DECAY -->
-                    <article id="gamma">
-                        <h2><i class="fas fa-sun"></i> 5. Gamma Decay</h2>
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 3:</strong> Explain the difference between beta-minus and beta-plus decay without looking at the text.</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>Beta-minus: a neutron becomes a proton, emitting an electron and antineutrino. Occurs in neutron-rich nuclei. Beta-plus: a proton becomes a neutron, emitting a positron and neutrino. Occurs in proton-rich nuclei. Electron capture is an alternative to beta-plus where an inner electron is captured instead of a positron being emitted.</p>
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">3. What is the minimum energy threshold required for beta-plus decay to occur?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q5')">0.511 MeV</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q5')">1.022 MeV</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q5')">2.044 MeV</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q5')">No minimum energy</button>
+                            </div>
+                            <div class="self-test-feedback" id="q5-feedback">Beta-plus decay requires the parent atom's mass to exceed the daughter's by at least twice the electron rest mass: 2 &times; 0.511 MeV = 1.022 MeV.</div>
+                        </div>
+                        <h3><i class="fas fa-sun"></i> Gamma Decay</h3>
                         <p>
                             <strong>Gamma decay</strong> is fundamentally different from alpha and beta decay. It does not change the identity of the nucleus — no protons or neutrons are lost or converted. Instead, an <strong>excited nucleus</strong> releases excess energy as a high-energy photon, dropping to a lower, more stable energy state.
                         </p>
@@ -726,10 +1640,105 @@
                         <p>
                             Because these interactions are probabilistic rather than continuous, gamma rays follow an <strong>exponential attenuation law</strong>: I = I<sub>0</sub>e<sup>&minus;&mu;x</sup>. Half-value layers for typical medical gamma rays are measured in centimetres of lead.
                         </p>
+
+                        <div class="insight-card">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Comparing Alpha, Beta and Gamma Radiation</h4>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>&alpha; particle</th>
+                                        <th>&beta; particle</th>
+                                        <th>&gamma; ray</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Mass</td>
+                                        <td>heavy (4 u)</td>
+                                        <td>light (1/1836 u)</td>
+                                        <td>none</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speed</td>
+                                        <td>up to 20,000 km/s (~10% of c)</td>
+                                        <td>up to ~90% of c</td>
+                                        <td>speed of light (c)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Charge</td>
+                                        <td>+2</td>
+                                        <td>&minus;1 or +1</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Range in air</td>
+                                        <td>a few centimetres</td>
+                                        <td>1&ndash;2 metres</td>
+                                        <td>many metres</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Penetration in matter</td>
+                                        <td>stopped by paper/skin</td>
+                                        <td>stopped by a few mm of aluminium</td>
+                                        <td>requires thick lead/concrete</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">4. Which type of radiation can be stopped by a sheet of paper?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q6')">Alpha</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q6')">Beta</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q6')">Gamma</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q6')">All of the above</button>
+                            </div>
+                            <div class="self-test-feedback" id="q6-feedback">Alpha particles have very low penetrating power and can be stopped by a sheet of paper or even the outer layer of skin.</div>
+                        </div>
+
+                        <div class="elaboration-prompt">
+                            <h4><i class="fas fa-brain"></i> Elaboration: Connect to real life</h4>
+                            <p>Think of a real-world situation where knowing the difference between alpha, beta, and gamma penetration would be important for safety. Write your example:</p>
+                            <textarea placeholder="Example: In a hospital radiology department... (This is for your own learning — your answer is not stored.)"></textarea>
+                        </div>
+
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>Gamma knife surgery</h4>
+                            <p>Despite its name, the gamma knife does not cut. It uses 201 precisely focused beams of cobalt-60 gamma radiation to treat brain tumours. Each individual beam is too weak to damage healthy tissue, but where all 201 beams converge at the tumour site, the dose is lethal. This allows surgeons to treat deep or inoperable brain lesions without making a single incision.</p>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and recite from memory: What are the four main types of radioactive decay, and what particle or radiation is emitted in each?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p><strong>Alpha decay</strong> emits a helium-4 nucleus (2 protons + 2 neutrons). <strong>Beta-minus decay</strong> emits an electron and an antineutrino when a neutron turns into a proton. <strong>Beta-plus decay</strong> emits a positron and a neutrino when a proton turns into a neutron. <strong>Gamma decay</strong> emits a high-energy photon as an excited nucleus relaxes to a lower energy state.</p>
+                            </div>
+                        </div>
+
+                        <div class="elaboration-prompt">
+                            <h4><i class="fas fa-brain"></i> Elaboration: Connect to real life</h4>
+                            <p>Think of a real-world situation where knowing the difference between alpha, beta, and gamma penetration would be important for safety. Write your example:</p>
+                            <textarea placeholder="Example: In a hospital radiology department... (This is for your own learning — your answer is not stored.)"></textarea>
+                        </div>
                     </article>
-                    <!-- 6. HALF-LIFE & DECAY RATES -->
+
                     <article id="halflife">
-                        <h2><i class="fas fa-hourglass-half"></i> 6. Half-Life &amp; Decay Rates</h2>
+                        <h2><i class="fas fa-hourglass-half"></i> 1.5 Half-Life &amp; Decay Mathematics</h2>
                         <p>
                             Radioactive decay is a <strong>random process</strong>. We cannot predict when any individual nucleus will decay. But for a large population of identical nuclei, the decay follows precise statistical laws — specifically, an <strong>exponential decay curve</strong>.
                         </p>
@@ -812,203 +1821,281 @@
                             Activity also decays exponentially: A(t) = A<sub>0</sub>e<sup>&minus;&lambda;t</sup>. This is why radioactive samples become less dangerous over time — not because individual decays become less energetic, but because there are simply fewer decays happening each second.
                         </p>
 
-                        <table class="comparison-table">
-                            <thead>
-                                <tr>
-                                    <th>Isotope</th>
-                                    <th>Decay mode</th>
-                                    <th>Half-life</th>
-                                    <th>Decay constant &lambda;</th>
-                                    <th>Main use</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Uranium-238</td>
-                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
-                                    <td>4.47 &times; 10<sup>9</sup> years</td>
-                                    <td>4.9 &times; 10<sup>&minus;18</sup> s<sup>&minus;1</sup></td>
-                                    <td>Geological dating, nuclear fuel</td>
-                                </tr>
-                                <tr>
-                                    <td>Carbon-14</td>
-                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span></td>
-                                    <td>5730 years</td>
-                                    <td>3.8 &times; 10<sup>&minus;12</sup> s<sup>&minus;1</sup></td>
-                                    <td>Radiocarbon dating</td>
-                                </tr>
-                                <tr>
-                                    <td>Cobalt-60</td>
-                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span> + <span class="decay-mode-badge badge-gamma">&gamma;</span></td>
-                                    <td>5.27 years</td>
-                                    <td>4.2 &times; 10<sup>&minus;9</sup> s<sup>&minus;1</sup></td>
-                                    <td>Cancer radiotherapy</td>
-                                </tr>
-                                <tr>
-                                    <td>Fluorine-18</td>
-                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>+</sup></span></td>
-                                    <td>109.8 minutes</td>
-                                    <td>1.1 &times; 10<sup>&minus;4</sup> s<sup>&minus;1</sup></td>
-                                    <td>PET scans</td>
-                                </tr>
-                                <tr>
-                                    <td>Technetium-99m</td>
-                                    <td><span class="decay-mode-badge badge-gamma">&gamma;</span></td>
-                                    <td>6.01 hours</td>
-                                    <td>3.2 &times; 10<sup>&minus;5</sup> s<sup>&minus;1</sup></td>
-                                    <td>Medical imaging</td>
-                                </tr>
-                                <tr>
-                                    <td>Polonium-212</td>
-                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
-                                    <td>0.3 microseconds</td>
-                                    <td>2.3 &times; 10<sup>6</sup> s<sup>&minus;1</sup></td>
-                                    <td>Research, alpha sources</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </article>
-
-                    <!-- 7. VALLEY OF STABILITY -->
-                    <article id="valley">
-                        <h2><i class="fas fa-mountain"></i> 7. The Valley of Stability</h2>
-                        <p>
-                            Plot every known isotope on a graph of <strong>neutron number (N)</strong> versus <strong>proton number (Z)</strong>, and a remarkable pattern emerges. Stable nuclei cluster along a curved band — the <strong>valley of stability</strong> — like villages settled in a river valley between two mountain ranges.
-                        </p>
-                        <p>
-                            Isotopes to the <strong>left</strong> of the valley (neutron-rich) decay via beta-minus emission, converting excess neutrons into protons. Isotopes to the <strong>right</strong> (proton-rich) decay via beta-plus emission or electron capture, converting excess protons into neutrons. Isotopes <strong>above</strong> the valley (very heavy) shed mass through alpha decay or spontaneous fission.
-                        </p>
-                        <p>
-                            The valley curves because heavier nuclei require proportionally more neutrons to dilute proton repulsion. For light elements, N &approx; Z. For lead-208 (Z=82), N=126 — the neutron excess becomes significant.
-                        </p>
-
-                        <div class="sim-panel" style="margin: 32px 0;">
-                            <div class="sim-panel-header">
-                                <i class="fas fa-chart-scatter"></i> Interactive N-Z Chart (Valley of Stability)
-                            </div>
-                            <div class="sim-panel-body">
-                                <canvas id="valleyCanvas"></canvas>
-                                <div class="scene-legend" style="border-top: 1px solid rgba(255,255,255,0.06); margin-top: 12px; padding-top: 12px;">
-                                    <span><span class="legend-dot" style="background:#22c55e"></span> Stable isotopes</span>
-                                    <span><span class="legend-dot" style="background:#3b82f6"></span> &beta;<sup>&minus;</sup> decay</span>
-                                    <span><span class="legend-dot" style="background:#f97316"></span> &beta;<sup>+</sup> / EC decay</span>
-                                    <span><span class="legend-dot" style="background:#ef4444"></span> &alpha; decay</span>
-                                    <span><span class="legend-dot" style="background:#a855f7"></span> Spontaneous fission</span>
-                                </div>
-                                <div class="scene-info" style="margin-top: 12px;">
-                                    Hover over data points to see isotope names and predicted decay modes. The green band shows stable nuclei; coloured regions show dominant decay modes.
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3>Magic Numbers &amp; Nuclear Shells</h3>
-                        <p>
-                            Just as electrons in atoms occupy shells with 2, 8, 18, 32... electrons, nucleons in the nucleus occupy energy levels with <strong>magic numbers</strong>: 2, 8, 20, 28, 50, 82, and 126. Nuclei with magic numbers of protons <em>or</em> neutrons are exceptionally stable.
-                        </p>
-                        <p>
-                            Lead-208 is <strong>doubly magic</strong>: Z=82 and N=126. It is the heaviest stable nucleus. Tin-132 (Z=50, N=82) is also doubly magic and extraordinarily stable. These magic numbers arise from the quantum mechanical structure of the nucleus, where nucleons move in a mean potential well created by all other nucleons.
-                        </p>
-
                         <div class="insight-card">
                             <h4><i class="fas fa-lightbulb"></i> Key stable isotopes to remember</h4>
                             <ul>
                                 <li><strong>Helium-4</strong> (Z=2, N=2) — doubly magic, alpha particle itself</li>
                                 <li><strong>Oxygen-16</strong> (Z=8, N=8) — doubly magic, extremely stable</li>
                                 <li><strong>Calcium-40</strong> (Z=20, N=20) — doubly magic</li>
-                                <li><strong>Iron-56</strong> — peak binding energy per nucleon; no fusion or fission releases net energy beyond this point</li>
+                                <li><strong>Iron-56</strong> — peak binding energy per nucleon</li>
                                 <li><strong>Lead-208</strong> (Z=82, N=126) — heaviest stable nucleus, doubly magic</li>
                             </ul>
                         </div>
-                    </article>
 
-                    <!-- 8. APPLICATIONS -->
+                        <div class="worked-example">
+                            <div class="worked-example-header">
+                                <i class="fas fa-calculator"></i>
+                                <h4>Worked Example 16.2.1</h4>
+                            </div>
+                            <div class="worked-example-topic">HALF-LIFE</div>
+                            <p>A sample of the radioisotope thorium-234 contains 8.0 &times; 10<sup>12</sup> nuclei. The half-life of thorium-234 is 24 days.</p>
+                            <p><strong>a</strong> Calculate the decay constant for thorium-234.</p>
+                            <table class="worked-table">
+                                <tr>
+                                    <th>Thinking</th>
+                                    <th>Working</th>
+                                </tr>
+                                <tr>
+                                    <td>Recall the formula for the decay constant.</td>
+                                    <td>&lambda; = ln(2) / t<sub>1/2</sub></td>
+                                </tr>
+                                <tr>
+                                    <td>Substitute t<sub>1/2</sub> into the equation and solve for &lambda;. As the half-life given for thorium is in days, your answer will be in day<sup>&minus;1</sup>.</td>
+                                    <td>&lambda; = ln(2) / 24<br>= 0.029 day<sup>&minus;1</sup></td>
+                                </tr>
+                            </table>
+                            <p><strong>b</strong> How many thorium-234 nuclei will remain in the sample after 120 days?</p>
+                            <table class="worked-table">
+                                <tr>
+                                    <th>Thinking</th>
+                                    <th>Working</th>
+                                </tr>
+                                <tr>
+                                    <td>Recall the formula for the number of nuclei remaining after time t.</td>
+                                    <td>N<sub>t</sub> = N<sub>0</sub>e<sup>&minus;&lambda;t</sup></td>
+                                </tr>
+                                <tr>
+                                    <td>Substitute N<sub>0</sub> = 8.0 &times; 10<sup>12</sup> and the decay constant from part (a) into the equation. Calculate the number of nuclei remaining.</td>
+                                    <td>N<sub>t</sub> = 8.0 &times; 10<sup>12</sup> &times; e<sup>&minus;0.029 &times; 120</sup><br>= 2.5 &times; 10<sup>11</sup> nuclei</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="try-yourself">
+                            <h4><i class="fas fa-pen"></i> Try Yourself 16.2.1</h4>
+                            <p>A sample of the radioisotope sodium-24 contains 4.0 &times; 10<sup>10</sup> nuclei. The half-life of sodium-24 is 15 hours.</p>
+                            <p><strong>a</strong> Calculate the decay constant for sodium-24.</p>
+                            <p><strong>b</strong> How many sodium-24 atoms will remain in the sample after 150 hours?</p>
+                            <button class="solution-toggle" onclick="toggleSolution(this)">
+                                <i class="fas fa-eye"></i> Reveal solution
+                            </button>
+                            <div class="solution">
+                                <p><strong>a</strong> &lambda; = ln(2) / 15 = 0.046 h<sup>&minus;1</sup></p>
+                                <p><strong>b</strong> 150 hours = 10 half-lives. N = 4.0 &times; 10<sup>10</sup> &times; (1/2)<sup>10</sup> = 3.9 &times; 10<sup>7</sup> atoms (or using formula: N = 4.0 &times; 10<sup>10</sup> &times; e<sup>&minus;0.046&times;150</sup> &approx; 3.9 &times; 10<sup>7</sup>)</p>
+                            </div>
+                        </div>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 4:</strong> Define half-life in your own words, and explain the difference between half-life and decay constant.</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>Half-life is the time taken for half of the radioactive nuclei in a sample to decay. The decay constant (&lambda;) is the probability per unit time that a given nucleus will decay. They are related by &lambda; = ln(2) / t<sub>1/2</sub>. A short half-life means a large decay constant (rapid decay), and a long half-life means a small decay constant (slow decay).</p>
+                            </div>
+                        </div>
+
+                        <div class="physics-file">
+                            <div class="physics-file-header">
+                                <span>Physics File</span>
+                            </div>
+                            <h4>Measuring radioactivity</h4>
+                            <p>A Geiger counter can be used to record the number of radioactive decays occurring in a sample each second. It measures the <strong>activity</strong> of the sample. Over time, the activity of a sample of a radioisotope will decrease. More and more of the radioactive nuclei will have decayed, and at some point it will no longer emit radiation.</p>
+                            <p>If a sample of polonium-218 (t<sub>1/2</sub> = 3 minutes) has an initial activity of 2000 Bq, then after one half-life its activity will be 1000 Bq. After a further 3 minutes, the activity of the sample will have reduced to 500 Bq, and after a further 3 minutes it will be 250 Bq, and so on.</p>
+                        </div>
+                    
+                        <h3>Activity and the Becquerel</h3>
+                        <p>
+                            The <strong>activity</strong> of a radioactive sample is the number of decays per second. It is measured in <strong>becquerels (Bq)</strong>, where 1 Bq = 1 decay per second. Activity is related to the number of nuclei and the decay constant by:
+                        </p>
+                        <div class="nuclear-formula-box">
+                            <div class="nuclear-formula">A = &lambda;N</div>
+                            <div class="nuclear-formula-desc">Activity = decay constant × number of radioactive nuclei</div>
+                        </div>
+
+                        <h3>Decay Chains</h3>
+                        <p>
+                            When a radionuclide decays, its daughter nucleus is usually itself radioactive. This daughter will then decay to a granddaughter nucleus, which may also be radioactive, and so on. This is called a <strong>decay series</strong>. Over time, the original parent isotope is gradually converted through a chain of decays until a stable isotope is reached.
+                        </p>
+                        <p>
+                            For example, uranium-238 undergoes a series of 14 decays (8 alpha and 6 beta-minus) before finally reaching stable lead-206. The entire series takes billions of years.
+                        </p>
+
+                        <div class="recite-review">
+                            <div class="recite-review-header">
+                                <i class="fas fa-book-open"></i>
+                                <h4>Recite &amp; Review (3R Method)</h4>
+                            </div>
+                            <p><strong>Step 1:</strong> Close this section and explain in your own words: What is half-life, and why is it a useful concept even though we cannot predict when any individual nucleus will decay?</p>
+                            <button class="recite-toggle" onclick="toggleRecite(this)">
+                                <i class="fas fa-eye"></i> Check your answer
+                            </button>
+                            <div class="recite-summary">
+                                <p>Half-life is the time required for half of the radioactive nuclei in a sample to decay. While individual decays are random, the statistical behaviour of a large sample is highly predictable. Half-life allows us to calculate how much material remains after any given time, how old archaeological samples are, and how long radioactive waste must be stored.</p>
+                            </div>
+                        </div>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">5. A sample has a half-life of 10 days. What percentage remains after 30 days?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q7')">25%</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q7')">33%</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q7')">12.5%</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q7')">6.25%</button>
+                            </div>
+                            <div class="self-test-feedback" id="q7-feedback">After 30 days (3 half-lives), the remaining fraction is (1/2)³ = 1/8 = 12.5%. After each half-life, the amount halves: 50% → 25% → 12.5%.</div>
+                        </div>
+                    </article>
                     <article id="applications">
-                        <h2><i class="fas fa-flask-vial"></i> 8. Real-World Applications</h2>
+                        <h2><i class="fas fa-flask-vial"></i> 1.6 Applications of Nuclear Physics</h2>
 
-                        <h3>Medicine: Diagnosis &amp; Therapy</h3>
-                        <p>
-                            <strong>Technetium-99m</strong> is the workhorse of nuclear medicine, used in over 80% of all diagnostic scans. Its 6-hour half-life is long enough for chemical preparation and transport, but short enough to minimise patient radiation dose. The 140 keV gamma ray is ideal for gamma camera detection.
-                        </p>
-                        <p>
-                            <strong>Positron Emission Tomography (PET)</strong> uses fluorine-18 attached to glucose molecules (FDG). When the positron annihilates with an electron, two 511 keV gamma photons fly off in opposite directions. Detecting these coincident photons allows precise 3D localisation of metabolic activity — revolutionising cancer detection, neurology, and cardiology.
-                        </p>
-                        <p>
-                            <strong>Cobalt-60</strong> and <strong>caesium-137</strong> provide gamma radiation for external beam radiotherapy, targeting tumours while sparing surrounding tissue. Iodine-131 treats thyroid cancer by being selectively absorbed by thyroid tissue, then destroying it from within.
-                        </p>
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>How technetium is produced</h4>
+                            <p>Technetium-99m is the most widely used radioisotope in nuclear medicine. It is used for diagnosing and treating cancer. However, this radioisotope decays relatively quickly and so usually needs to be produced close to where it will be used. Technetium-99m is produced in small nuclear generators that are located in hospitals around the country. In this process, the radioisotope molybdenum-99 is used as the parent nuclide. Molybdenum-99 decays by beta emission to form a relatively stable (or metastable) isotope of technetium, technetium-99m.</p>
+                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>99</sup><sub>42</sub>Mo &rarr; <sup>99m</sup><sub>43</sub>Tc + <sup>0</sup><sub>&minus;1</sub>&beta; + &nu;</p>
+                            <p>Technetium-99m is flushed from the generator using a saline solution. The radioisotope is then diluted and attached to an appropriate chemical compound before being administered to the patient as a tracer. Technetium-99m is purely a gamma emitter. This makes it very useful as a diagnostic tool for locating and treating cancer. Its decay equation is:</p>
+                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>99m</sup><sub>43</sub>Tc &rarr; <sup>99</sup><sub>43</sub>Tc + &gamma;</p>
+                        </div>
 
-                        <h3>Archaeology &amp; Geology</h3>
-                        <p>
-                            <strong>Carbon-14 dating</strong> revolutionised archaeology. Living organisms constantly exchange carbon with the atmosphere, maintaining a C-14/C-12 ratio equal to atmospheric levels. Upon death, exchange stops and C-14 decays with its 5730-year half-life. By measuring the remaining ratio, archaeologists can date organic materials up to about 50,000 years old.
-                        </p>
-                        <p>
-                            <strong>Potassium-argon dating</strong> uses the decay of potassium-40 (half-life 1.25 billion years) to argon-40. Since argon is a gas that escapes from molten rock, any argon-40 trapped in volcanic rock must have come from potassium decay after solidification. This technique dates the earliest hominin fossils and the age of the Earth itself.
-                        </p>
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>Detecting radiation</h4>
+                            <p>Our bodies cannot detect alpha, beta or gamma radiation. Therefore, a number of devices have been developed to detect and measure radiation.</p>
+                            <p>A common detector is the <strong>Geiger counter</strong>. This can be used:</p>
+                            <ul>
+                                <li>by geologists searching for radioactive minerals such as uranium</li>
+                                <li>to monitor radiation levels in mines</li>
+                                <li>to measure the level of radiation after a nuclear accident, such as the accident at Fukushima, Japan, in 2011</li>
+                                <li>to check the safety of nuclear reactors</li>
+                                <li>to monitor radiation levels in hospitals and factories</li>
+                            </ul>
+                            <p>People who work in occupations that involve ongoing exposure to levels of ionising radiation usually pin a small radiation-monitoring device to their clothing. This is usually a thermoluminescent dosimeter (TLD). These are used by personnel in nuclear power plants, radiotherapy departments at hospitals, airport security gates and uranium mines.</p>
+                        </div>
 
-                        <h3>Energy &amp; Industry</h3>
-                        <p>
-                            Nuclear power plants harness the energy released when heavy nuclei undergo <strong>fission</strong> — a process conceptually related to alpha decay but involving the splitting of a nucleus into two roughly equal fragments. A single uranium-235 fission releases about 200 MeV, roughly 50 million times more energy per atom than burning coal.
-                        </p>
-                        <p>
-                            <strong>Smoke detectors</strong> contain a tiny amount of americium-241, an alpha emitter. The alpha particles ionise air molecules, creating a small current. Smoke particles disrupt this current, triggering the alarm. The americium's 432-year half-life means the detector remains effective for decades.
-                        </p>
+                        <div class="physics-in-action">
+                            <div class="physics-in-action-header">
+                                <span>Physics in Action</span>
+                            </div>
+                            <h4>Radiocarbon dating</h4>
+                            <p>Carbon dating is a technique used by archaeologists to determine the ages of fossils and ancient objects that were made from plant matter. This method involves measuring and comparing the proportion of two isotopes of carbon, carbon-12 and carbon-14, in the specimen.</p>
+                            <p>Carbon-12 is a stable isotope but carbon-14 is radioactive. Carbon-14 has a half-life of 5730 years and decays by beta-minus emission to nitrogen-14. Its decay equation is:</p>
+                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>14</sup><sub>6</sub>C &rarr; <sup>14</sup><sub>7</sub>N + <sup>0</sup><sub>&minus;1</sub>&beta;<sup>&minus;</sup> + <span style="font-style:italic">&nu;</span></p>
+                            <p>Both carbon-12 and carbon-14 can combine with other atoms in the environment. For example, they both combine with oxygen to form carbon dioxide. Plants and animals take in carbon-based molecules from the air and food. This means that all living organisms contain the same percentage of carbon-14. In the environment, the production of carbon-14 is matched by its decay and so the proportion of carbon-14 atoms to carbon-12 remains constant.</p>
+                            <p>After an organism dies, the amount of carbon-14 it contains will decrease as these atoms decay to form nitrogen-14 and are not replaced from the environment. The number of atoms of carbon-12 does not change as carbon-12 is a stable atom. So, over time, the proportion of carbon-14 to carbon-12 atoms decreases. The proportion of carbon-14 to carbon-12 in a dead organism can be compared with that found in living organisms and the approximate age of the specimen can be determined from the half-life of carbon-14.</p>
+                        </div>
 
-                        <h3>Space Exploration</h3>
-                        <p>
-                            <strong>Radioisotope Thermoelectric Generators (RTGs)</strong> power spacecraft too far from the Sun for solar panels. Plutonium-238 decays via alpha emission, releasing heat that thermocouples convert to electricity. The Voyager probes, launched in 1977, still transmit data from interstellar space thanks to their RTGs — nearly 50 years later.
-                        </p>
+                        <h3>Common Radioisotopes and Their Applications</h3>
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Isotope</th>
+                                    <th>Emission</th>
+                                    <th>Half-life</th>
+                                    <th>Application</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Technetium-99m</td>
+                                    <td><span class="decay-mode-badge badge-gamma">&gamma;</span></td>
+                                    <td>6 hours</td>
+                                    <td>Medical imaging</td>
+                                </tr>
+                                <tr>
+                                    <td>Carbon-14</td>
+                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span></td>
+                                    <td>5730 years</td>
+                                    <td>Carbon dating of fossils</td>
+                                </tr>
+                                <tr>
+                                    <td>Cobalt-60</td>
+                                    <td><span class="decay-mode-badge badge-beta">&beta;<sup>&minus;</sup></span> + <span class="decay-mode-badge badge-gamma">&gamma;</span></td>
+                                    <td>5.3 years</td>
+                                    <td>Radiation therapy</td>
+                                </tr>
+                                <tr>
+                                    <td>Americium-241</td>
+                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
+                                    <td>460 years</td>
+                                    <td>Smoke detectors</td>
+                                </tr>
+                                <tr>
+                                    <td>Uranium-235</td>
+                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
+                                    <td>700,000 years</td>
+                                    <td>Nuclear fuel, rock dating</td>
+                                </tr>
+                                <tr>
+                                    <td>Uranium-238</td>
+                                    <td><span class="decay-mode-badge badge-alpha">&alpha;</span></td>
+                                    <td>4.5 billion years</td>
+                                    <td>Nuclear fuel, rock dating</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="self-test">
+                            <div class="self-test-header">
+                                <i class="fas fa-question-circle"></i>
+                                <h4>Self-Test: Retrieval Practice</h4>
+                            </div>
+                            <div class="self-test-question">6. Which radioisotope is used in smoke detectors?</div>
+                            <div class="self-test-options">
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q8')">Carbon-14</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q8')">Technetium-99m</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, true, 'q8')">Americium-241</button>
+                                <button class="self-test-option" onclick="checkAnswer(this, false, 'q8')">Cobalt-60</button>
+                            </div>
+                            <div class="self-test-feedback" id="q8-feedback">Americium-241 is an alpha emitter used in smoke detectors. Its long half-life (460 years) means the detector remains effective for decades.</div>
+                        </div>
                     </article>
 
-                    <!-- 9. KEY EQUATIONS -->
-                    <article id="equations">
-                        <h2><i class="fas fa-square-root-variable"></i> 9. Key Equations</h2>
-
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">N(t) = N<sub>0</sub> e<sup>&minus;&lambda;t</sup></div>
-                            <div class="nuclear-formula-desc">Number of radioactive nuclei remaining after time t</div>
+                    <!-- 1.7 CHAPTER REVIEW -->
+                    <article id="review" class="section-review">
+                        <h2><i class="fas fa-clipboard-check"></i> 1.7 Chapter Review</h2>
+                        <div class="review-summary">
+                            <h4>Summary</h4>
+                            <ul>
+                                <li>The nucleus contains <strong>protons</strong> and <strong>neutrons</strong>, collectively called <strong>nucleons</strong>.</li>
+                                <li>The <strong>atomic number (Z)</strong> is the number of protons. The <strong>mass number (A)</strong> is the total number of nucleons.</li>
+                                <li><strong>Isotopes</strong> have the same Z but different numbers of neutrons. Unstable isotopes are called <strong>radioisotopes</strong>.</li>
+                                <li>The <strong>strong nuclear force</strong> binds nucleons together but has a very short range. It must overcome the <strong>electromagnetic repulsion</strong> between protons.</li>
+                                <li><strong>Binding energy</strong> is the energy equivalent of the mass defect (E = mc²). Higher binding energy per nucleon means greater stability.</li>
+                                <li>Stable nuclei form a "valley of stability" on an N-Z plot. Nuclei above the valley are neutron-rich; nuclei below are proton-rich.</li>
+                                <li><strong>Alpha decay</strong> emits a helium-4 nucleus. <strong>Beta-minus decay</strong> emits an electron. <strong>Beta-plus decay</strong> emits a positron. <strong>Gamma decay</strong> emits a high-energy photon.</li>
+                                <li><strong>Half-life (t₁/₂)</strong> is the time for half the nuclei in a sample to decay. The decay follows N(t) = N₀(½)^(t/t₁/₂).</li>
+                                <li><strong>Activity</strong> is measured in becquerels (Bq): 1 Bq = 1 decay per second.</li>
+                                <li>Radioisotopes have applications in medicine (imaging, therapy), archaeology (carbon dating), energy (nuclear power), and safety (smoke detectors).</li>
+                            </ul>
                         </div>
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">t<sub>1/2</sub> = ln(2) / &lambda; &approx; 0.693 / &lambda;</div>
-                            <div class="nuclear-formula-desc">Relationship between half-life and decay constant</div>
+                        <div class="key-questions">
+                            <h4>Key Questions</h4>
+                            <ol>
+                                <li>What is the collective term used for protons and neutrons?</li>
+                                <li>How many protons and how many neutrons are in the <sup>197</sup><sub>79</sub>Au nuclide?</li>
+                                <li>Explain why the strong nuclear force must be stronger than the electromagnetic force for nuclei to exist.</li>
+                                <li>What is meant by the "mass defect" of a nucleus?</li>
+                                <li>Why do heavy stable nuclei contain more neutrons than protons?</li>
+                                <li>What type of decay would you expect for a nucleus with 60 protons and 90 neutrons? Explain your reasoning.</li>
+                                <li>Write the nuclear equation for the alpha decay of radium-226.</li>
+                                <li>A sample of a radioisotope has a half-life of 8 days. What percentage of the original sample remains after 24 days?</li>
+                                <li>Explain one medical application and one non-medical application of radioisotopes.</li>
+                                <li>Why is gamma radiation more dangerous than alpha radiation outside the body, but alpha radiation can be more dangerous inside the body?</li>
+                            </ol>
                         </div>
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">A = &lambda;N = A<sub>0</sub> e<sup>&minus;&lambda;t</sup></div>
-                            <div class="nuclear-formula-desc">Activity (decays per second) of a sample</div>
-                        </div>
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">E = mc<sup>2</sup> &rarr; Q = (&Delta;m)c<sup>2</sup></div>
-                            <div class="nuclear-formula-desc">Energy released in decay equals mass defect times c squared</div>
-                        </div>
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">E<sub>&gamma;</sub> = hf = hc / &lambda;</div>
-                            <div class="nuclear-formula-desc">Energy of a gamma photon (Planck's equation)</div>
-                        </div>
-                        <div class="nuclear-formula-box">
-                            <div class="nuclear-formula">BE = [Z m<sub>p</sub> + N m<sub>n</sub> &minus; m<sub>nucleus</sub>] c<sup>2</sup></div>
-                            <div class="nuclear-formula-desc">Nuclear binding energy — the mass defect converted to energy</div>
-                        </div>
-                    </article>
-
-                    <!-- 10. SUMMARY -->
-                    <article id="summary">
-                        <h2><i class="fas fa-clipboard-check"></i> 10. Summary</h2>
-                        <p>
-                            Nuclear instability arises from the competition between the strong nuclear force (which binds nucleons together) and the electromagnetic force (which pushes protons apart). When a nucleus has too many protons, too many neutrons, or simply too many nucleons overall, it becomes unstable and decays to reach a more stable configuration.
-                        </p>
-                        <p>
-                            The four main decay modes each address different types of instability:
-                        </p>
-                        <ul>
-                            <li><strong>Alpha decay</strong> reduces both proton and neutron count by 2, moving heavy nuclei toward lighter, more stable configurations.</li>
-                            <li><strong>Beta-minus decay</strong> converts a neutron to a proton, correcting neutron excess in light and medium-mass nuclei.</li>
-                            <li><strong>Beta-plus decay / electron capture</strong> converts a proton to a neutron, correcting proton excess.</li>
-                            <li><strong>Gamma decay</strong> releases excess excitation energy without changing the nucleus's identity.</li>
-                        </ul>
-                        <p>
-                            Decay rates follow exponential laws characterised by half-life — a property unique to each isotope ranging from fractions of a second to billions of years. The valley of stability maps which isotopes are stable and which decay modes dominate in different regions of the N-Z plane.
-                        </p>
-                        <p>
-                            From cancer therapy to archaeological dating, from smoke detectors to interstellar probes, radioactive decay is not merely a laboratory curiosity. It is a fundamental process that shapes our understanding of matter, time, and the universe itself.
-                        </p>
                     </article>
                 </main>
             </div>
@@ -1042,10 +2129,108 @@
         </div>
     </footer>
 
+    <!-- Flashcard Widget -->
+    <div class="flashcard-widget">
+        <button class="flashcard-btn" id="flashcardBtn" onclick="toggleFlashcards()">
+            <i class="fas fa-clone"></i>
+        </button>
+        <div class="flashcard-panel" id="flashcardPanel">
+            <h4><i class="fas fa-clone"></i> Flashcards <button class="flashcard-close" onclick="toggleFlashcards()"><i class="fas fa-times"></i></button></h4>
+            <div class="flashcard-progress" id="flashcardProgress">Card 1 of 10</div>
+            <div class="flashcard-card" id="flashcardCard" onclick="flipFlashcard()">
+                <div class="term" id="flashcardTerm">Nucleon</div>
+                <div class="definition" id="flashcardDef">A proton or neutron in the nucleus of an atom. Collectively, these particles make up the atomic nucleus.</div>
+            </div>
+            <div class="flashcard-nav">
+                <button onclick="prevFlashcard()">Previous</button>
+                <button class="unknown" onclick="markFlashcard(false)">Need Practice</button>
+                <button class="known" onclick="markFlashcard(true)">Got it</button>
+                <button onclick="nextFlashcard()">Next</button>
+            </div>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
+
+    <!-- ===== LEARNING INTERACTIVITY ===== -->
+    <script>
+    function toggleRecite(btn) {
+        const summary = btn.nextElementSibling;
+        summary.classList.toggle('visible');
+        btn.innerHTML = summary.classList.contains('visible')
+            ? '<i class="fas fa-eye-slash"></i> Hide answer'
+            : '<i class="fas fa-eye"></i> Check your answer';
+    }
+    function toggleSolution(btn) {
+        const solution = btn.nextElementSibling;
+        solution.classList.toggle('visible');
+        btn.innerHTML = solution.classList.contains('visible')
+            ? '<i class="fas fa-eye-slash"></i> Hide solution'
+            : '<i class="fas fa-eye"></i> Reveal solution';
+    }
+    function checkAnswer(btn, isCorrect, qid) {
+        const container = btn.closest('.self-test');
+        const options = container.querySelectorAll('.self-test-option');
+        const feedback = document.getElementById(qid + '-feedback');
+        options.forEach(opt => {
+            opt.disabled = true;
+            opt.style.cursor = 'default';
+        });
+        if (isCorrect) {
+            btn.classList.add('correct');
+            feedback.className = 'self-test-feedback correct';
+        } else {
+            btn.classList.add('incorrect');
+            options.forEach(opt => {
+                if (opt.onclick.toString().includes('true')) opt.classList.add('correct');
+            });
+            feedback.className = 'self-test-feedback incorrect';
+        }
+    }
+
+    // ===== FLASHCARDS =====
+    const flashcards = [
+        { term: 'Nucleon', def: 'A proton or neutron in the nucleus of an atom.' },
+        { term: 'Isotope', def: 'Atoms of the same element with the same number of protons but different numbers of neutrons.' },
+        { term: 'Radioisotope', def: 'An unstable isotope that spontaneously emits radiation as it decays to a more stable form.' },
+        { term: 'Alpha particle', def: 'A particle consisting of 2 protons and 2 neutrons, identical to a helium-4 nucleus.' },
+        { term: 'Beta-minus particle', def: 'An electron emitted from the nucleus when a neutron transforms into a proton.' },
+        { term: 'Beta-plus particle (positron)', def: 'A positively charged electron emitted when a proton transforms into a neutron.' },
+        { term: 'Gamma ray', def: 'High-energy electromagnetic radiation emitted from an excited nucleus as it relaxes to ground state.' },
+        { term: 'Half-life', def: 'The time required for half of the radioactive nuclei in a sample to decay.' },
+        { term: 'Decay constant (&lambda;)', def: 'The probability per unit time that a given nucleus will decay. &lambda; = ln(2) / t₁/₂' },
+        { term: 'Activity', def: 'The number of radioactive decays per second in a sample. Measured in becquerels (Bq).' },
+    ];
+    let currentCard = 0;
+    function toggleFlashcards() {
+        document.getElementById('flashcardPanel').classList.toggle('visible');
+    }
+    function updateFlashcard() {
+        const card = document.getElementById('flashcardCard');
+        card.classList.remove('flipped');
+        document.getElementById('flashcardTerm').textContent = flashcards[currentCard].term;
+        document.getElementById('flashcardDef').textContent = flashcards[currentCard].def;
+        document.getElementById('flashcardProgress').textContent = 'Card ' + (currentCard + 1) + ' of ' + flashcards.length;
+    }
+    function flipFlashcard() {
+        document.getElementById('flashcardCard').classList.toggle('flipped');
+    }
+    function nextFlashcard() {
+        currentCard = (currentCard + 1) % flashcards.length;
+        updateFlashcard();
+    }
+    function prevFlashcard() {
+        currentCard = (currentCard - 1 + flashcards.length) % flashcards.length;
+        updateFlashcard();
+    }
+    function markFlashcard(known) {
+        nextFlashcard();
+    }
+    </script>
 
     <!-- ===== THREE.JS & INTERACTIVE SCRIPTS ===== -->
     <script>
+
     // ===== NUCLEAR SCENE BUILDER =====
     class NuclearScene {
         constructor(containerId, protonCount, neutronCount, options = {}) {
@@ -1775,5 +2960,6 @@
         resize();
     })();
     </script>
+<script src="js/auth.js"></script>
 </body>
 </html>
