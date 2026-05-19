@@ -184,6 +184,12 @@ img {
     line-height: 1;
 }
 
+.nav-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .mobile-toggle {
     display: none;
     flex-direction: column;
