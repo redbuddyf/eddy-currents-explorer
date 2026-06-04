@@ -921,6 +921,26 @@
             transition: var(--transition);
         }
         .tutor-send:hover { opacity: 0.9; }
+        .tutor-message .katex { font-size: 1em; }
+        .tutor-message .katex-display { margin: 8px 0; overflow-x: auto; }
+        .tutor-message .katex-display > .katex { white-space: normal; }
+        .tutor-message .katex-display > .katex > .katex-html { display: inline-block; }
+        .tutor-message code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.9em;
+        }
+        .tutor-message blockquote {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-left: 3px solid rgba(99,102,241,0.4);
+            background: rgba(99,102,241,0.05);
+            border-radius: 0 4px 4px 0;
+        }
+        .tutor-message ul { margin: 8px 0; padding-left: 20px; }
+        .tutor-message li { margin: 4px 0; }
         .tutor-typing {
             display: flex;
             gap: 4px;
@@ -2688,6 +2708,72 @@
         await tutorAskLLM(question);
     }
 
+    function formatTutorMessage(text) {
+        // Protect display math blocks
+        const displayMath = [];
+        text = text.replace(/\$\$([\s\S]*?)\$\$/g, function(match, math) {
+            displayMath.push(math.trim());
+            return '\x00D' + (displayMath.length - 1) + '\x00';
+        });
+        // Protect inline math blocks
+        const inlineMath = [];
+        text = text.replace(/\$([\s\S]*?)\$/g, function(match, math) {
+            inlineMath.push(math.trim());
+            return '\x00I' + (inlineMath.length - 1) + '\x00';
+        });
+        // Convert markdown to HTML
+        let html = text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/`(.+?)`/g, '<code>$1</code>');
+        // Convert blockquotes
+        html = html.replace(/^&gt;\s*(.+)$/gm, '<blockquote>$1</blockquote>');
+        // Convert lists
+        html = html.replace(/^(\s*)[-*]\s+(.+)$/gm, '<li>$2</li>');
+        html = html.replace(/(<li>.+<\/li>\n?)+/g, '<ul>$&</ul>');
+        // Split into blocks (paragraphs, lists, blockquotes, display math)
+        const blocks = html.split(/\n\n+/).map(b => b.trim()).filter(b => b);
+        let out = '';
+        blocks.forEach(block => {
+            if (block.startsWith('<ul>') && block.endsWith('</ul>')) {
+                out += block;
+            } else if (block.startsWith('<blockquote>')) {
+                out += block;
+            } else if (block.includes('\x00D')) {
+                // Display math placeholder
+                out += block.replace(/\x00D(\d+)\x00/g, function(m, idx) {
+                    return '<div class="katex-display">$$' + displayMath[idx] + '$$</div>';
+                });
+            } else {
+                // Inline content with possible inline math
+                let p = block.replace(/\x00I(\d+)\x00/g, function(m, idx) {
+                    return '$' + inlineMath[idx] + '$';
+                });
+                out += '<p>' + p.replace(/\n/g, '<br>') + '</p>';
+            }
+        });
+        // Restore any remaining display math placeholders
+        out = out.replace(/\x00D(\d+)\x00/g, function(m, idx) {
+            return '<div class="katex-display">$$' + displayMath[idx] + '$$</div>';
+        });
+        // Restore any remaining inline math placeholders
+        out = out.replace(/\x00I(\d+)\x00/g, function(m, idx) {
+            return '$' + inlineMath[idx] + '$';
+        });
+        return out;
+    }
+
+    function renderMathInMessage(el) {
+        if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(el, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        }
+    }
+
     async function tutorAskLLM(question) {
         showTyping();
         const chunks = retrieveRelevantChunks(question, 5);
@@ -2729,13 +2815,9 @@
             const body = document.getElementById('tutorBody');
             const botMsg = document.createElement('div');
             botMsg.className = 'tutor-message bot';
-            let html = answer
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/`(.+?)`/g, '<code>$1</code>');
-            const paragraphs = html.split(/\n\n+/).filter(p => p.trim());
-            botMsg.innerHTML = paragraphs.map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+            botMsg.innerHTML = formatTutorMessage(answer);
             body.appendChild(botMsg);
+            renderMathInMessage(botMsg);
             body.scrollTop = body.scrollHeight;
         } catch (e) {
             hideTyping();
