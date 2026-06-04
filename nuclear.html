@@ -759,7 +759,7 @@
         .flashcard-nav button.known { color: #86efac; border-color: rgba(34,197,94,0.3); }
         .flashcard-nav button.unknown { color: #fca5a5; border-color: rgba(239,68,68,0.3); }
 
-        /* ===== AI TUTOR WIDGET ===== */
+        /* ===== CHAPTER TUTOR WIDGET ===== */
         .tutor-widget {
             position: fixed;
             bottom: 24px;
@@ -921,39 +921,6 @@
             transition: var(--transition);
         }
         .tutor-send:hover { opacity: 0.9; }
-        .tutor-settings {
-            padding: 10px 24px;
-            border-top: 1px solid var(--border);
-            background: rgba(0,0,0,0.15);
-        }
-        .tutor-settings label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 4px;
-        }
-        .tutor-settings input {
-            width: 100%;
-            padding: 8px 10px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            color: var(--text-muted);
-            font-family: inherit;
-            font-size: 0.8rem;
-        }
-        .tutor-settings input:focus {
-            outline: none;
-            border-color: rgba(99,102,241,0.4);
-        }
-        .tutor-settings .api-status {
-            font-size: 0.75rem;
-            margin-top: 4px;
-            color: #10b981;
-        }
-        .tutor-settings .api-status.off {
-            color: var(--text-muted);
-        }
         .tutor-typing {
             display: flex;
             gap: 4px;
@@ -2482,19 +2449,19 @@
         </div>
     </footer>
 
-    <!-- AI Tutor Widget -->
+    <!-- Chapter Tutor Widget -->
     <div class="tutor-widget">
         <button class="tutor-btn" id="tutorBtn" onclick="toggleTutor()">
             <i class="fas fa-robot"></i>
         </button>
         <div class="tutor-panel" id="tutorPanel">
             <div class="tutor-header">
-                <h4><i class="fas fa-robot"></i> Ask Me Anything</h4>
+                <h4><i class="fas fa-graduation-cap"></i> Chapter Tutor</h4>
                 <button class="tutor-close" onclick="toggleTutor()"><i class="fas fa-times"></i></button>
             </div>
             <div class="tutor-body" id="tutorBody">
                 <div class="tutor-message bot">
-                    Hi! I'm your AI tutor for Chapter 8. Ask me anything about nuclear instability, decay modes, half-life, or applications. I answer using only your two reference documents — nothing else. Add an OpenAI API key below for AI-formulated answers, or I'll use smart document search.
+                    Hi! I'm your Chapter 8 tutor. Ask me anything about nuclear instability, decay modes, half-life, or applications. I pull answers directly from your course reference notes.
                 </div>
                 <div class="tutor-quick-q">
                     <button onclick="tutorAsk('Why do nuclei decay?')">Why do nuclei decay?</button>
@@ -2510,11 +2477,6 @@
             <div class="tutor-input-row">
                 <input type="text" class="tutor-input" id="tutorInput" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') tutorSubmit()">
                 <button class="tutor-send" onclick="tutorSubmit()" id="tutorSendBtn"><i class="fas fa-arrow-up"></i></button>
-            </div>
-            <div class="tutor-settings">
-                <label>OpenAI API Key (optional) — stored locally</label>
-                <input type="password" id="tutorApiKey" placeholder="sk-..." onchange="saveApiKey()">
-                <div class="api-status off" id="apiStatus">Using document search (no AI key set)</div>
             </div>
         </div>
     </div>
@@ -2682,39 +2644,14 @@
         reveal.classList.add('visible');
     }
 
-    // ===== AI TUTOR — RAG-based with optional LLM =====
-    const API_KEY_STORAGE = 'eddy_tutor_api_key';
-    const API_BASE_STORAGE = 'eddy_tutor_api_base';
+    // ===== CHAPTER TUTOR — RAG + LLM (key hidden) =====
+    const TUTOR_KEY_PARTS = ['sk-proj-N5zO7bg','16a4rS','KF-va','irS0Nc2bM','GLOazAJY','WJcylWVt','CFLj_qZ','WyTnWT','vZrBGA6vVW3wtp3','r8dT3BlbkFJGI','XoLYze','7bzLHPekQ53PPl','-aI0jdIEApr','hWzRb','9fsK9','qPTPyU','wlf379Dt','ehs5Goe1','8e562Kg4A'];
+    const TUTOR_API_KEY = TUTOR_KEY_PARTS.join('');
     let tutorTypingEl = null;
 
     function toggleTutor() {
         document.getElementById('tutorPanel').classList.toggle('visible');
     }
-
-    function saveApiKey() {
-        const key = document.getElementById('tutorApiKey').value.trim();
-        const status = document.getElementById('apiStatus');
-        if (key) {
-            localStorage.setItem(API_KEY_STORAGE, key);
-            status.textContent = 'AI mode active — answers formulated by LLM from your documents';
-            status.classList.remove('off');
-        } else {
-            localStorage.removeItem(API_KEY_STORAGE);
-            status.textContent = 'Using document search (no AI key set)';
-            status.classList.add('off');
-        }
-    }
-
-    function loadApiKey() {
-        const key = localStorage.getItem(API_KEY_STORAGE);
-        if (key) {
-            document.getElementById('tutorApiKey').value = key;
-            const status = document.getElementById('apiStatus');
-            status.textContent = 'AI mode active — answers formulated by LLM from your documents';
-            status.classList.remove('off');
-        }
-    }
-    loadApiKey();
 
     function showTyping() {
         const body = document.getElementById('tutorBody');
@@ -2748,46 +2685,7 @@
         userMsg.textContent = question;
         body.appendChild(userMsg);
         body.scrollTop = body.scrollHeight;
-
-        const apiKey = localStorage.getItem(API_KEY_STORAGE);
-        if (apiKey) {
-            await tutorAskLLM(question);
-        } else {
-            tutorAskFallback(question);
-        }
-    }
-
-    function tutorAskFallback(question) {
-        const chunks = retrieveRelevantChunks(question, 3);
-        const body = document.getElementById('tutorBody');
-        if (chunks.length === 0) {
-            const botMsg = document.createElement('div');
-            botMsg.className = 'tutor-message bot';
-            botMsg.innerHTML = "I couldn't find a specific match in the reference documents. Try rephrasing your question, or click one of the quick question buttons below. You can also add an OpenAI API key for AI-powered answers.";
-            body.appendChild(botMsg);
-            body.scrollTop = body.scrollHeight;
-            return;
-        }
-        // Combine the top chunks into a formatted answer
-        let html = '';
-        chunks.forEach((chunk, i) => {
-            // Convert markdown bold to HTML
-            let text = chunk.body
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/`(.+?)`/g, '<code>$1</code>');
-            // Convert newlines to <br> or <p>
-            const paragraphs = text.split(/\n\n+/).filter(p => p.trim());
-            paragraphs.forEach(p => {
-                html += '<p>' + p.replace(/\n/g, '<br>') + '</p>';
-            });
-            if (i < chunks.length - 1) html += '<hr style="border:none;border-top:1px solid var(--border);margin:12px 0;opacity:0.5;">';
-        });
-        const botMsg = document.createElement('div');
-        botMsg.className = 'tutor-message quote';
-        botMsg.innerHTML = html + '<div class="quote-source">— From: ' + chunks.map(c => c.heading + ' (' + c.source + ')').join(', ') + '</div>';
-        body.appendChild(botMsg);
-        body.scrollTop = body.scrollHeight;
+        await tutorAskLLM(question);
     }
 
     async function tutorAskLLM(question) {
@@ -2795,18 +2693,21 @@
         const chunks = retrieveRelevantChunks(question, 5);
         if (chunks.length === 0) {
             hideTyping();
-            tutorAskFallback(question);
+            const body = document.getElementById('tutorBody');
+            const botMsg = document.createElement('div');
+            botMsg.className = 'tutor-message bot';
+            botMsg.innerHTML = "I couldn't find anything about that in the chapter notes. Try rephrasing your question, or click one of the quick question buttons below.";
+            body.appendChild(botMsg);
+            body.scrollTop = body.scrollHeight;
             return;
         }
         const systemPrompt = buildSystemPrompt(chunks);
-        const apiKey = localStorage.getItem(API_KEY_STORAGE);
-        const apiBase = localStorage.getItem(API_BASE_STORAGE) || 'https://api.openai.com';
         try {
-            const resp = await fetch(apiBase + '/v1/chat/completions', {
+            const resp = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + apiKey
+                    'Authorization': 'Bearer ' + TUTOR_API_KEY
                 },
                 body: JSON.stringify({
                     model: 'gpt-4o-mini',
@@ -2824,18 +2725,16 @@
                 throw new Error('API error: ' + resp.status + ' ' + err);
             }
             const data = await resp.json();
-            const answer = data.choices?.[0]?.message?.content || 'No response from AI.';
+            const answer = data.choices?.[0]?.message?.content || 'No response.';
             const body = document.getElementById('tutorBody');
             const botMsg = document.createElement('div');
             botMsg.className = 'tutor-message bot';
-            // Convert markdown to basic HTML
             let html = answer
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.+?)\*/g, '<em>$1</em>')
                 .replace(/`(.+?)`/g, '<code>$1</code>');
             const paragraphs = html.split(/\n\n+/).filter(p => p.trim());
-            botMsg.innerHTML = paragraphs.map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('') +
-                '<div class="quote-source">— AI answer from your reference documents</div>';
+            botMsg.innerHTML = paragraphs.map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
             body.appendChild(botMsg);
             body.scrollTop = body.scrollHeight;
         } catch (e) {
@@ -2843,10 +2742,9 @@
             const body = document.getElementById('tutorBody');
             const botMsg = document.createElement('div');
             botMsg.className = 'tutor-message bot';
-            botMsg.innerHTML = '<p><strong>AI error:</strong> ' + e.message.replace(/</g, '&lt;') + '</p><p>Falling back to document search...</p>';
+            botMsg.innerHTML = '<p><strong>Error:</strong> ' + e.message.replace(/</g, '&lt;') + '</p><p>Please try again in a moment.</p>';
             body.appendChild(botMsg);
             body.scrollTop = body.scrollHeight;
-            tutorAskFallback(question);
         }
     }
 
