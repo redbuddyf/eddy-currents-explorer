@@ -254,8 +254,8 @@
         }
         .scene-canvas-wrap canvas {
             display: block;
-            width: 100% !important;
-            height: 100% !important;
+            width: 100%;
+            height: 100%;
         }
         .scene-controls {
             display: flex;
@@ -1048,7 +1048,94 @@
             line-height: 1.7;
         }
 
-        @media (max-width: 900px) {
+                /* ===== CUSTOM CHART OF NUCLIDES ===== */
+        .nuclide-toolbar {
+            display: flex;
+            gap: 16px;
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nuclide-search {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        .nuclide-search:focus {
+            outline: none;
+            border-color: rgba(59,130,246,0.4);
+        }
+        .nuclide-filters {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .nuclide-filters label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .nuclide-filters input[type="checkbox"] {
+            accent-color: #3b82f6;
+            cursor: pointer;
+        }
+        .nuclide-tooltip {
+            position: absolute;
+            background: rgba(15, 15, 26, 0.95);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            color: var(--text);
+            pointer-events: none;
+            z-index: 10;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            display: none;
+        }
+        .nuclide-tooltip.visible {
+            display: block;
+        }
+        .nuclide-tooltip .tt-name {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fca5a5;
+            margin-bottom: 4px;
+        }
+        .nuclide-tooltip .tt-prop {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .nuclide-tooltip .tt-prop span {
+            color: var(--text);
+        }
+        .nuclide-tooltip .tt-decay {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        .nuclide-tooltip .tt-decay.stable { background: rgba(34,197,94,0.2); color: #86efac; }
+        .nuclide-tooltip .tt-decay.betaMinus { background: rgba(59,130,246,0.2); color: #93c5fd; }
+        .nuclide-tooltip .tt-decay.betaPlus { background: rgba(249,115,22,0.2); color: #fdba74; }
+        .nuclide-tooltip .tt-decay.alpha { background: rgba(239,68,68,0.2); color: #fca5a5; }
+        .nuclide-tooltip .tt-decay.gamma { background: rgba(250,204,21,0.2); color: #fde047; }
+
+@media (max-width: 900px) {
             .chapter-grid { grid-template-columns: 1fr; }
             .chapter-sidebar { display: none; }
             .simulator-grid { grid-template-columns: 1fr; }
@@ -1296,13 +1383,44 @@
                         </table>
 
                         <div class="insight-card">
-                            <h4><i class="fas fa-lightbulb"></i> Interactive NuDat 3 Chart of Nuclides</h4>
-                            <p>Explore the complete valley of stability interactively using the official Brookhaven National Laboratory database. Click any isotope to see its decay mode, half-life, and decay energies.</p>
+                            <h4><i class="fas fa-atom"></i> Interactive Chart of Nuclides</h4>
+                            <p>Explore the valley of stability with our custom-built interactive chart. Hover over any nuclide to see its decay mode and half-life. Search for specific isotopes or filter by decay mode.</p>
                         </div>
-                        <iframe class="iframe-embed" src="https://www.nndc.bnl.gov/nudat3" title="NuDat 3 Chart of Nuclides" loading="lazy"></iframe>
-                        <p style="text-align:center; color: var(--text-muted); font-size: 0.9rem; margin-top: -16px;">
-                            <em>Explore the valley of stability interactively. Click any isotope to see its decay mode and half-life.</em>
-                        </p>
+                        <div class="scene-container">
+                            <div class="scene-header">
+                                <h4><i class="fas fa-chart-scatter"></i> Figure 8.1b — Chart of Nuclides</h4>
+                                <span class="scene-badge">Interactive</span>
+                            </div>
+                            <div class="scene-canvas-wrap" style="height: 520px;">
+                                <canvas id="nuclideChartCanvas"></canvas>
+                                <div class="nuclide-tooltip" id="nuclideTooltip">
+                                    <div class="tt-name" id="ttName"></div>
+                                    <div class="tt-prop">Z = <span id="ttZ"></span>, N = <span id="ttN"></span>, A = <span id="ttA"></span></div>
+                                    <div class="tt-prop" id="ttHalfLife"></div>
+                                    <div class="tt-decay" id="ttDecay"></div>
+                                </div>
+                            </div>
+                            <div class="nuclide-toolbar">
+                                <input type="text" class="nuclide-search" id="nuclideSearch" placeholder="Search isotope (e.g. U-238, Carbon-14)...">
+                                <div class="nuclide-filters">
+                                    <label><input type="checkbox" checked data-filter="stable"> <span style="color:#22c55e">●</span> Stable</label>
+                                    <label><input type="checkbox" checked data-filter="betaMinus"> <span style="color:#3b82f6">●</span> β⁻</label>
+                                    <label><input type="checkbox" checked data-filter="betaPlus"> <span style="color:#f97316">●</span> β⁺/EC</label>
+                                    <label><input type="checkbox" checked data-filter="alpha"> <span style="color:#ef4444">●</span> α</label>
+                                    <label><input type="checkbox" checked data-filter="gamma"> <span style="color:#facc15">●</span> γ</label>
+                                </div>
+                            </div>
+                            <div class="scene-legend">
+                                <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
+                                <span><span class="legend-dot" style="background:#3b82f6"></span> β⁻ decay</span>
+                                <span><span class="legend-dot" style="background:#f97316"></span> β⁺ / EC</span>
+                                <span><span class="legend-dot" style="background:#ef4444"></span> α decay</span>
+                                <span><span class="legend-dot" style="background:rgba(255,255,255,0.3)"></span> Magic number</span>
+                            </div>
+                            <div class="scene-info">
+                                <i class="fas fa-mouse-pointer"></i> Hover over squares to see isotope details. Click to pin info. Use the search box to find specific isotopes.
+                            </div>
+                        </div>
                     </article>
 
                     <!-- 8.4 WHAT MAKES A NUCLEUS STABLE -->
@@ -2870,10 +2988,6 @@
     function markFlashcard(known) {
         nextFlashcard();
     }
-    </script>
-
-    <!-- ===== THREE.JS & INTERACTIVE SCRIPTS ===== -->
-    <script>
     // ===== NUCLEAR SCENE BUILDER =====
     class NuclearScene {
         constructor(containerId, protonCount, neutronCount, options = {}) {
@@ -3814,20 +3928,450 @@
             renderer.setSize(nw, nh);
         });
     })();
-    </script>
+    // ===== CUSTOM CHART OF NUCLIDES =====
+    (function() {
+        const canvas = document.getElementById('nuclideChartCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('nuclideTooltip');
+        const ttName = document.getElementById('ttName');
+        const ttZ = document.getElementById('ttZ');
+        const ttN = document.getElementById('ttN');
+        const ttA = document.getElementById('ttA');
+        const ttHalfLife = document.getElementById('ttHalfLife');
+        const ttDecay = document.getElementById('ttDecay');
 
-    <!-- KaTeX auto-render -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (typeof renderMathInElement !== 'undefined') {
-            renderMathInElement(document.body, {
-                delimiters: [
-                    {left: '$$', right: '$$', display: true},
-                    {left: '$', right: '$', display: false}
-                ]
+        // Offscreen canvas for caching the grid
+        let offscreen = null;
+        let offCtx = null;
+
+        // Known isotopes: [Z, N, symbol, decayMode, halfLife]
+        const knownIsotopes = [
+            [1,0,'¹H','stable',''], [1,1,'²H','stable',''], [1,2,'³H','betaMinus','12.3 y'],
+            [2,1,'³He','stable',''], [2,2,'⁴He','stable',''],
+            [3,3,'⁶Li','stable',''], [3,4,'⁷Li','stable',''],
+            [4,5,'⁹Be','stable',''],
+            [5,5,'¹⁰B','stable',''], [5,6,'¹¹B','stable',''],
+            [6,6,'¹²C','stable',''], [6,7,'¹³C','stable',''], [6,8,'¹⁴C','betaMinus','5,730 y'],
+            [7,7,'¹⁴N','stable',''], [7,8,'¹⁵N','stable',''],
+            [8,8,'¹⁶O','stable',''], [8,9,'¹⁷O','stable',''], [8,10,'¹⁸O','stable',''],
+            [9,10,'¹⁹F','stable',''], [9,10,'¹⁸F','betaPlus','109.8 min'],
+            [10,10,'²⁰Ne','stable',''], [10,11,'²¹Ne','stable',''], [10,12,'²²Ne','stable',''],
+            [11,12,'²³Na','stable',''], [11,11,'²²Na','betaPlus','2.6 y'],
+            [12,12,'²⁴Mg','stable',''], [12,13,'²⁵Mg','stable',''], [12,14,'²⁶Mg','stable',''],
+            [13,14,'²⁷Al','stable',''],
+            [14,14,'²⁸Si','stable',''], [14,15,'²⁹Si','stable',''], [14,16,'³⁰Si','stable',''],
+            [15,16,'³¹P','stable',''], [15,15,'³⁰P','betaPlus','2.5 min'],
+            [16,16,'³²S','stable',''], [16,17,'³³S','stable',''], [16,18,'³⁴S','stable',''], [16,20,'³⁶S','betaMinus',''],
+            [17,18,'³⁵Cl','stable',''], [17,20,'³⁷Cl','stable',''],
+            [18,18,'³⁶Ar','stable',''], [18,20,'³⁸Ar','stable',''], [18,22,'⁴⁰Ar','stable',''],
+            [19,20,'³⁹K','stable',''], [19,21,'⁴⁰K','betaMinus','1.25×10⁹ y'], [19,22,'⁴¹K','stable',''],
+            [20,20,'⁴⁰Ca','stable',''], [20,22,'⁴²Ca','stable',''], [20,23,'⁴³Ca','stable',''], [20,24,'⁴⁴Ca','stable',''], [20,26,'⁴⁶Ca','stable',''], [20,28,'⁴⁸Ca','betaMinus','>4×10¹⁹ y'],
+            [22,24,'⁴⁶Ti','stable',''], [22,26,'⁴⁸Ti','stable',''], [22,27,'⁴⁹Ti','stable',''], [22,28,'⁵⁰Ti','stable',''],
+            [24,26,'⁵⁰Cr','stable',''], [24,28,'⁵²Cr','stable',''], [24,29,'⁵³Cr','stable',''], [24,30,'⁵⁴Cr','stable',''],
+            [25,29,'⁵⁴Mn','betaPlus','312 d'], [25,30,'⁵⁵Mn','stable',''],
+            [26,28,'⁵⁴Fe','stable',''], [26,30,'⁵⁶Fe','stable',''], [26,31,'⁵⁷Fe','stable',''], [26,32,'⁵⁸Fe','stable',''],
+            [27,32,'⁵⁹Co','stable',''], [27,33,'⁶⁰Co','betaMinus','5.27 y'],
+            [28,30,'⁵⁸Ni','stable',''], [28,32,'⁶⁰Ni','stable',''], [28,33,'⁶¹Ni','stable',''], [28,34,'⁶²Ni','stable',''], [28,36,'⁶⁴Ni','stable',''],
+            [29,34,'⁶³Cu','stable',''], [29,36,'⁶⁵Cu','stable',''],
+            [30,34,'⁶⁴Zn','stable',''], [30,36,'⁶⁶Zn','stable',''], [30,37,'⁶⁷Zn','stable',''], [30,38,'⁶⁸Zn','stable',''], [30,40,'⁷⁰Zn','stable',''],
+            [31,38,'⁶⁹Ga','stable',''], [31,40,'⁷¹Ga','stable',''],
+            [32,38,'⁷⁰Ge','stable',''], [32,40,'⁷²Ge','stable',''], [32,41,'⁷³Ge','stable',''], [32,42,'⁷⁴Ge','stable',''], [32,44,'⁷⁶Ge','stable',''],
+            [33,42,'⁷⁵As','stable',''],
+            [34,40,'⁷⁴Se','stable',''], [34,42,'⁷⁶Se','stable',''], [34,43,'⁷⁷Se','stable',''], [34,44,'⁷⁸Se','stable',''], [34,46,'⁸⁰Se','stable',''], [34,48,'⁸²Se','betaMinus',''],
+            [35,42,'⁷⁷Br','betaPlus','57 h'], [35,44,'⁷⁹Br','stable',''],
+            [36,42,'⁷⁸Kr','stable',''], [36,44,'⁸⁰Kr','stable',''], [36,46,'⁸²Kr','stable',''], [36,48,'⁸⁴Kr','stable',''], [36,50,'⁸⁶Kr','stable',''],
+            [37,46,'⁸³Rb','stable',''], [37,48,'⁸⁵Rb','stable',''],
+            [38,48,'⁸⁶Sr','stable',''], [38,49,'⁸⁷Sr','stable',''], [38,50,'⁸⁸Sr','stable',''], [38,52,'⁹⁰Sr','betaMinus','28.8 y'],
+            [39,50,'⁸⁹Y','stable',''],
+            [40,50,'⁹⁰Zr','stable',''], [40,51,'⁹¹Zr','stable',''], [40,52,'⁹²Zr','stable',''], [40,54,'⁹⁴Zr','stable',''], [40,56,'⁹⁶Zr','stable',''],
+            [41,52,'⁹³Nb','stable',''],
+            [42,50,'⁹²Mo','stable',''], [42,52,'⁹⁴Mo','stable',''], [42,53,'⁹⁵Mo','stable',''], [42,54,'⁹⁶Mo','stable',''], [42,55,'⁹⁷Mo','stable',''], [42,56,'⁹⁸Mo','stable',''], [42,58,'¹⁰⁰Mo','betaMinus',''],
+            [43,56,'⁹⁹Tc','gamma','6.01 h'],
+            [44,54,'⁹⁸Ru','stable',''], [44,56,'¹⁰⁰Ru','stable',''], [44,57,'¹⁰¹Ru','stable',''], [44,58,'¹⁰²Ru','stable',''], [44,60,'¹⁰⁴Ru','stable',''], [44,62,'¹⁰⁶Ru','betaMinus',''],
+            [45,58,'¹⁰³Rh','stable',''],
+            [46,56,'¹⁰²Pd','stable',''], [46,58,'¹⁰⁴Pd','stable',''], [46,59,'¹⁰⁵Pd','stable',''], [46,60,'¹⁰⁶Pd','stable',''], [46,62,'¹⁰⁸Pd','stable',''], [46,64,'¹¹⁰Pd','stable',''],
+            [47,60,'¹⁰⁷Ag','stable',''], [47,62,'¹⁰⁹Ag','stable',''],
+            [48,62,'¹¹⁰Cd','stable',''], [48,64,'¹¹²Cd','stable',''], [48,65,'¹¹³Cd','stable',''], [48,66,'¹¹⁴Cd','stable',''], [48,68,'¹¹⁶Cd','stable',''], [48,70,'¹¹⁸Cd','stable',''],
+            [49,64,'¹¹³In','stable',''], [49,66,'¹¹⁵In','stable',''],
+            [50,62,'¹¹²Sn','stable',''], [50,64,'¹¹⁴Sn','stable',''], [50,65,'¹¹⁵Sn','stable',''], [50,66,'¹¹⁶Sn','stable',''], [50,67,'¹¹⁷Sn','stable',''], [50,68,'¹¹⁸Sn','stable',''], [50,69,'¹¹⁹Sn','stable',''], [50,70,'¹²⁰Sn','stable',''], [50,72,'¹²²Sn','stable',''], [50,74,'¹²⁴Sn','stable',''],
+            [51,70,'¹²¹Sb','stable',''], [51,72,'¹²³Sb','stable',''],
+            [52,68,'¹²⁰Te','stable',''], [52,70,'¹²²Te','stable',''], [52,72,'¹²⁴Te','stable',''], [52,73,'¹²⁵Te','stable',''], [52,74,'¹²⁶Te','stable',''], [52,76,'¹²⁸Te','stable',''], [52,78,'¹³⁰Te','betaMinus',''],
+            [53,74,'¹²⁷I','stable',''], [53,78,'¹³¹I','betaMinus','8.02 d'], [53,76,'¹²⁹I','betaMinus','1.57×10⁷ y'],
+            [54,74,'¹²⁶Xe','stable',''], [54,76,'¹²⁸Xe','stable',''], [54,77,'¹²⁹Xe','stable',''], [54,78,'¹³⁰Xe','stable',''], [54,80,'¹³²Xe','stable',''], [54,82,'¹³⁴Xe','stable',''], [54,86,'¹³⁶Xe','stable',''],
+            [55,78,'¹³³Cs','stable',''], [55,82,'¹³⁷Cs','betaMinus','30.17 y'], [55,80,'¹³⁵Cs','betaMinus','2.3×10⁶ y'],
+            [56,82,'¹³⁸Ba','stable',''], [56,81,'¹³⁷Ba','stable',''], [56,80,'¹³⁶Ba','stable',''], [56,79,'¹³⁵Ba','stable',''], [56,78,'¹³⁴Ba','stable',''], [56,74,'¹³⁰Ba','stable',''], [56,76,'¹³²Ba','stable',''],
+            [57,82,'¹³⁹La','stable',''],
+            [58,82,'¹⁴⁰Ce','stable',''], [58,78,'¹³⁶Ce','stable',''], [58,80,'¹³⁸Ce','stable',''], [58,84,'¹⁴²Ce','stable',''],
+            [59,82,'¹⁴¹Pr','stable',''],
+            [60,82,'¹⁴²Nd','stable',''], [60,83,'¹⁴³Nd','stable',''], [60,84,'¹⁴⁴Nd','stable',''], [60,85,'¹⁴⁵Nd','stable',''], [60,86,'¹⁴⁶Nd','stable',''], [60,88,'¹⁴⁸Nd','stable',''], [60,90,'¹⁵⁰Nd','stable',''],
+            [62,88,'¹⁵⁰Sm','stable',''], [62,90,'¹⁵²Sm','stable',''], [62,92,'¹⁵⁴Sm','stable',''],
+            [63,90,'¹⁵³Eu','stable',''], [63,88,'¹⁵¹Eu','stable',''],
+            [64,90,'¹⁵⁴Gd','stable',''], [64,92,'¹⁵⁶Gd','stable',''], [64,93,'¹⁵⁷Gd','stable',''], [64,94,'¹⁵⁸Gd','stable',''], [64,96,'¹⁶⁰Gd','stable',''],
+            [65,94,'¹⁵⁹Tb','stable',''],
+            [66,96,'¹⁶²Dy','stable',''], [66,98,'¹⁶⁴Dy','stable',''], [66,92,'¹⁵⁸Dy','stable',''], [66,94,'¹⁶⁰Dy','stable',''], [66,100,'¹⁶⁶Dy','stable',''],
+            [67,98,'¹⁶⁵Ho','stable',''],
+            [68,100,'¹⁶⁸Er','stable',''], [68,96,'¹⁶⁴Er','stable',''], [68,98,'¹⁶⁶Er','stable',''], [68,102,'¹⁷⁰Er','stable',''],
+            [69,100,'¹⁶⁹Tm','stable',''],
+            [70,102,'¹⁷²Yb','stable',''], [70,100,'¹⁷⁰Yb','stable',''], [70,104,'¹⁷⁴Yb','stable',''], [70,106,'¹⁷⁶Yb','stable',''],
+            [71,104,'¹⁷⁵Lu','stable',''], [71,106,'¹⁷⁶Lu','betaMinus','3.6×10¹⁰ y'],
+            [72,106,'¹⁷⁸Hf','stable',''], [72,108,'¹⁸⁰Hf','stable',''], [72,102,'¹⁷⁴Hf','stable',''], [72,104,'¹⁷⁶Hf','stable',''], [72,110,'¹⁸²Hf','betaMinus',''],
+            [73,108,'¹⁸¹Ta','stable',''],
+            [74,108,'¹⁸²W','stable',''], [74,109,'¹⁸³W','stable',''], [74,110,'¹⁸⁴W','stable',''], [74,112,'¹⁸⁶W','stable',''],
+            [75,110,'¹⁸⁵Re','stable',''], [75,112,'¹⁸⁷Re','stable',''],
+            [76,108,'¹⁸⁴Os','stable',''], [76,110,'¹⁸⁶Os','stable',''], [76,112,'¹⁸⁸Os','stable',''], [76,114,'¹⁹⁰Os','stable',''], [76,116,'¹⁹²Os','stable',''],
+            [77,114,'¹⁹¹Ir','stable',''], [77,116,'¹⁹³Ir','stable',''],
+            [78,116,'¹⁹⁴Pt','stable',''], [78,117,'¹⁹⁵Pt','stable',''], [78,118,'¹⁹⁶Pt','stable',''], [78,120,'¹⁹⁸Pt','stable',''], [78,114,'¹⁹²Pt','stable',''],
+            [79,118,'¹⁹⁷Au','stable',''],
+            [80,120,'²⁰⁰Hg','stable',''], [80,119,'¹⁹⁹Hg','stable',''], [80,118,'¹⁹⁸Hg','stable',''], [80,121,'²⁰¹Hg','stable',''], [80,122,'²⁰²Hg','stable',''], [80,124,'²⁰⁴Hg','stable',''], [80,116,'¹⁹⁶Hg','stable',''],
+            [81,122,'²⁰³Tl','stable',''], [81,124,'²⁰⁵Tl','stable',''],
+            [82,124,'²⁰⁶Pb','stable',''], [82,125,'²⁰⁷Pb','stable',''], [82,126,'²⁰⁸Pb','stable',''], [82,122,'²⁰⁴Pb','stable',''],
+            [83,126,'²⁰⁹Bi','stable',''],
+            [84,124,'²⁰⁸Po','alpha','2.9 y'], [84,125,'²⁰⁹Po','alpha','102 y'], [84,126,'²¹⁰Po','alpha','138 d'], [84,128,'²¹²Po','alpha','0.299 μs'], [84,130,'²¹⁴Po','alpha','164 μs'], [84,134,'²¹⁸Po','alpha','3.1 min'],
+            [86,136,'²²²Rn','alpha','3.82 d'], [86,134,'²²⁰Rn','alpha','55.6 s'], [86,132,'²¹⁸Rn','alpha','35 ms'],
+            [88,138,'²²⁶Ra','alpha','1,600 y'], [88,140,'²²⁸Ra','betaMinus','5.75 y'], [88,136,'²²⁴Ra','alpha','3.66 d'], [88,135,'²²³Ra','alpha','11.4 d'],
+            [90,142,'²³²Th','alpha','1.4×10¹⁰ y'], [90,140,'²³⁰Th','alpha','7.54×10⁴ y'], [90,138,'²²⁸Th','alpha','1.9 y'],
+            [92,143,'²³⁵U','alpha','7.04×10⁸ y'], [92,146,'²³⁸U','alpha','4.47×10⁹ y'], [92,142,'²³⁴U','alpha','2.45×10⁵ y'], [92,141,'²³³U','alpha','1.59×10⁵ y'],
+            [94,145,'²³⁹Pu','alpha','2.41×10⁴ y'], [94,146,'²⁴⁰Pu','alpha','6,560 y'], [94,147,'²⁴¹Pu','betaMinus','14.4 y'], [94,148,'²⁴²Pu','alpha','3.73×10⁵ y'], [94,150,'²⁴⁴Pu','alpha','8.1×10⁷ y'],
+            [95,146,'²⁴¹Am','alpha','432 y'], [95,148,'²⁴³Am','alpha','7,370 y']
+        ];
+
+        const decayColors = {
+            stable: '#22c55e',
+            betaMinus: '#3b82f6',
+            betaPlus: '#f97316',
+            alpha: '#ef4444',
+            gamma: '#facc15',
+            unknown: 'rgba(255,255,255,0.06)'
+        };
+
+        const decayLabels = {
+            stable: 'Stable',
+            betaMinus: 'β⁻ decay',
+            betaPlus: 'β⁺ / EC',
+            alpha: 'α decay',
+            gamma: 'γ decay',
+            unknown: 'Unknown'
+        };
+
+        const isotopeMap = new Map();
+        knownIsotopes.forEach(function(row) {
+            isotopeMap.set(row[0] + ',' + row[1], { z: row[0], n: row[1], sym: row[2], decay: row[3], hl: row[4] });
+        });
+
+        function predictDecay(Z, N) {
+            if (isotopeMap.has(Z + ',' + N)) return isotopeMap.get(Z + ',' + N).decay;
+            if (N === 0 && Z > 1) return null;
+            if (Z > 100 || N > 160) return null;
+            if (Z > 83) return 'alpha';
+
+            var nStable;
+            if (Z <= 20) nStable = Z;
+            else if (Z <= 30) nStable = Z * 1.15;
+            else if (Z <= 40) nStable = Z * 1.25;
+            else if (Z <= 50) nStable = Z * 1.3;
+            else if (Z <= 60) nStable = Z * 1.35;
+            else if (Z <= 70) nStable = Z * 1.4;
+            else if (Z <= 82) nStable = Z * 1.5;
+            else nStable = Z * 1.52;
+
+            var dist = N - nStable;
+            if (dist > 3) return 'betaMinus';
+            if (dist < -3) return 'betaPlus';
+            if (dist >= 0) return 'betaMinus';
+            return 'betaPlus';
+        }
+
+        function getIsotopeInfo(Z, N) {
+            var key = Z + ',' + N;
+            if (isotopeMap.has(key)) return isotopeMap.get(key);
+
+            var decay = predictDecay(Z, N);
+            if (decay === null) return null;
+
+            var elementSymbols = ['n','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm'];
+            var sym = elementSymbols[Z] || '?';
+            var massNum = Z + N;
+            var superscript = '';
+            var digits = massNum.toString();
+            var superscripts = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
+            for (var i = 0; i < digits.length; i++) superscript += superscripts[digits[i]];
+            var symbol = superscript + sym;
+
+            return { z: Z, n: N, sym: symbol, decay: decay, hl: '' };
+        }
+
+        var maxZ = 100;
+        var maxN = 160;
+        var pad = { left: 50, right: 20, top: 20, bottom: 40 };
+        var cellW, cellH, gw, gh;
+
+        var hoveredCell = null;
+        var pinnedCell = null;
+        var activeFilters = new Set(['stable','betaMinus','betaPlus','alpha','gamma','unknown']);
+
+        function resize() {
+            var dpr = Math.min(window.devicePixelRatio, 2);
+            var rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = 520 * dpr;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = '520px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            buildOffscreen();
+            draw();
+        }
+
+        function buildOffscreen() {
+            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
+            var h = 520;
+            gw = w - pad.left - pad.right;
+            gh = h - pad.top - pad.bottom;
+            cellW = gw / (maxN + 1);
+            cellH = gh / maxZ;
+
+            offscreen = document.createElement('canvas');
+            offscreen.width = canvas.width;
+            offscreen.height = canvas.height;
+            offCtx = offscreen.getContext('2d');
+            var dpr = Math.min(window.devicePixelRatio, 2);
+            offCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            // Draw cells to offscreen
+            for (var z = 1; z <= maxZ; z++) {
+                for (var n = 0; n <= maxN; n++) {
+                    var info = getIsotopeInfo(z, n);
+                    if (!info) continue;
+                    if (!activeFilters.has(info.decay)) continue;
+
+                    var x = pad.left + n * cellW;
+                    var y = pad.top + gh - z * cellH;
+                    var color = decayColors[info.decay] || decayColors.unknown;
+
+                    offCtx.fillStyle = color;
+                    offCtx.fillRect(x, y, cellW + 0.5, cellH + 0.5);
+                }
+            }
+
+            // Magic number lines
+            var magicNumbers = [2, 8, 20, 28, 50, 82, 126];
+            offCtx.strokeStyle = 'rgba(251,191,36,0.3)';
+            offCtx.setLineDash([3, 3]);
+            offCtx.lineWidth = 1;
+            magicNumbers.forEach(function(m) {
+                if (m <= maxN) {
+                    var x = pad.left + m * cellW;
+                    offCtx.beginPath(); offCtx.moveTo(x, pad.top); offCtx.lineTo(x, pad.top + gh); offCtx.stroke();
+                }
+                if (m <= maxZ) {
+                    var y = pad.top + gh - m * cellH;
+                    offCtx.beginPath(); offCtx.moveTo(pad.left, y); offCtx.lineTo(pad.left + gw, y); offCtx.stroke();
+                }
+            });
+            offCtx.setLineDash([]);
+
+            // N=Z line
+            offCtx.strokeStyle = 'rgba(255,255,255,0.15)';
+            offCtx.lineWidth = 1.5;
+            offCtx.beginPath();
+            offCtx.moveTo(pad.left, pad.top + gh);
+            var nzEnd = Math.min(maxZ, maxN);
+            offCtx.lineTo(pad.left + nzEnd * cellW, pad.top + gh - nzEnd * cellH);
+            offCtx.stroke();
+
+            // Axes
+            offCtx.fillStyle = 'rgba(255,255,255,0.5)';
+            offCtx.font = '12px Inter, sans-serif';
+            offCtx.textAlign = 'center';
+            offCtx.fillText('Neutrons (N) →', pad.left + gw / 2, h - 10);
+            offCtx.save();
+            offCtx.translate(16, pad.top + gh / 2);
+            offCtx.rotate(-Math.PI / 2);
+            offCtx.fillText('Protons (Z) →', 0, 0);
+            offCtx.restore();
+
+            // Axis ticks
+            offCtx.textAlign = 'center';
+            offCtx.textBaseline = 'top';
+            for (var i = 0; i <= maxN; i += 20) {
+                var x = pad.left + i * cellW;
+                offCtx.fillText(i, x, pad.top + gh + 6);
+            }
+            offCtx.textAlign = 'right';
+            offCtx.textBaseline = 'middle';
+            for (var i = 0; i <= maxZ; i += 20) {
+                var y = pad.top + gh - i * cellH;
+                offCtx.fillText(i, pad.left - 6, y);
+            }
+        }
+
+        function draw() {
+            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
+            var h = 520;
+            ctx.clearRect(0, 0, w, h);
+
+            if (offscreen) {
+                ctx.drawImage(offscreen, 0, 0);
+            }
+
+            // Highlight hovered/pinned
+            var highlight = pinnedCell || hoveredCell;
+            if (highlight) {
+                var hz = highlight[0], hn = highlight[1];
+                var hx = pad.left + hn * cellW;
+                var hy = pad.top + gh - hz * cellH;
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(hx - 1, hy - 1, cellW + 2, cellH + 2);
+            }
+        }
+
+        function updateTooltip(z, n, clientX, clientY) {
+            var info = getIsotopeInfo(z, n);
+            if (!info) {
+                tooltip.classList.remove('visible');
+                return;
+            }
+
+            ttName.textContent = info.sym || '';
+            ttZ.textContent = info.z;
+            ttN.textContent = info.n;
+            ttA.textContent = info.z + info.n;
+            ttHalfLife.textContent = info.hl ? 't₁/₂ = ' + info.hl : '';
+            ttDecay.textContent = decayLabels[info.decay] || info.decay;
+            ttDecay.className = 'tt-decay ' + info.decay;
+
+            tooltip.classList.add('visible');
+
+            var rect = canvas.parentElement.getBoundingClientRect();
+            var left = clientX - rect.left + 16;
+            var top = clientY - rect.top + 16;
+
+            if (left + 200 > rect.width) left = clientX - rect.left - 200;
+            if (left < 0) left = 8;
+            if (top + 120 > rect.height) top = clientY - rect.top - 120;
+            if (top < 0) top = 8;
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        }
+
+        canvas.addEventListener('mousemove', function(e) {
+            var rect = canvas.getBoundingClientRect();
+            var mx = e.clientX - rect.left;
+            var my = e.clientY - rect.top;
+
+            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
+            var h = 520;
+            var gw2 = w - pad.left - pad.right;
+            var gh2 = h - pad.top - pad.bottom;
+            var cw = gw2 / (maxN + 1);
+            var ch = gh2 / maxZ;
+
+            var n = Math.max(0, Math.min(maxN, Math.floor((mx - pad.left) / cw)));
+            var z = Math.max(1, Math.min(maxZ, Math.floor((pad.top + gh2 - my) / ch) + 1));
+
+            if (mx >= pad.left && mx <= pad.left + gw2 && my >= pad.top && my <= pad.top + gh2) {
+                if (!hoveredCell || hoveredCell[0] !== z || hoveredCell[1] !== n) {
+                    hoveredCell = [z, n];
+                    draw();
+                    updateTooltip(z, n, e.clientX, e.clientY);
+                } else {
+                    updateTooltip(z, n, e.clientX, e.clientY);
+                }
+            } else {
+                if (hoveredCell) {
+                    hoveredCell = null;
+                    draw();
+                    if (!pinnedCell) tooltip.classList.remove('visible');
+                }
+            }
+        });
+
+        canvas.addEventListener('mouseleave', function() {
+            hoveredCell = null;
+            draw();
+            if (!pinnedCell) tooltip.classList.remove('visible');
+        });
+
+        canvas.addEventListener('click', function() {
+            if (hoveredCell) {
+                if (pinnedCell && pinnedCell[0] === hoveredCell[0] && pinnedCell[1] === hoveredCell[1]) {
+                    pinnedCell = null;
+                } else {
+                    pinnedCell = [hoveredCell[0], hoveredCell[1]];
+                }
+                draw();
+            }
+        });
+
+        // Search
+        var searchInput = document.getElementById('nuclideSearch');
+        if (searchInput) {
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key !== 'Enter') return;
+                var query = searchInput.value.trim().toLowerCase();
+                if (!query) return;
+
+                var found = null;
+
+                // Z,N format
+                var znMatch = query.match(/(\d+)[,\s]+(\d+)/);
+                if (znMatch) {
+                    found = [parseInt(znMatch[2]), parseInt(znMatch[1])];
+                }
+
+                // Symbol-mass format
+                if (!found) {
+                    var symMatch = query.match(/^([a-z]+)[\s-]*(\d+)$/i);
+                    if (symMatch) {
+                        var sym = symMatch[1].toLowerCase();
+                        var mass = parseInt(symMatch[2]);
+                        var elementSymbols = ['n','h','he','li','be','b','c','n','o','f','ne','na','mg','al','si','p','s','cl','ar','k','ca','sc','ti','v','cr','mn','fe','co','ni','cu','zn','ga','ge','as','se','br','kr','rb','sr','y','zr','nb','mo','tc','ru','rh','pd','ag','cd','in','sn','sb','te','i','xe','cs','ba','la','ce','pr','nd','pm','sm','eu','gd','tb','dy','ho','er','tm','yb','lu','hf','ta','w','re','os','ir','pt','au','hg','tl','pb','bi','po','at','rn','fr','ra','ac','th','pa','u','np','pu','am','cm','bk','cf','es','fm'];
+                        var z = elementSymbols.indexOf(sym);
+                        if (z >= 0) {
+                            var n = mass - z;
+                            if (n >= 0) found = [z, n];
+                        }
+                    }
+                }
+
+                if (found) {
+                    var z = found[0], n = found[1];
+                    if (z >= 1 && z <= maxZ && n >= 0 && n <= maxN) {
+                        pinnedCell = [z, n];
+                        hoveredCell = [z, n];
+                        draw();
+
+                        var rect = canvas.getBoundingClientRect();
+                        var w = canvas.width / Math.min(window.devicePixelRatio, 2);
+                        var gw2 = w - pad.left - pad.right;
+                        var gh2 = 520 - pad.top - pad.bottom;
+                        var cw = gw2 / (maxN + 1);
+                        var ch = gh2 / maxZ;
+                        var cx = rect.left + pad.left + n * cw + cw / 2;
+                        var cy = rect.top + pad.top + gh2 - z * ch + ch / 2;
+                        updateTooltip(z, n, cx, cy);
+                    }
+                }
             });
         }
-    });
+
+        // Filters
+        document.querySelectorAll('.nuclide-filters input[data-filter]').forEach(function(cb) {
+            cb.addEventListener('change', function() {
+                activeFilters.clear();
+                document.querySelectorAll('.nuclide-filters input[data-filter]').forEach(function(box) {
+                    if (box.checked) activeFilters.add(box.dataset.filter);
+                });
+                buildOffscreen();
+                draw();
+            });
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+    })();
     </script>
     <script src="js/auth.js"></script>
 </body>
