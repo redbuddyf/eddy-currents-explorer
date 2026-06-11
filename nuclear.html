@@ -3041,7 +3041,7 @@
                 });
                 const mesh = new THREE.Mesh(geo, mat);
                 mesh.position.copy(positions[i]);
-                mesh.userData = { isProton: isProton, originalColor: color, originalEmissive: emissive };
+                mesh.userData = { isProton: isProton, originalColor: color, originalEmissive: emissive, originalPosition: positions[i].clone() };
                 this.nucleusGroup.add(mesh);
                 this.nucleons.push(mesh);
             }
@@ -3161,11 +3161,13 @@
             this.nucleusGroup.position.set(0,0,0);
             for (const p of this.particles) this.scene.remove(p.mesh);
             this.particles = [];
-            for (const n of this.nucleons) {
-                n.visible = true;
-                n.material.color.setHex(n.userData.originalColor);
-                n.material.emissive.setHex(n.userData.originalEmissive);
-                n.material.emissiveIntensity = 0.3;
+           for (const n of this.nucleons) {
+    n.visible = true;
+    n.position.copy(n.userData.originalPosition);  // ← add this line
+    n.material.color.setHex(n.userData.originalColor);
+    n.material.emissive.setHex(n.userData.originalEmissive);
+    n.material.emissiveIntensity = 0.3;
+}
             }
         }
     }
