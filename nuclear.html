@@ -66,6 +66,54 @@
             position: sticky;
             top: 100px;
             height: fit-content;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .chapter-sidebar.collapsed {
+            width: 0;
+            opacity: 0;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border: none;
+            pointer-events: none;
+        }
+        .chapter-sidebar.collapsed .chapter-sidebar-card {
+            display: none;
+        }
+        .chapter-grid {
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .chapter-grid.fullwidth {
+            grid-template-columns: 0 1fr;
+            gap: 0;
+        }
+        .toc-toggle-btn {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .toc-toggle-btn:hover {
+            background: var(--surface-light);
+            color: var(--text);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .toc-toggle-btn.collapsed {
+            left: 20px;
         }
         .chapter-sidebar-card {
             background: var(--surface);
@@ -1358,7 +1406,10 @@
         <div class="container">
             <div class="chapter-grid">
                 <!-- Sidebar -->
-                <aside class="chapter-sidebar">
+                <button class="toc-toggle-btn" id="tocToggleBtn" title="Toggle contents panel">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <aside class="chapter-sidebar" id="chapterSidebar">
                     <div class="chapter-sidebar-card">
                         <h3><i class="fas fa-list"></i> Contents</h3>
                         <ul class="chapter-toc-list">
@@ -4767,6 +4818,39 @@
             camera.aspect = nw / nh;
             camera.updateProjectionMatrix();
             renderer.setSize(nw, nh);
+        });
+    })();
+
+    // ===== TOC COLLAPSE TOGGLE =====
+    (function initTocToggle() {
+        const btn = document.getElementById('tocToggleBtn');
+        const sidebar = document.getElementById('chapterSidebar');
+        const grid = document.querySelector('.chapter-grid');
+        if (!btn || !sidebar || !grid) return;
+
+        // Restore state
+        if (localStorage.getItem('tocCollapsed') === 'true') {
+            sidebar.classList.add('collapsed');
+            grid.classList.add('fullwidth');
+            btn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            btn.title = 'Show contents panel';
+        }
+
+        btn.addEventListener('click', function() {
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            if (isCollapsed) {
+                sidebar.classList.remove('collapsed');
+                grid.classList.remove('fullwidth');
+                btn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                btn.title = 'Hide contents panel';
+                localStorage.setItem('tocCollapsed', 'false');
+            } else {
+                sidebar.classList.add('collapsed');
+                grid.classList.add('fullwidth');
+                btn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                btn.title = 'Show contents panel';
+                localStorage.setItem('tocCollapsed', 'true');
+            }
         });
     })();
 
