@@ -380,14 +380,14 @@ class MagnetDropDemo {
     drawMagnet(x, y) {
         const ctx = this.ctx;
         
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = '#fb7185';
         ctx.fillRect(x, y, 60, 40);
         ctx.fillStyle = 'white';
         ctx.font = 'bold 16px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('N', x + 30, y + 26);
         
-        ctx.fillStyle = '#3b82f6';
+        ctx.fillStyle = '#22d3ee';
         ctx.fillRect(x, y + 40, 60, 40);
         ctx.fillStyle = 'white';
         ctx.fillText('S', x + 30, y + 66);
@@ -1164,9 +1164,9 @@ class PendulumExperiment {
         ctx.stroke();
         
         // Magnet bob
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = '#fb7185';
         ctx.fillRect(bobX - 12, bobY, 24, 12);
-        ctx.fillStyle = '#3b82f6';
+        ctx.fillStyle = '#22d3ee';
         ctx.fillRect(bobX - 12, bobY + 12, 24, 12);
         
         // Eddy currents - stronger for copper, weaker for aluminum
@@ -1350,9 +1350,9 @@ class TubeDropExperiment {
     
     drawMagnet(x, y) {
         const ctx = this.ctx;
-        ctx.fillStyle = '#ef4444';
+        ctx.fillStyle = '#fb7185';
         ctx.fillRect(x - 12, y, 24, 12);
-        ctx.fillStyle = '#3b82f6';
+        ctx.fillStyle = '#22d3ee';
         ctx.fillRect(x - 12, y + 12, 24, 12);
     }
 }

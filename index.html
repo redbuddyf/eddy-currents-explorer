@@ -10,9 +10,41 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Observatory enhancements */
+        .glass-card {
+            background: var(--surface) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--border) !important;
+        }
+        
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            margin: 0 auto 24px;
+        }
+        
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+        }
+        
+        ::selection {
+            background: rgba(34, 211, 238, 0.3);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="universe-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script src="js/universe-bg.js"></script>
+        <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
@@ -52,21 +84,16 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
-            <div class="particles" id="particles"></div>
-        </div>
+        <!-- Universe background handled by canvas -->
         
         <div class="hero-content">
             <div class="hero-badge reveal-up">
                 <i class="fas fa-play-circle"></i>
                 <span>Physics & Chemistry Series</span>
             </div>
-            <h1 class="hero-title reveal-up">
+            <h1 class="hero-title reveal-up" style="font-size:clamp(2.8rem, 7vw, 5rem); line-height:1.05; margin-bottom:28px;">
                 Where Complex Science
-                <span class="gradient-text">Becomes Simple</span>
+                <span class="gradient-text" style="display:block; margin-top:8px; font-size:1.1em;">Becomes Simple</span>
             </h1>
             <p class="hero-description reveal-up">
                 Join us on a journey through Physics and Chemistry. From eddy currents to chemical bonds, 
@@ -303,28 +330,28 @@
         <div class="container">
             <div class="features-grid">
                 <div class="feature-item reveal-up stagger-1">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="border-radius: var(--radius);">
                         <i class="fas fa-video"></i>
                     </div>
                     <h3>Video Lessons</h3>
                     <p>Engaging podcast episodes that break down complex topics</p>
                 </div>
                 <div class="feature-item reveal-up stagger-2">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="border-radius: var(--radius);">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3>Interactive Labs</h3>
                     <p>Hands-on simulations for both physics and chemistry</p>
                 </div>
                 <div class="feature-item reveal-up stagger-3">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="border-radius: var(--radius);">
                         <i class="fas fa-file-download"></i>
                     </div>
                     <h3>Study Notes</h3>
                     <p>Comprehensive notes and resources for revision</p>
                 </div>
                 <div class="feature-item reveal-up stagger-4">
-                    <div class="feature-icon">
+                    <div class="feature-icon" style="border-radius: var(--radius);">
                         <i class="fas fa-question-circle"></i>
                     </div>
                     <h3>Knowledge Quiz</h3>

@@ -7,7 +7,7 @@ const NOTES_TOPICS = {
         title: 'Eddy Currents',
         subtitle: 'Episode 1 - Physics',
         icon: 'fa-magnet',
-        color: '#6366f1',
+        color: '#22d3ee',
         sectionCount: 13,
         sections: [
             { id: 'overview', title: 'Overview', content: `

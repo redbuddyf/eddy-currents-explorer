@@ -21,7 +21,7 @@
         /* ===== NUCLEAR DECAY PAGE STYLES ===== */
         .nuclear-hero {
             padding: 140px 0 80px;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #020205 0%, #0a0a18 50%, #0d0d20 100%);
             border-bottom: 1px solid var(--border);
             position: relative;
             overflow: hidden;
@@ -30,22 +30,22 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(239,68,68,0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(59,130,246,0.08) 0%, transparent 50%);
+            background: radial-gradient(circle at 30% 50%, rgba(34,211,238,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(168,85,247,0.06) 0%, transparent 50%);
             pointer-events: none;
         }
         .nuclear-hero .container { position: relative; z-index: 1; }
         .nuclear-hero .section-tag {
-            background: rgba(239,68,68,0.15);
-            color: #ef4444;
-            border: 1px solid rgba(239,68,68,0.3);
+            background: rgba(34,211,238,0.1);
+            color: #22d3ee;
+            border: 1px solid rgba(34,211,238,0.25);
         }
         .nuclear-hero h1 {
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #fca5a5 50%, #60a5fa 100%);
+            background: linear-gradient(135deg, #fff 0%, #67e8f9 50%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -166,7 +166,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #ef4444, #f97316);
+            background: linear-gradient(135deg, #fb7185, #f472b6);
             border-radius: var(--radius);
             font-size: 1.25rem;
             color: #fff;
@@ -232,7 +232,7 @@
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 3px;
-            background: linear-gradient(90deg, #ef4444, #f97316, #3b82f6);
+            background: linear-gradient(90deg, #fb7185, #f472b6, #a855f7);
         }
         .nuclear-formula {
             font-family: 'Space Grotesk', monospace;
@@ -332,7 +332,7 @@
             border-color: rgba(255,255,255,0.2);
         }
         .scene-btn.primary {
-            background: linear-gradient(135deg, #ef4444, #f97316);
+            background: linear-gradient(135deg, #fb7185, #f472b6);
             border-color: transparent;
             color: #fff;
         }
@@ -697,7 +697,7 @@
         }
         .self-test-submit {
             padding: 10px 24px;
-            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            background: linear-gradient(135deg, #a855f7, #22d3ee);
             border: none;
             border-radius: var(--radius);
             color: #fff;
@@ -737,7 +737,7 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ef4444, #f97316);
+            background: linear-gradient(135deg, #fb7185, #f472b6);
             border: none;
             color: white;
             font-size: 1.3rem;
@@ -774,7 +774,7 @@
             margin-bottom: 16px;
             font-size: 1.1rem;
         }
-        .flashcard-panel h4 i { color: #ef4444; }
+        .flashcard-panel h4 i { color: #22d3ee; }
         .flashcard-close {
             background: none;
             border: none;
@@ -848,7 +848,7 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #22d3ee, #a855f7);
             border: none;
             color: white;
             font-size: 1.3rem;
@@ -960,7 +960,7 @@
             transition: var(--transition);
         }
         .tutor-quick-q button:hover {
-            background: rgba(99,102,241,0.15);
+            background: rgba(34,211,238,0.1);
             border-color: rgba(99,102,241,0.3);
             color: #c4b5fd;
         }
@@ -989,7 +989,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, #22d3ee, #a855f7);
             border: none;
             color: white;
             cursor: pointer;
@@ -1054,7 +1054,7 @@
             align-items: center;
             gap: 12px;
         }
-        .section-review h3 i { color: #ef4444; }
+        .section-review h3 i { color: #22d3ee; }
         .section-review ul {
             padding-left: 20px;
             color: var(--text-muted);
@@ -1165,7 +1165,7 @@
             cursor: pointer;
         }
         .nuclide-filters input[type="checkbox"] {
-            accent-color: #3b82f6;
+            accent-color: #a855f7;
             cursor: pointer;
         }
         .nuclide-tooltip {
@@ -1373,7 +1373,9 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="universe-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script src="js/universe-bg.js"></script>
+        <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
@@ -1742,9 +1744,9 @@
                                 <canvas id="beCurveCanvas"></canvas>
                             </div>
                             <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> BE/A curve</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> BE/A curve</span>
                                 <span><span class="legend-dot" style="background:#22c55e"></span> ⁵⁶Fe peak (8.79 MeV)</span>
-                                <span><span class="legend-dot" style="background:#3b82f6"></span> Fusion region</span>
+                                <span><span class="legend-dot" style="background:#22d3ee"></span> Fusion region</span>
                                 <span><span class="legend-dot" style="background:#f97316"></span> Fission region</span>
                             </div>
                             <div class="figure-caption">Figure 8.2 — Binding energy per nucleon curve showing the peak at iron-56, the turning point between fusion and fission energy release.</div>
@@ -1912,7 +1914,7 @@
                             </div>
                             <div class="scene-canvas-wrap" id="alphaScene"></div>
                             <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> Proton</span>
                                 <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
                                 <span><span class="legend-dot" style="background:#facc15"></span> Alpha particle</span>
                             </div>
@@ -1972,9 +1974,9 @@
                             </div>
                             <div class="scene-canvas-wrap" id="betaMinusScene"></div>
                             <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> Proton</span>
                                 <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
-                                <span><span class="legend-dot" style="background:#3b82f6"></span> Electron (β⁻)</span>
+                                <span><span class="legend-dot" style="background:#22d3ee"></span> Electron (β⁻)</span>
                                 <span><span class="legend-dot" style="background:#a855f7"></span> Antineutrino</span>
                             </div>
                             <div class="scene-controls">
@@ -2030,7 +2032,7 @@
                             </div>
                             <div class="scene-canvas-wrap" id="betaPlusScene"></div>
                             <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> Proton</span>
                                 <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
                                 <span><span class="legend-dot" style="background:#22c55e"></span> Positron (β⁺)</span>
                                 <span><span class="legend-dot" style="background:#a855f7"></span> Neutrino</span>
@@ -2077,7 +2079,7 @@
                             </div>
                             <div class="scene-canvas-wrap" id="gammaScene"></div>
                             <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> Proton</span>
                                 <span><span class="legend-dot" style="background:#94a3b8"></span> Neutron</span>
                                 <span><span class="legend-dot" style="background:#facc15"></span> Gamma photon</span>
                             </div>
@@ -2113,7 +2115,7 @@
                                 <div class="atom-controls">
                                     <h5>Particles</h5>
                                     <button class="particle-btn proton" onclick="addProton()">
-                                        <span><span class="legend-dot" style="background:#ef4444"></span> Proton</span>
+                                        <span><span class="legend-dot" style="background:#fb7185"></span> Proton</span>
                                         <span class="count" id="protonCount">0</span>
                                     </button>
                                     <button class="particle-btn neutron" onclick="addNeutron()">
@@ -2121,7 +2123,7 @@
                                         <span class="count" id="neutronCount">0</span>
                                     </button>
                                     <button class="particle-btn electron" onclick="addElectron()">
-                                        <span><span class="legend-dot" style="background:#3b82f6"></span> Electron</span>
+                                        <span><span class="legend-dot" style="background:#22d3ee"></span> Electron</span>
                                         <span class="count" id="electronCount">0</span>
                                     </button>
                                     <button class="scene-btn" onclick="resetAtom()" style="margin-top:8px;">
@@ -2349,7 +2351,7 @@
                                 </div>
                             </div>
                             <div class="scene-legend" style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.06); padding-top:12px;">
-                                <span><span class="legend-dot" style="background:#ef4444"></span> α decay</span>
+                                <span><span class="legend-dot" style="background:#fb7185"></span> α decay</span>
                                 <span><span class="legend-dot" style="background:#14b8a6"></span> β⁻ decay</span>
                                 <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
                             </div>
@@ -3723,7 +3725,7 @@
                 const r = Math.min(cellW, cellH) * 0.35;
                 if (nuclei[i].alive) {
                     const grad = ctx.createRadialGradient(x, y, r * 0.3, x, y, r * 1.5);
-                    grad.addColorStop(0, '#ef4444');
+                    grad.addColorStop(0, '#fb7185');
                     grad.addColorStop(0.5, 'rgba(239,68,68,0.3)');
                     grad.addColorStop(1, 'rgba(239,68,68,0)');
                     ctx.fillStyle = grad;
@@ -3775,7 +3777,7 @@
             curveCtx.fillText('5', pad.left + graphW, h - 10);
             curveCtx.fillText('Half-lives elapsed →', pad.left + graphW / 2, h - 2);
             if (history.length > 1) {
-                curveCtx.strokeStyle = '#ef4444';
+                curveCtx.strokeStyle = '#fb7185';
                 curveCtx.lineWidth = 2;
                 curveCtx.beginPath();
                 for (let i = 0; i < history.length; i++) {
@@ -3915,7 +3917,7 @@
             ctx.fillStyle = 'rgba(249,115,22,0.06)';
             ctx.fillRect(pad.left + gw * (56 / maxA), pad.top, gw * (1 - 56 / maxA), gh);
             // Curve
-            ctx.strokeStyle = '#ef4444';
+            ctx.strokeStyle = '#fb7185';
             ctx.lineWidth = 2.5;
             ctx.beginPath();
             for (let A = 1; A <= maxA; A += 1) {

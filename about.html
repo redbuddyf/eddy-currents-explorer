@@ -313,9 +313,41 @@
             }
         }
     </style>
+    <style>
+        /* Observatory enhancements */
+        .glass-card {
+            background: var(--surface) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--border) !important;
+        }
+        
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            margin: 0 auto 24px;
+        }
+        
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+        }
+        
+        ::selection {
+            background: rgba(34, 211, 238, 0.3);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="universe-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script src="js/universe-bg.js"></script>
+        <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
@@ -357,11 +389,11 @@
     <section class="about-hero">
         <div class="container">
             <div class="about-hero-content">
-                <div class="about-logo">
+                <div class="about-logo reveal-up">
                     <img src="assets/logo-icon.svg" alt="Science Unpacked" width="80" height="80">
                 </div>
-                <h1>Science<span class="gradient-text">Unpacked</span></h1>
-                <p>Breaking down complex Physics and Chemistry concepts into engaging, digestible content for students everywhere.</p>
+                <h1 class="reveal-up">Science<span class="gradient-text">Unpacked</span></h1>
+                <p class="reveal-up">Breaking down complex Physics and Chemistry concepts into engaging, digestible content for students everywhere.</p>
             </div>
         </div>
     </section>
@@ -370,22 +402,22 @@
     <section class="mission-section">
         <div class="container">
             <div class="mission-grid">
-                <div class="mission-content">
-                    <span class="section-tag">Our Mission</span>
-                    <h2>Making Science Accessible to Everyone</h2>
-                    <p>
+                <div class="mission-content reveal-left">
+                    <span class="section-tag reveal-up">Our Mission</span>
+                    <h2 class="reveal-up">Making Science Accessible to Everyone</h2>
+                    <p class="reveal-up">
                         Science Unpacked was created with a simple goal: to make complex Physics and Chemistry concepts 
                         understandable and engaging for students. We believe that everyone can grasp advanced scientific 
                         ideas when they're presented in the right way.
                     </p>
-                    <p>
+                    <p class="reveal-up">
                         Through a combination of video lessons, interactive simulations, and comprehensive study materials, 
                         we're building a resource that helps students not just memorize equations, but truly understand 
                         the fundamental principles of both physical and chemical sciences.
                     </p>
                 </div>
-                <div class="mission-visual">
-                    <div class="mission-card reveal-up">
+                <div class="mission-visual reveal-right">
+                    <div class="mission-card">
                         <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
                         <blockquote>
                             "If you can't explain it simply, you don't understand it well enough."
@@ -406,7 +438,7 @@
             </div>
             
             <div class="features-list">
-                <div class="feature-card reveal-up">
+                <div class="feature-card reveal-up stagger-1">
                     <div class="feature-card-icon">
                         <i class="fas fa-video"></i>
                     </div>
@@ -414,7 +446,7 @@
                     <p>Video episodes that break down complex topics with clear explanations, demonstrations, and real-world examples.</p>
                 </div>
                 
-                <div class="feature-card reveal-up">
+                <div class="feature-card reveal-up stagger-2">
                     <div class="feature-card-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
@@ -422,7 +454,7 @@
                     <p>Virtual laboratories where you can experiment with Physics and Chemistry concepts, adjust variables, and see results in real-time.</p>
                 </div>
                 
-                <div class="feature-card reveal-up">
+                <div class="feature-card reveal-up stagger-3">
                     <div class="feature-card-icon">
                         <i class="fas fa-book"></i>
                     </div>
@@ -430,7 +462,7 @@
                     <p>Comprehensive notes, flashcards, and downloadable materials to support your learning and revision.</p>
                 </div>
                 
-                <div class="feature-card reveal-up">
+                <div class="feature-card reveal-up stagger-4">
                     <div class="feature-card-icon">
                         <i class="fas fa-question-circle"></i>
                     </div>
@@ -446,7 +478,7 @@
         <div class="container">
             <div class="section-header centered">
                 <span class="section-tag">The Creator</span>
-                <h2 class="section-title">Meet the Mind Behind Science Unpacked</h2>
+                <h2 class="section-title" style="font-weight:700; letter-spacing:-0.02em;">Meet the Mind Behind Science Unpacked</h2>
             </div>
             
             <div class="team-grid">
@@ -465,11 +497,11 @@
     <!-- CTA -->
     <section class="cta-section">
         <div class="container">
-            <div class="cta-card reveal-up">
+            <div class="cta-card">
                 <div class="cta-content">
-                    <h2>Start Learning Today</h2>
-                    <p>Dive into the fascinating world of eddy currents and discover how science shapes our world.</p>
-                    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <h2 class="reveal-up">Start Learning Today</h2>
+                    <p class="reveal-up">Dive into the fascinating world of eddy currents and discover how science shapes our world.</p>
+                    <div class="reveal-up" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
                         <a href="index.html" class="btn btn-primary">
                             <i class="fas fa-play"></i>
                             Watch Episode 1

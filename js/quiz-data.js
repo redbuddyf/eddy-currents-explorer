@@ -7,7 +7,7 @@ const QUIZ_TOPICS = {
         title: 'Eddy Currents',
         subtitle: 'How well do you understand electromagnetic induction?',
         icon: 'fa-magnet',
-        color: '#6366f1',
+        color: '#22d3ee',
         questionCount: 10,
         timeEstimate: '~5 Minutes',
         questions: [

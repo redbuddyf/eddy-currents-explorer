@@ -224,7 +224,7 @@ function showToast(message, duration = 3000) {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Science Unpacked initialized');
     
-    createParticles();
+    // createParticles(); // Replaced by universe-bg.js
     initVideoPlayer();
 });
 
@@ -395,3 +395,12 @@ window.ScienceUnpacked = {
     
     animate();
 })();
+
+// Subject card mouse glow tracking
+document.querySelectorAll('.subject-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+        card.style.setProperty('--mouse-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+});

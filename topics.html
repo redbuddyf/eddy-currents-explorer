@@ -316,9 +316,41 @@
             margin-top: 8px;
         }
     </style>
+    <style>
+        /* Observatory enhancements */
+        .glass-card {
+            background: var(--surface) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--border) !important;
+        }
+        
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            margin: 0 auto 24px;
+        }
+        
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+        }
+        
+        ::selection {
+            background: rgba(34, 211, 238, 0.3);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="universe-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script src="js/universe-bg.js"></script>
+        <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
@@ -359,7 +391,7 @@
     <!-- Hero -->
     <section class="topics-hero">
         <div class="container">
-            <span class="section-tag">Browse All Content</span>
+            <span class="section-tag reveal-up">Browse All Content</span>
             <h1 class="section-title reveal-up">Physics & Chemistry Topics</h1>
             <p class="section-subtitle reveal-up">Explore our complete library of science education content</p>
             
@@ -396,102 +428,118 @@
                 </div>
                 
                 <div class="episodes-grid">
-                    <div class="episode-card physics">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge physics available">Available</span>
-                            <i class="fas fa-magnet"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 1</div>
-                            <h3 class="episode-title">Eddy Currents Explained</h3>
-                            <p class="episode-description">Discover the invisible forces behind magnetic braking and levitation technology.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> 10 min</span>
-                                <span><i class="fas fa-headphones"></i> Podcast</span>
+                    <div class="card-3d reveal-up stagger-1">
+                        <div class="card-3d-inner">
+                            <div class="episode-card physics">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge physics available">Available</span>
+                                    <i class="fas fa-magnet"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 1</div>
+                                    <h3 class="episode-title">Eddy Currents Explained</h3>
+                                    <p class="episode-description">Discover the invisible forces behind magnetic braking and levitation technology.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> 10 min</span>
+                                        <span><i class="fas fa-headphones"></i> Podcast</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <a href="podcast.html" class="btn-episode btn-episode-primary">
+                                        <i class="fas fa-headphones"></i> Listen
+                                    </a>
+                                    <a href="notes.html?topic=eddy-currents" class="btn-episode btn-episode-secondary">
+                                        <i class="fas fa-file-alt"></i> Notes
+                                    </a>
+                                    <a href="quiz.html?topic=eddy-currents" class="btn-episode btn-episode-secondary">
+                                        <i class="fas fa-question-circle"></i> Quiz
+                                    </a>
+                                    <a href="eddy-currents.html" class="btn-episode btn-episode-secondary">
+                                        <i class="fas fa-flask"></i> Lab
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <a href="podcast.html" class="btn-episode btn-episode-primary">
-                                <i class="fas fa-headphones"></i> Listen
-                            </a>
-                            <a href="notes.html?topic=eddy-currents" class="btn-episode btn-episode-secondary">
-                                <i class="fas fa-file-alt"></i> Notes
-                            </a>
-                            <a href="quiz.html?topic=eddy-currents" class="btn-episode btn-episode-secondary">
-                                <i class="fas fa-question-circle"></i> Quiz
-                            </a>
-                            <a href="eddy-currents.html" class="btn-episode btn-episode-secondary">
-                                <i class="fas fa-flask"></i> Lab
-                            </a>
                         </div>
                     </div>
                     
-                    <div class="episode-card physics">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge physics available">Available</span>
-                            <i class="fas fa-radiation"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Depth Study</div>
-                            <h3 class="episode-title">Nuclear Instability &amp; Decay</h3>
-                            <p class="episode-description">Explore radioactive decay modes, half-lives, and the valley of stability with interactive 3D nucleus visualisations.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> Self-paced</span>
-                                <span><i class="fas fa-cube"></i> 3D Interactive</span>
+                    <div class="card-3d reveal-up stagger-2">
+                        <div class="card-3d-inner">
+                            <div class="episode-card physics">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge physics available">Available</span>
+                                    <i class="fas fa-radiation"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Depth Study</div>
+                                    <h3 class="episode-title">Nuclear Instability &amp; Decay</h3>
+                                    <p class="episode-description">Explore radioactive decay modes, half-lives, and the valley of stability with interactive 3D nucleus visualisations.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> Self-paced</span>
+                                        <span><i class="fas fa-cube"></i> 3D Interactive</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <a href="notes.html?topic=nuclear-decay" class="btn-episode btn-episode-secondary">
+                                        <i class="fas fa-file-alt"></i> Notes
+                                    </a>
+                                    <a href="quiz.html?topic=nuclear-decay" class="btn-episode btn-episode-secondary">
+                                        <i class="fas fa-question-circle"></i> Quiz
+                                    </a>
+                                    <a href="nuclear.html" class="btn-episode btn-episode-primary">
+                                        <i class="fas fa-flask"></i> Lab
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <a href="notes.html?topic=nuclear-decay" class="btn-episode btn-episode-secondary">
-                                <i class="fas fa-file-alt"></i> Notes
-                            </a>
-                            <a href="quiz.html?topic=nuclear-decay" class="btn-episode btn-episode-secondary">
-                                <i class="fas fa-question-circle"></i> Quiz
-                            </a>
-                            <a href="nuclear.html" class="btn-episode btn-episode-primary">
-                                <i class="fas fa-flask"></i> Lab
-                            </a>
                         </div>
                     </div>
                     
-                    <div class="episode-card physics" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge physics">Coming Soon</span>
-                            <i class="fas fa-wave-square"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 2</div>
-                            <h3 class="episode-title">Wave-Particle Duality</h3>
-                            <p class="episode-description">Is light a wave or a particle? The surprising answer is both!</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-3">
+                        <div class="card-3d-inner">
+                            <div class="episode-card physics" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge physics">Coming Soon</span>
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 2</div>
+                                    <h3 class="episode-title">Wave-Particle Duality</h3>
+                                    <p class="episode-description">Is light a wave or a particle? The surprising answer is both!</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                     
-                    <div class="episode-card physics" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge physics">Coming Soon</span>
-                            <i class="fas fa-rocket"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 3</div>
-                            <h3 class="episode-title">Special Relativity</h3>
-                            <p class="episode-description">Why time slows down when you travel at the speed of light.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-4">
+                        <div class="card-3d-inner">
+                            <div class="episode-card physics" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge physics">Coming Soon</span>
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 3</div>
+                                    <h3 class="episode-title">Special Relativity</h3>
+                                    <p class="episode-description">Why time slows down when you travel at the speed of light.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -510,87 +558,103 @@
                 </div>
                 
                 <div class="episodes-grid">
-                    <div class="episode-card chemistry" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge chemistry">Coming Soon</span>
-                            <i class="fas fa-share-alt"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 1</div>
-                            <h3 class="episode-title">Chemical Bonding</h3>
-                            <p class="episode-description">Ionic, covalent, and metallic bonds explained with 3D models.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-5">
+                        <div class="card-3d-inner">
+                            <div class="episode-card chemistry" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge chemistry">Coming Soon</span>
+                                    <i class="fas fa-share-alt"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 1</div>
+                                    <h3 class="episode-title">Chemical Bonding</h3>
+                                    <p class="episode-description">Ionic, covalent, and metallic bonds explained with 3D models.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                     
-                    <div class="episode-card chemistry" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge chemistry">Coming Soon</span>
-                            <i class="fas fa-fire"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 2</div>
-                            <h3 class="episode-title">Exothermic vs Endothermic</h3>
-                            <p class="episode-description">Understanding heat in chemical reactions and thermochemistry.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-6">
+                        <div class="card-3d-inner">
+                            <div class="episode-card chemistry" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge chemistry">Coming Soon</span>
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 2</div>
+                                    <h3 class="episode-title">Exothermic vs Endothermic</h3>
+                                    <p class="episode-description">Understanding heat in chemical reactions and thermochemistry.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                     
-                    <div class="episode-card chemistry" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge chemistry">Coming Soon</span>
-                            <i class="fas fa-tint"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 3</div>
-                            <h3 class="episode-title">pH and Acidity</h3>
-                            <p class="episode-description">The pH scale, neutralization, and buffer solutions explained.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-7">
+                        <div class="card-3d-inner">
+                            <div class="episode-card chemistry" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge chemistry">Coming Soon</span>
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 3</div>
+                                    <h3 class="episode-title">pH and Acidity</h3>
+                                    <p class="episode-description">The pH scale, neutralization, and buffer solutions explained.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                     
-                    <div class="episode-card chemistry" style="opacity: 0.6;">
-                        <div class="episode-thumbnail">
-                            <span class="episode-badge chemistry">Coming Soon</span>
-                            <i class="fas fa-circle-nodes"></i>
-                        </div>
-                        <div class="episode-info">
-                            <div class="episode-number">Episode 4</div>
-                            <h3 class="episode-title">The Mole Concept</h3>
-                            <p class="episode-description">Understanding Avogadro's number and stoichiometry made simple.</p>
-                            <div class="episode-meta">
-                                <span><i class="fas fa-clock"></i> TBD min</span>
-                                <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                    <div class="card-3d reveal-up stagger-8">
+                        <div class="card-3d-inner">
+                            <div class="episode-card chemistry" style="opacity: 0.6;">
+                                <div class="episode-thumbnail">
+                                    <span class="episode-badge chemistry">Coming Soon</span>
+                                    <i class="fas fa-circle-nodes"></i>
+                                </div>
+                                <div class="episode-info">
+                                    <div class="episode-number">Episode 4</div>
+                                    <h3 class="episode-title">The Mole Concept</h3>
+                                    <p class="episode-description">Understanding Avogadro's number and stoichiometry made simple.</p>
+                                    <div class="episode-meta">
+                                        <span><i class="fas fa-clock"></i> TBD min</span>
+                                        <span><i class="fas fa-vial"></i> Interactive Demo</span>
+                                    </div>
+                                </div>
+                                <div class="episode-actions">
+                                    <button class="btn-episode btn-episode-secondary" disabled>
+                                        <i class="fas fa-clock"></i> Coming Soon
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="episode-actions">
-                            <button class="btn-episode btn-episode-secondary" disabled>
-                                <i class="fas fa-clock"></i> Coming Soon
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -603,12 +667,12 @@
         <div class="container">
             <div class="section-header centered">
                 <span class="section-tag">Coming Up</span>
-                <h2 class="section-title">Content Roadmap</h2>
+                <h2 class="section-title" style="font-weight:700; letter-spacing:-0.02em;">Content Roadmap</h2>
                 <p class="section-subtitle">Planned topics for future episodes</p>
             </div>
             
             <div class="roadmap-grid">
-                <div class="roadmap-item">
+                <div class="roadmap-item reveal-up stagger-1">
                     <div class="roadmap-icon" style="color: var(--physics);">
                         <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
                     </div>
@@ -619,7 +683,7 @@
                     </div>
                 </div>
                 
-                <div class="roadmap-item">
+                <div class="roadmap-item reveal-up stagger-2">
                     <div class="roadmap-icon" style="color: var(--chemistry);">
                         <i class="fas fa-flask"></i>
                     </div>
@@ -630,7 +694,7 @@
                     </div>
                 </div>
                 
-                <div class="roadmap-item">
+                <div class="roadmap-item reveal-up stagger-3">
                     <div class="roadmap-icon" style="color: var(--physics);">
                         <i class="fas fa-satellite"></i>
                     </div>
@@ -641,7 +705,7 @@
                     </div>
                 </div>
                 
-                <div class="roadmap-item">
+                <div class="roadmap-item reveal-up stagger-4">
                     <div class="roadmap-icon" style="color: var(--chemistry);">
                         <i class="fas fa-bolt"></i>
                     </div>

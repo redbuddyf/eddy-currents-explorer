@@ -67,7 +67,7 @@
                     width: 40px; height: 40px;
                     border-radius: 50%;
                     border: none;
-                    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+                    background: linear-gradient(135deg,#22d3ee,#8b5cf6);
                     color: #fff;
                     cursor: pointer;
                     display: flex;

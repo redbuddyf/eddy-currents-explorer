@@ -412,9 +412,41 @@
             box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
         }
     </style>
+    <style>
+        /* Observatory enhancements */
+        .glass-card {
+            background: var(--surface) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--border) !important;
+        }
+        
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+            margin: 0 auto 24px;
+        }
+        
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 40px rgba(34, 211, 238, 0.3);
+        }
+        
+        ::selection {
+            background: rgba(34, 211, 238, 0.3);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="universe-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+<script src="js/universe-bg.js"></script>
+        <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-brand">
@@ -474,7 +506,7 @@
                     <p>Select a topic to test your knowledge</p>
                     <div class="topic-selector-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px; margin-top:24px;">
                         <div class="topic-select-card" onclick="selectTopic('eddy-currents')" style="cursor:pointer; padding:28px; background:var(--background); border:1px solid var(--border); border-radius:var(--radius-lg); transition:var(--transition); text-align:center;">
-                            <div style="font-size:2.5rem; color:#6366f1; margin-bottom:12px;"><i class="fas fa-magnet"></i></div>
+                            <div style="font-size:2.5rem; color:#22d3ee; margin-bottom:12px;"><i class="fas fa-magnet"></i></div>
                             <h3 style="margin-bottom:8px; font-size:1.1rem;">Eddy Currents</h3>
                             <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">Electromagnetic induction, Faraday's & Lenz's Law</p>
                             <div style="display:flex; justify-content:center; gap:16px; font-size:0.8rem; color:var(--text-dim);">
