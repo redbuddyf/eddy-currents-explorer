@@ -234,3 +234,164 @@ window.ScienceUnpacked = {
     copyToClipboard,
     debounce
 };
+
+// ===== SCROLL PROGRESS BAR =====
+(function initScrollProgress() {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    document.body.appendChild(bar);
+    
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width = progress + '%';
+    }, { passive: true });
+})();
+
+// ===== INTERSECTION OBSERVER FOR REVEAL ANIMATIONS =====
+(function initRevealAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    
+    document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+        observer.observe(el);
+    });
+})();
+
+// ===== 3D CARD TILT =====
+(function initCardTilt() {
+    if (window.matchMedia('(pointer: coarse)').matches) return; // Skip on touch
+    
+    document.querySelectorAll('.card-3d').forEach(card => {
+        const inner = card.querySelector('.card-3d-inner') || card;
+        
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            inner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            inner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        });
+    });
+})();
+
+// ===== GLOW FOLLOW EFFECT =====
+(function initGlowFollow() {
+    document.querySelectorAll('.glow-follow').forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            el.style.setProperty('--x', (e.clientX - rect.left) + 'px');
+            el.style.setProperty('--y', (e.clientY - rect.top) + 'px');
+        });
+    });
+})();
+
+// ===== MAGNETIC BUTTONS =====
+(function initMagneticButtons() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    
+    document.querySelectorAll('.btn-magnetic').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
+})();
+
+// ===== HERO TEXT REVEAL =====
+(function initHeroTextReveal() {
+    const heroTitle = document.querySelector('.hero-title');
+    if (!heroTitle) return;
+    
+    const text = heroTitle.innerHTML;
+    const words = text.split(/(<[^>]+>)/).filter(Boolean);
+    
+    heroTitle.innerHTML = words.map((word, i) => {
+        if (word.startsWith('<')) return word;
+        return word.split(/(\s+)/).map(w => {
+            if (w.trim() === '') return w;
+            return `<span class="hero-reveal-word" style="animation-delay: ${i * 0.08}s">${w}</span>`;
+        }).join('');
+    }).join('');
+})();
+
+// ===== STAT COUNTERS =====
+(function initStatCounters() {
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    if (!counters.length) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.dataset.count);
+                const duration = 2000;
+                const start = performance.now();
+                
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.floor(eased * target);
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                
+                requestAnimationFrame(update);
+                observer.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(c => observer.observe(c));
+})();
+
+// ===== MOUSE-REACTIVE ORBS =====
+(function initMouseOrbs() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    
+    const orbs = document.querySelectorAll('.gradient-orb');
+    if (!orbs.length) return;
+    
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+    
+    function animate() {
+        currentX += (mouseX - currentX) * 0.05;
+        currentY += (mouseY - currentY) * 0.05;
+        
+        orbs.forEach((orb, i) => {
+            const factor = (i + 1) * 15;
+            orb.style.transform = `translate(${currentX * factor}px, ${currentY * factor}px)`;
+        });
+        
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+})();

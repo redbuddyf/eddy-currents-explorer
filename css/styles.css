@@ -1083,3 +1083,159 @@ img {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary);
 }
+
+/* ===== ANIMATION SYSTEM ===== */
+
+/* Scroll-triggered reveals */
+.reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-up.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-left.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-right.animate-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-scale.animate-in {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Stagger delays */
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.16s; }
+.stagger-3 { transition-delay: 0.24s; }
+.stagger-4 { transition-delay: 0.32s; }
+.stagger-5 { transition-delay: 0.40s; }
+.stagger-6 { transition-delay: 0.48s; }
+.stagger-7 { transition-delay: 0.56s; }
+.stagger-8 { transition-delay: 0.64s; }
+
+/* 3D Card Tilt */
+.card-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+.card-3d-inner {
+    transition: transform 0.15s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* Glow follow effect */
+.glow-follow {
+    position: relative;
+    overflow: hidden;
+}
+.glow-follow::before {
+    content: '';
+    position: absolute;
+    top: var(--y, 50%);
+    left: var(--x, 50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.glow-follow:hover::before {
+    opacity: 1;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--gradient-1);
+    z-index: 9999;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* Hero text reveal */
+.hero-reveal-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: heroWordReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes heroWordReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Stat counter */
+.stat-number {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Bounce chevron */
+.bounce-chevron {
+    animation: bounceChevron 2s ease-in-out infinite;
+}
+@keyframes bounceChevron {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(12px); opacity: 1; }
+}
+
+/* Magnetic button */
+.btn-magnetic {
+    transition: transform 0.2s ease-out;
+}
+
+/* Page transition overlay */
+.page-transition {
+    position: fixed;
+    inset: 0;
+    background: var(--background);
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.page-transition.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.shimmer {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-light) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
