@@ -1316,8 +1316,11 @@ img {
     box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
 }
 
-/* Section glow top border */
-section::before {
+/* Section glow top border - only on positioned sections */
+section[style*="position: relative"]::before,
+section[class*="hero"]::before,
+section[class*="featured"]::before,
+section[class*="preview"]::before {
     content: '';
     position: absolute;
     top: 0;
