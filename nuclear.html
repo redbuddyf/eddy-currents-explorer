@@ -1300,6 +1300,19 @@
             .chart-legend { flex-direction: row; flex-wrap: wrap; }
             .nuclide-info-panel { flex-direction: column; gap: 8px; align-items: flex-start; }
         }
+        /* ===== CLICKABLE TERMS ===== */
+        .clickable-term {
+            color: #818cf8;
+            cursor: pointer;
+            border-bottom: 1px dashed rgba(129,140,248,0.4);
+            transition: all 0.2s ease;
+        }
+        .clickable-term:hover {
+            color: #a5b4fc;
+            border-bottom-color: #a5b4fc;
+            background: rgba(129,140,248,0.08);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -2943,6 +2956,17 @@
 
     function toggleTutor() {
         document.getElementById('tutorPanel').classList.toggle('visible');
+    }
+
+    function askTutorAbout(term) {
+        const panel = document.getElementById('tutorPanel');
+        if (!panel.classList.contains('visible')) {
+            panel.classList.add('visible');
+        }
+        // Small delay to let panel open
+        setTimeout(() => {
+            tutorAsk('What is ' + term + '?');
+        }, 300);
     }
 
     function showTyping() {
@@ -4640,6 +4664,27 @@
             camera.aspect = nw / nh;
             camera.updateProjectionMatrix();
             renderer.setSize(nw, nh);
+        });
+    })();
+
+    // ===== MAKE BOLD TERMS CLICKABLE =====
+    (function initClickableTerms() {
+        const articles = document.querySelectorAll('.chapter-content article');
+        articles.forEach(article => {
+            const strongs = article.querySelectorAll('strong');
+            strongs.forEach(el => {
+                // Skip if already clickable, inside a button, or inside the tutor
+                if (el.classList.contains('clickable-term')) return;
+                if (el.closest('button, .tutor-panel, .tutor-btn, .scene-btn, .particle-btn, .quiz-option, .legend-dot')) return;
+                const text = el.textContent.trim();
+                if (!text || text.length < 2) return;
+                el.classList.add('clickable-term');
+                el.title = 'Click to ask the Study Assistant about "' + text + '"';
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    askTutorAbout(text);
+                });
+            });
         });
     })();
     </script>
