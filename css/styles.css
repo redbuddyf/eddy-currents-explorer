@@ -357,6 +357,8 @@ img {
     max-width: 800px;
     z-index: 2;
     position: relative;
+    padding: 20px;
+    width: 100%;
 }
 
 .hero-badge {
@@ -373,10 +375,11 @@ img {
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
     margin-bottom: 24px;
-    line-height: 1.1;
+    line-height: 1.2;
     text-shadow: 0 2px 40px rgba(2, 2, 5, 0.9), 0 0 80px rgba(2, 2, 5, 0.6);
+    word-wrap: break-word;
 }
 
 .gradient-text {
@@ -1341,6 +1344,11 @@ h1, h2, h3 {
 .hero-stats {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 40px;
 }
 .stat-item {
     background: rgba(10, 10, 25, 0.4);
