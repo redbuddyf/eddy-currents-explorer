@@ -360,8 +360,8 @@
     <section class="topics-hero">
         <div class="container">
             <span class="section-tag">Browse All Content</span>
-            <h1 class="section-title">Physics & Chemistry Topics</h1>
-            <p class="section-subtitle">Explore our complete library of science education content</p>
+            <h1 class="section-title reveal-up">Physics & Chemistry Topics</h1>
+            <p class="section-subtitle reveal-up">Explore our complete library of science education content</p>
             
             <div class="filter-tabs">
                 <button class="filter-tab active" data-filter="all">
@@ -646,25 +646,39 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="brand-logo">
+            <div class="footer-content" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:40px; margin-bottom:40px;">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                         <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.25rem;">Science<span style="background:var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Unpacked</span></span>
                     </div>
-                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
-                    <p>Physics & Chemistry education made simple.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">Making physics and chemistry accessible through interactive visualisations, podcasts, and comprehensive study materials.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="topics.html">Topics</a>
-                    <a href="eddy-currents.html">Eddy Currents</a>
-                    <a href="notes.html">Notes</a>
-                    <a href="quiz.html">Quiz</a>
-                    <a href="about.html">About</a>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Explore</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="index.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Home</a>
+                        <a href="topics.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Topics</a>
+                        <a href="about.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">About</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Learn</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="notes.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Notes</a>
+                        <a href="quiz.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Quiz</a>
+                        <a href="podcast.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Podcast</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Support</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="reports.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Report an Issue</a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Science Unpacked. Physics & Chemistry Education.</p>
+            <div style="border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <p style="color:var(--text-dim); font-size:0.85rem;">&copy; 2026 Science Unpacked. Educational project.</p>
             </div>
         </div>
     </footer>

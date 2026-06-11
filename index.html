@@ -60,11 +60,11 @@
         </div>
         
         <div class="hero-content">
-            <div class="hero-badge">
+            <div class="hero-badge reveal-up">
                 <i class="fas fa-play-circle"></i>
                 <span>Physics & Chemistry Series</span>
             </div>
-            <h1 class="hero-title">
+            <h1 class="hero-title reveal-up">
                 Where Complex Science
                 <span class="gradient-text">Becomes Simple</span>
             </h1>
@@ -73,11 +73,11 @@
                 we unpack complex concepts into engaging, digestible episodes.
             </p>
             <div class="hero-buttons">
-                <a href="podcast.html" class="btn btn-primary">
+                <a href="podcast.html" class="btn btn-primary btn-magnetic">
                     <i class="fas fa-headphones"></i>
                     Listen to Latest Episode
                 </a>
-                <a href="topics.html" class="btn btn-secondary">
+                <a href="topics.html" class="btn btn-secondary btn-magnetic">
                     <i class="fas fa-flask"></i>
                     Browse Topics
                 </a>
@@ -85,16 +85,16 @@
         </div>
         
         <div class="hero-stats">
-            <div class="stat-item">
-                <span class="stat-number">2</span>
+            <div class="stat-item reveal-up stagger-1">
+                <span class="stat-number" data-count="2">0</span>
                 <span class="stat-label">Subjects</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-number">01</span>
+            <div class="stat-item reveal-up stagger-2">
+                <span class="stat-number" data-count="1">0</span>
                 <span class="stat-label">Episodes</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-number">8</span>
+            <div class="stat-item reveal-up stagger-3">
+                <span class="stat-number" data-count="8">0</span>
                 <span class="stat-label">Interactive Demos</span>
             </div>
         </div>
@@ -202,7 +202,7 @@
             </div>
             
             <div class="topics-grid">
-                <div class="topic-card featured physics">
+                <div class="topic-card reveal-up stagger-7 reveal-up stagger-6 reveal-up stagger-5 reveal-up stagger-4 reveal-up stagger-3 reveal-up stagger-2 reveal-up stagger-1 featured physics">
                     <div class="topic-badge physics">Physics</div>
                     <div class="topic-icon">
                         <i class="fas fa-magnet"></i>
@@ -285,7 +285,7 @@
     <section class="features-section">
         <div class="container">
             <div class="features-grid">
-                <div class="feature-item">
+                <div class="feature-item reveal-up stagger-4 reveal-up stagger-3 reveal-up stagger-2 reveal-up stagger-1">
                     <div class="feature-icon">
                         <i class="fas fa-video"></i>
                     </div>
@@ -320,25 +320,39 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="brand-logo">
+            <div class="footer-content" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:40px; margin-bottom:40px;">
+                <div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
                         <img src="assets/logo-icon.svg" alt="Science Unpacked" width="32" height="32">
+                        <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.25rem;">Science<span style="background:var(--gradient-1); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Unpacked</span></span>
                     </div>
-                    <span class="brand-text">Science<span class="brand-accent">Unpacked</span></span>
-                    <p>Physics & Chemistry education made simple.</p>
+                    <p style="color:var(--text-muted); font-size:0.9rem; line-height:1.6;">Making physics and chemistry accessible through interactive visualisations, podcasts, and comprehensive study materials.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="topics.html">Topics</a>
-                    <a href="eddy-currents.html">Eddy Currents</a>
-                    <a href="notes.html">Notes</a>
-                    <a href="quiz.html">Quiz</a>
-                    <a href="about.html">About</a>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Explore</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="index.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Home</a>
+                        <a href="topics.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Topics</a>
+                        <a href="about.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">About</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Learn</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="notes.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Notes</a>
+                        <a href="quiz.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Quiz</a>
+                        <a href="podcast.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Podcast</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text);">Support</h4>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <a href="reports.html" style="color:var(--text-muted); text-decoration:none; font-size:0.9rem;">Report an Issue</a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Science Unpacked. Physics & Chemistry Education.</p>
+            <div style="border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <p style="color:var(--text-dim); font-size:0.85rem;">&copy; 2026 Science Unpacked. Educational project.</p>
             </div>
         </div>
     </footer>
