@@ -340,6 +340,15 @@
         .scene-info {
             padding: 16px 24px;
             font-size: 0.9rem;
+        }
+        .figure-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-style: italic;
+        }
             color: var(--text-muted);
             background: rgba(255,255,255,0.02);
         }
@@ -1587,6 +1596,7 @@
                                     <span class="info-empty">Click on a nuclide in the chart to view its data.</span>
                                 </div>
                             </div>
+                            <div class="figure-caption">Figure 8.1 — Interactive chart of nuclides showing the valley of stability with colour-coded decay modes. Click any nuclide to view its half-life and decay properties.</div>
                             <div class="scene-info">
                                 <i class="fas fa-info-circle"></i> Explore the valley of stability. The diagonal band of stable isotopes (white) is the valley centre. Nuclides above the valley tend toward β⁻ decay; those below tend toward β⁺ or EC. Heavy nuclides (Z > 83) predominantly undergo α decay.
                             </div>
@@ -1724,6 +1734,7 @@
                                 <span><span class="legend-dot" style="background:#3b82f6"></span> Fusion region</span>
                                 <span><span class="legend-dot" style="background:#f97316"></span> Fission region</span>
                             </div>
+                            <div class="figure-caption">Figure 8.2 — Binding energy per nucleon curve showing the peak at iron-56, the turning point between fusion and fission energy release.</div>
                             <div class="scene-info">
                                 The curve peaks at iron-56, the most stable nucleus in existence. Light nuclei release energy through <strong>fusion</strong>; heavy nuclei release energy through <strong>fission</strong>.
                             </div>
@@ -1883,7 +1894,7 @@
 
                         <div class="scene-container">
                             <div class="scene-header">
-                                <h4><i class="fas fa-cube"></i> Alpha Decay Visualisation</h4>
+                                <h4><i class="fas fa-cube"></i> Figure 8.3 - Alpha Decay Visualisation</h4>
                                 <span class="scene-badge">Interactive 3D</span>
                             </div>
                             <div class="scene-canvas-wrap" id="alphaScene"></div>
@@ -1903,6 +1914,7 @@
                                     <i class="fas fa-sync"></i> Auto-Rotate
                                 </button>
                             </div>
+                            <div class="figure-caption">Figure 8.3 — Three-dimensional visualisation of alpha decay showing the emission of a helium-4 nucleus from a heavy parent nucleus via quantum tunnelling.</div>
                             <div class="scene-info">
                                 <strong>Uranium-238 → Thorium-234 + α</strong> - Drag to rotate. Scroll to zoom. Click "Trigger Alpha Decay" to watch the alpha particle escape via quantum tunnelling.
                             </div>
@@ -1942,7 +1954,7 @@
 
                         <div class="scene-container">
                             <div class="scene-header">
-                                <h4><i class="fas fa-cube"></i> Beta-Minus Decay Visualisation</h4>
+                                <h4><i class="fas fa-cube"></i> Figure 8.4 - Beta-Minus Decay Visualisation</h4>
                                 <span class="scene-badge">Interactive 3D</span>
                             </div>
                             <div class="scene-canvas-wrap" id="betaMinusScene"></div>
@@ -1963,6 +1975,7 @@
                                     <i class="fas fa-sync"></i> Auto-Rotate
                                 </button>
                             </div>
+                            <div class="figure-caption">Figure 8.4 — Interactive 3D model of beta-minus decay, showing a neutron converting into a proton with emission of an electron and antineutrino.</div>
                             <div class="scene-info">
                                 <strong>Carbon-14 → Nitrogen-14 + e⁻ + ν̄ₑ</strong> - Watch a neutron convert to a proton while the electron and antineutrino streak away in opposite directions.
                             </div>
@@ -1999,7 +2012,7 @@
 
                         <div class="scene-container">
                             <div class="scene-header">
-                                <h4><i class="fas fa-cube"></i> Beta-Plus Decay Visualisation</h4>
+                                <h4><i class="fas fa-cube"></i> Figure 8.5 - Beta-Plus Decay Visualisation</h4>
                                 <span class="scene-badge">Interactive 3D</span>
                             </div>
                             <div class="scene-canvas-wrap" id="betaPlusScene"></div>
@@ -2020,6 +2033,7 @@
                                     <i class="fas fa-sync"></i> Auto-Rotate
                                 </button>
                             </div>
+                            <div class="figure-caption">Figure 8.5 — Visualisation of beta-plus decay (positron emission), the process underlying PET scanning in nuclear medicine.</div>
                             <div class="scene-info">
                                 <strong>Fluorine-18 → Oxygen-18 + e⁺ + νₑ</strong> - Positron emission is the basis of PET scans in medicine.
                             </div>
@@ -2045,7 +2059,7 @@
 
                         <div class="scene-container">
                             <div class="scene-header">
-                                <h4><i class="fas fa-cube"></i> Gamma Decay Visualisation</h4>
+                                <h4><i class="fas fa-cube"></i> Figure 8.6 - Gamma Decay Visualisation</h4>
                                 <span class="scene-badge">Interactive 3D</span>
                             </div>
                             <div class="scene-canvas-wrap" id="gammaScene"></div>
@@ -2065,6 +2079,7 @@
                                     <i class="fas fa-sync"></i> Auto-Rotate
                                 </button>
                             </div>
+                            <div class="figure-caption">Figure 8.6 — Three-dimensional model of gamma emission, where an excited nucleus releases a high-energy photon as it transitions to its ground state.</div>
                             <div class="scene-info">
                                 <strong>⁹⁹ᵐTc → ⁹⁹Tc + γ</strong> - The excited nucleus vibrates, then releases a gamma photon as it relaxes to ground state.
                             </div>
@@ -2077,7 +2092,7 @@
 
                         <div class="atom-builder">
                             <div class="scene-header">
-                                <h4><i class="fas fa-atom"></i> Build an Atom</h4>
+                                <h4><i class="fas fa-atom"></i> Figure 8.7 - Build an Atom</h4>
                                 <span class="scene-badge">Interactive Simulation</span>
                             </div>
                             <div class="atom-builder-body">
@@ -2109,6 +2124,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="figure-caption">Figure 8.7 — Interactive simulation for constructing atoms by adding protons, neutrons, and electrons, with real-time validation against known nuclear data.</div>
                         </div>
 
                         <h3>Summary of Decay Modes</h3>
@@ -2255,7 +2271,7 @@
 
                         <div class="decay-chain-container">
                             <div class="scene-header" style="margin:-24px -24px 16px -24px;">
-                                <h4><i class="fas fa-project-diagram"></i> Figure 8.3 - Uranium-238 Decay Chain</h4>
+                                <h4><i class="fas fa-project-diagram"></i> Figure 8.8 - Uranium-238 Decay Chain</h4>
                                 <span class="scene-badge">Interactive Diagram</span>
                             </div>
                             <div class="decay-chain" id="decayChain">
@@ -2324,6 +2340,7 @@
                                 <span><span class="legend-dot" style="background:#14b8a6"></span> β⁻ decay</span>
                                 <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
                             </div>
+                            <div class="figure-caption">Figure 8.8 — Complete decay chain of uranium-238 to stable lead-206, showing all 14 steps with decay modes and half-lives.</div>
                         </div>
 
                         <table>
@@ -2442,7 +2459,7 @@
                         <div class="simulator-grid">
                             <div class="sim-panel">
                                 <div class="sim-panel-header">
-                                    <i class="fas fa-atom"></i> Nucleus Grid Simulator
+                                    <i class="fas fa-atom"></i> Figure 8.9 - Half-Life Simulator
                                 </div>
                                 <div class="sim-panel-body">
                                     <canvas id="halfLifeCanvas"></canvas>
@@ -2475,6 +2492,7 @@
                                             <i class="fas fa-rotate-left"></i> Reset
                                         </button>
                                     </div>
+                                <div class="figure-caption">Figure 8.9 — Interactive half-life simulator showing probabilistic decay of individual nuclei alongside the exponential decay curve.</div>
                                 </div>
                             </div>
                             <div class="sim-panel">
