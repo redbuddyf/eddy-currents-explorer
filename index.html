@@ -68,11 +68,11 @@
                 Where Complex Science
                 <span class="gradient-text">Becomes Simple</span>
             </h1>
-            <p class="hero-description">
+            <p class="hero-description reveal-up">
                 Join us on a journey through Physics and Chemistry. From eddy currents to chemical bonds, 
                 we unpack complex concepts into engaging, digestible episodes.
             </p>
-            <div class="hero-buttons">
+            <div class="hero-buttons reveal-up">
                 <a href="podcast.html" class="btn btn-primary btn-magnetic">
                     <i class="fas fa-headphones"></i>
                     Listen to Latest Episode
@@ -98,18 +98,23 @@
                 <span class="stat-label">Interactive Demos</span>
             </div>
         </div>
+        
+        <div class="scroll-indicator" style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); text-align:center;">
+            <div class="bounce-chevron" style="color:var(--text-muted); font-size:1.5rem;"><i class="fas fa-chevron-down"></i></div>
+            <span style="font-size:0.75rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase;">Scroll</span>
+        </div>
     </section>
 
     <!-- Latest Episode Section -->
     <section class="episode-section" id="latest-episode">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">Current Episode</span>
-                <h2 class="section-title">Eddy Currents Explained</h2>
-                <p class="section-subtitle">Physics Series - Discover the invisible forces that power magnetic braking and levitation</p>
+                <span class="section-tag reveal-up">Current Episode</span>
+                <h2 class="section-title reveal-up">Eddy Currents Explained</h2>
+                <p class="section-subtitle reveal-up">Physics Series - Discover the invisible forces that power magnetic braking and levitation</p>
             </div>
             
-            <div class="video-container">
+            <div class="video-container reveal-up">
                 <div class="video-player" id="videoPlayer" style="min-height:320px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(99,102,241,0.1) 0%, var(--surface) 100%); border-radius:16px;">
                     <a href="podcast.html" class="btn btn-primary" style="font-size:1.2rem; padding:16px 32px;">
                         <i class="fas fa-play-circle"></i>
@@ -202,43 +207,55 @@
             </div>
             
             <div class="topics-grid">
-                <div class="topic-card reveal-up stagger-7 reveal-up stagger-6 reveal-up stagger-5 reveal-up stagger-4 reveal-up stagger-3 reveal-up stagger-2 reveal-up stagger-1 featured physics">
-                    <div class="topic-badge physics">Physics</div>
-                    <div class="topic-icon">
-                        <i class="fas fa-magnet"></i>
+                <div class="card-3d reveal-up stagger-1">
+                    <div class="card-3d-inner">
+                        <div class="topic-card featured physics">
+                            <div class="topic-badge physics">Physics</div>
+                            <div class="topic-icon">
+                                <i class="fas fa-magnet"></i>
+                            </div>
+                            <h3>Eddy Currents</h3>
+                            <p>Understand the physics behind electromagnetic braking and induction heating.</p>
+                            <a href="eddy-currents.html" class="topic-link">
+                                Explore <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <span class="topic-status available">Available Now</span>
+                        </div>
                     </div>
-                    <h3>Eddy Currents</h3>
-                    <p>Understand the physics behind electromagnetic braking and induction heating.</p>
-                    <a href="eddy-currents.html" class="topic-link">
-                        Explore <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <span class="topic-status available">Available Now</span>
                 </div>
                 
-                <div class="topic-card featured physics">
-                    <div class="topic-badge physics">Physics</div>
-                    <div class="topic-icon">
-                        <i class="fas fa-radiation"></i>
+                <div class="card-3d reveal-up stagger-2">
+                    <div class="card-3d-inner">
+                        <div class="topic-card featured physics">
+                            <div class="topic-badge physics">Physics</div>
+                            <div class="topic-icon">
+                                <i class="fas fa-radiation"></i>
+                            </div>
+                            <h3>Nuclear Decay</h3>
+                            <p>Explore radioactive decay, half-lives, and the valley of stability with 3D simulations.</p>
+                            <a href="nuclear.html" class="topic-link">
+                                Explore <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <span class="topic-status available">Available Now</span>
+                        </div>
                     </div>
-                    <h3>Nuclear Decay</h3>
-                    <p>Explore radioactive decay, half-lives, and the valley of stability with 3D simulations.</p>
-                    <a href="nuclear.html" class="topic-link">
-                        Explore <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <span class="topic-status available">Available Now</span>
                 </div>
                 
-                <div class="topic-card coming-soon physics">
-                    <div class="topic-badge physics">Physics</div>
-                    <div class="topic-icon">
-                        <i class="fas fa-atom"></i>
+                <div class="card-3d reveal-up stagger-3">
+                    <div class="card-3d-inner">
+                        <div class="topic-card coming-soon physics">
+                            <div class="topic-badge physics">Physics</div>
+                            <div class="topic-icon">
+                                <i class="fas fa-atom"></i>
+                            </div>
+                            <h3>Quantum Mechanics</h3>
+                            <p>The strange world of particles, waves, and superposition.</p>
+                            <span class="topic-status">Coming Soon</span>
+                        </div>
                     </div>
-                    <h3>Quantum Mechanics</h3>
-                    <p>The strange world of particles, waves, and superposition.</p>
-                    <span class="topic-status">Coming Soon</span>
                 </div>
                 
-                <div class="topic-card coming-soon chemistry">
+                <div class="topic-card coming-soon chemistry reveal-up stagger-4">
                     <div class="topic-badge chemistry">Chemistry</div>
                     <div class="topic-icon" style="background: var(--gradient-chem);">
                         <i class="fas fa-share-alt"></i>
@@ -248,7 +265,7 @@
                     <span class="topic-status">Coming Soon</span>
                 </div>
                 
-                <div class="topic-card coming-soon chemistry">
+                <div class="topic-card coming-soon chemistry reveal-up stagger-5">
                     <div class="topic-badge chemistry">Chemistry</div>
                     <div class="topic-icon" style="background: var(--gradient-chem);">
                         <i class="fas fa-fire"></i>
@@ -258,7 +275,7 @@
                     <span class="topic-status">Coming Soon</span>
                 </div>
                 
-                <div class="topic-card coming-soon physics">
+                <div class="topic-card coming-soon physics reveal-up stagger-6">
                     <div class="topic-badge physics">Physics</div>
                     <div class="topic-icon">
                         <i class="fas fa-rocket"></i>
@@ -268,7 +285,7 @@
                     <span class="topic-status">Coming Soon</span>
                 </div>
                 
-                <div class="topic-card coming-soon chemistry">
+                <div class="topic-card coming-soon chemistry reveal-up stagger-7">
                     <div class="topic-badge chemistry">Chemistry</div>
                     <div class="topic-icon" style="background: var(--gradient-chem);">
                         <i class="fas fa-tint"></i>
@@ -285,28 +302,28 @@
     <section class="features-section">
         <div class="container">
             <div class="features-grid">
-                <div class="feature-item reveal-up stagger-4 reveal-up stagger-3 reveal-up stagger-2 reveal-up stagger-1">
+                <div class="feature-item reveal-up stagger-1">
                     <div class="feature-icon">
                         <i class="fas fa-video"></i>
                     </div>
                     <h3>Video Lessons</h3>
                     <p>Engaging podcast episodes that break down complex topics</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item reveal-up stagger-2">
                     <div class="feature-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3>Interactive Labs</h3>
                     <p>Hands-on simulations for both physics and chemistry</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item reveal-up stagger-3">
                     <div class="feature-icon">
                         <i class="fas fa-file-download"></i>
                     </div>
                     <h3>Study Notes</h3>
                     <p>Comprehensive notes and resources for revision</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item reveal-up stagger-4">
                     <div class="feature-icon">
                         <i class="fas fa-question-circle"></i>
                     </div>
