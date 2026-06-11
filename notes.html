@@ -245,6 +245,11 @@
                 order: 2;
             }
         }
+        .topic-select-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -286,37 +291,48 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="notes-hero">
+    <!-- Topic Selector -->
+    <section class="notes-hero" id="topicScreen">
         <div class="container">
-            <span class="section-tag">Episode 1</span>
-            <h1 class="section-title">Eddy Currents - Study Notes</h1>
-            <p class="section-subtitle">Comprehensive revision materials for your physics assessment</p>
+            <span class="section-tag">Study Materials</span>
+            <h1 class="section-title">Topic Notes</h1>
+            <p class="section-subtitle">Select a topic to view comprehensive revision materials</p>
+            <div class="topic-selector-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:24px; margin-top:40px; max-width:800px; margin-left:auto; margin-right:auto;">
+                <div class="topic-select-card" onclick="loadNotesTopic('eddy-currents')" style="cursor:pointer; padding:32px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); transition:var(--transition); text-align:center;">
+                    <div style="font-size:3rem; color:#6366f1; margin-bottom:16px;"><i class="fas fa-magnet"></i></div>
+                    <h3 style="margin-bottom:8px;">Eddy Currents</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">Electromagnetic induction, Faraday's & Lenz's Law, applications</p>
+                    <div style="font-size:0.85rem; color:var(--text-dim);"><i class="fas fa-list"></i> 13 Sections</div>
+                </div>
+                <div class="topic-select-card" onclick="loadNotesTopic('nuclear-decay')" style="cursor:pointer; padding:32px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); transition:var(--transition); text-align:center;">
+                    <div style="font-size:3rem; color:#a855f7; margin-bottom:16px;"><i class="fas fa-atom"></i></div>
+                    <h3 style="margin-bottom:8px;">Nuclear Instability & Decay</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:16px;">Radioactivity, half-life, decay chains, applications</p>
+                    <div style="font-size:0.85rem; color:var(--text-dim);"><i class="fas fa-list"></i> 9 Sections</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notes Viewer -->
+    <section class="notes-hero" id="notesViewer" style="display:none;">
+        <div class="container">
+            <span class="section-tag" id="notesHeroTag">Episode 1</span>
+            <h1 class="section-title" id="notesHeroTitle">Eddy Currents - Study Notes</h1>
+            <p class="section-subtitle"><a href="notes.html" style="color:var(--primary-light); text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to Topics</a></p>
         </div>
     </section>
 
     <!-- Notes Content -->
-    <section class="notes-content">
+    <section class="notes-content" id="notesContent" style="display:none;">
         <div class="container">
             <div class="notes-grid">
                 <!-- Sidebar -->
                 <aside class="notes-sidebar">
                     <div class="sidebar-card">
                         <h3><i class="fas fa-list"></i> Contents</h3>
-                        <ul class="toc-list">
-                            <li><a href="#overview" class="active">Overview</a></li>
-                            <li><a href="#what-are">What are eddy currents?</a></li>
-                            <li><a href="#flux">Magnetic flux</a></li>
-                            <li><a href="#faraday">Faraday's Law</a></li>
-                            <li><a href="#lenz">Lenz's Law</a></li>
-                            <li><a href="#energy">Energy transfer</a></li>
-                            <li><a href="#low-speed">Why brakes weaken at low speed</a></li>
-                            <li><a href="#rollercoaster">Rollercoaster braking</a></li>
-                            <li><a href="#trains">High-speed trains & maglev</a></li>
-                            <li><a href="#other-apps">Other applications</a></li>
-                            <li><a href="#advantages">Advantages & limitations</a></li>
-                            <li><a href="#summary">Key takeaway</a></li>
-                            <li><a href="#bibliography">Bibliography</a></li>
+                        <ul class="toc-list" id="notesToc">
+                            <!-- Populated dynamically -->
                         </ul>
                     </div>
                     
@@ -344,324 +360,9 @@
                 </aside>
 
                 <!-- Main Content -->
-                <main class="notes-main">
-                    <article class="note-section" id="overview">
-                        <h2><i class="fas fa-book-open"></i> Overview</h2>
-                        <p>
-                            Eddy current magnetic braking is an application of <strong>electromagnetic induction</strong>. It allows a moving object to be slowed down without the main braking force relying on direct physical contact.
-                        </p>
-                        <p>
-                            The key idea is that when a conductor moves through a magnetic field, or when a magnetic field changes near a conductor, the <strong>magnetic flux</strong> through the conductor changes. This induces circulating currents inside the conductor called <strong>eddy currents</strong>. These currents produce their own magnetic fields, which oppose the motion or change that created them.
-                        </p>
-                        <p>
-                            This process is explained using two major laws:
-                        </p>
-                        <ul>
-                            <li><strong>Faraday's Law:</strong> a changing magnetic flux induces an EMF.</li>
-                            <li><strong>Lenz's Law:</strong> the induced current acts in a direction that opposes the change that caused it.</li>
-                        </ul>
-                    </article>
-
-                    <article class="note-section" id="what-are">
-                        <h2><i class="fas fa-water"></i> 1. What are eddy currents?</h2>
-                        <p>
-                            Eddy currents are loops of electric current induced within a conductor by a changing magnetic field.
-                        </p>
-                        <p>
-                            They are called <em>eddy</em> currents because they move in circular patterns, similar to swirling eddies in water. Unlike current in a normal circuit, eddy currents do not need a separate wire loop. They can form directly inside a solid piece of metal, such as:
-                        </p>
-                        <ul>
-                            <li>A copper tube</li>
-                            <li>An aluminium fin</li>
-                            <li>A train rail</li>
-                            <li>A metal pan on an induction cooktop</li>
-                        </ul>
-                        <p>
-                            For eddy currents to form strongly, the material must be a good electrical conductor. This is why copper and aluminium produce clear eddy current effects, while PVC produces little to no effect.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="flux">
-                        <h2><i class="fas fa-magnet"></i> 2. Magnetic flux</h2>
-                        <p>
-                            Magnetic flux describes the amount of magnetic field passing through a given area.
-                        </p>
-                        <div class="formula-box">
-                            <div class="formula">Φ = BA cos θ</div>
-                            <div class="description">Where Φ is magnetic flux (webers), B is magnetic field strength (tesla), A is the area, and θ is the angle between the field and the normal to the surface.</div>
-                        </div>
-                        <p>
-                            A change in magnetic flux can happen if:
-                        </p>
-                        <ul>
-                            <li>The magnetic field strength changes.</li>
-                            <li>The conductor moves into or out of the magnetic field.</li>
-                            <li>The area exposed to the field changes.</li>
-                            <li>The angle between the conductor and the magnetic field changes.</li>
-                        </ul>
-                        <p>
-                            In eddy current braking, the most important change is usually caused by <strong>relative motion</strong> between a conductor and a magnetic field.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="faraday">
-                        <h2><i class="fas fa-bolt"></i> 3. Faraday's Law</h2>
-                        <p>
-                            Faraday's Law states that a changing magnetic flux induces an electromotive force, or EMF.
-                        </p>
-                        <div class="formula-box">
-                            <div class="formula">ε = −ΔΦ / Δt</div>
-                            <div class="description">Where ε is the induced EMF (volts), ΔΦ is the change in magnetic flux, and Δt is the time taken for the change.</div>
-                        </div>
-                        <p>
-                            This means the size of the induced EMF depends on how quickly the magnetic flux changes. If the conductor moves faster through the magnetic field, the flux changes in a shorter amount of time. This produces a larger induced EMF and therefore stronger eddy currents.
-                        </p>
-                        <div class="key-points">
-                            <h4><i class="fas fa-lightbulb"></i> Why this matters</h4>
-                            <ul>
-                                <li>This is why eddy current braking is strongest at higher speeds.</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="note-section" id="lenz">
-                        <h2><i class="fas fa-arrows-spin"></i> 4. Lenz's Law</h2>
-                        <p>
-                            Lenz's Law explains the direction of the induced current.
-                        </p>
-                        <p>
-                            It states that an induced current flows in a direction that <strong>opposes the change in magnetic flux</strong> that caused it.
-                        </p>
-                        <p>
-                            This opposition is important because it supports the <strong>law of conservation of energy</strong>. If the induced current acted to increase the original change, the system would gain energy without an external energy source. Instead, the induced current resists the change, causing energy to be transferred from one form to another.
-                        </p>
-                        <p>
-                            In braking systems, this means:
-                        </p>
-                        <ol>
-                            <li>The moving object causes a change in magnetic flux.</li>
-                            <li>Eddy currents are induced in the conductor.</li>
-                            <li>The eddy currents create a magnetic field that opposes the motion.</li>
-                            <li>This produces a magnetic drag force.</li>
-                            <li>The object slows down.</li>
-                        </ol>
-                    </article>
-
-                    <article class="note-section" id="energy">
-                        <h2><i class="fas fa-fire"></i> 5. Energy transfer in eddy current braking</h2>
-                        <p>
-                            Eddy current braking does not destroy energy. Instead, it converts kinetic energy into thermal energy.
-                        </p>
-                        <p>
-                            As eddy currents flow through the conductor, they experience electrical resistance. This causes heating, known as <strong>Joule heating</strong>.
-                        </p>
-                        <div class="formula-box">
-                            <div class="formula">P = I<sup>2</sup>R</div>
-                            <div class="description">Where P is the power converted into heat, I is current, and R is resistance.</div>
-                        </div>
-                        <p>
-                            In a rollercoaster brake fin, the train's kinetic energy is transferred into heat in the metal fin. In high-speed trains, heat may be produced in the rail or braking components, depending on the system design.
-                        </p>
-                        <div class="key-points">
-                            <h4><i class="fas fa-exclamation-triangle"></i> Important</h4>
-                            <ul>
-                                <li>This is why eddy current braking is contactless, but not energy-loss-free.</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="note-section" id="low-speed">
-                        <h2><i class="fas fa-gauge-simple-high"></i> 6. Why eddy current brakes weaken at low speed</h2>
-                        <p>
-                            Eddy current brakes depend on a changing magnetic flux.
-                        </p>
-                        <p>
-                            At <strong>high speed</strong>, the conductor moves quickly through the magnetic field. The magnetic flux changes rapidly, so the induced EMF and eddy currents are large. This produces a strong braking force.
-                        </p>
-                        <p>
-                            At <strong>low speed</strong>, the conductor moves more slowly. The magnetic flux changes more slowly, so the induced EMF and eddy currents are smaller. This produces a weaker braking force.
-                        </p>
-                        <p>
-                            At <strong>zero speed</strong>, there is no relative motion and no changing magnetic flux. Therefore:
-                        </p>
-                        <ul>
-                            <li>No EMF is induced.</li>
-                            <li>No eddy currents are produced.</li>
-                            <li>No eddy current braking force occurs.</li>
-                        </ul>
-                        <div class="key-points">
-                            <h4><i class="fas fa-lightbulb"></i> Key Point</h4>
-                            <ul>
-                                <li>For this reason, eddy current brakes are excellent for slowing objects down, but they cannot hold an object stationary by themselves. Mechanical brakes are still needed for the final stop or to hold a vehicle in place.</li>
-                            </ul>
-                        </div>
-                    </article>
-
-                    <article class="note-section" id="rollercoaster">
-                        <h2><i class="fas fa-dungeon"></i> 7. Rollercoaster magnetic braking</h2>
-                        <p>
-                            Many modern rollercoasters use eddy current braking because it is smooth, quiet, and low-wear.
-                        </p>
-                        <p>
-                            A typical system uses:
-                        </p>
-                        <ul>
-                            <li>Strong permanent magnets mounted on the track</li>
-                            <li>Copper or aluminium fins attached to the moving train</li>
-                        </ul>
-                        <p>
-                            As the train moves through the brake run, the metal fins pass through the magnetic field. This changes the magnetic flux through the fins and induces eddy currents. The eddy currents create magnetic fields that oppose the motion of the train, producing a braking force.
-                        </p>
-                        <h3>Advantages for rollercoasters</h3>
-                        <ul>
-                            <li><strong>Contactless braking:</strong> less wear because the main braking force does not rely on surfaces rubbing together.</li>
-                            <li><strong>Smooth braking:</strong> braking force naturally decreases as the train slows.</li>
-                            <li><strong>Quiet operation:</strong> less noise compared with friction braking.</li>
-                            <li><strong>Fail-safe design:</strong> permanent magnets can still produce a magnetic field without electrical power.</li>
-                        </ul>
-                        <h3>Limitation</h3>
-                        <p>
-                            The train still needs mechanical brakes because eddy current braking becomes weak at low speed and cannot hold the train still.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="trains">
-                        <h2><i class="fas fa-train"></i> 8. High-speed trains and maglev systems</h2>
-                        <p>
-                            Eddy current braking can also be used in high-speed rail systems. At high speeds, friction brakes can produce large amounts of heat and experience significant wear. Eddy current brakes reduce the need for direct contact braking during high-speed slowing.
-                        </p>
-                        <p>
-                            In some systems, electromagnets are positioned near the rail. As the train moves, the changing magnetic field induces eddy currents in the rail. These currents produce magnetic forces that oppose the train's motion.
-                        </p>
-                        <p>
-                            Electromagnets are useful because their strength can be adjusted by changing the current. This allows the braking force to be controlled more precisely.
-                        </p>
-                        <p>
-                            Maglev trains use related electromagnetic principles for levitation and propulsion. In some designs, magnets moving past conductive guideways induce currents, and the resulting magnetic forces help lift and stabilise the train. Although this is not identical to braking, it uses the same core principles of changing magnetic fields, induced currents, and electromagnetic forces.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="other-apps">
-                        <h2><i class="fas fa-cogs"></i> 9. Other real-world applications</h2>
-                        
-                        <h3>Induction cooking</h3>
-                        <p>
-                            An induction cooktop creates a rapidly changing magnetic field. When a suitable metal pan is placed on top, eddy currents are induced in the pan. The pan's electrical resistance converts electrical energy into heat, so the pan heats directly.
-                        </p>
-                        <p>
-                            The purpose of eddy currents in induction cooking is <strong>heating</strong>, not braking.
-                        </p>
-
-                        <h3>Metal detectors</h3>
-                        <p>
-                            Metal detectors use changing magnetic fields to induce eddy currents in nearby metal objects. These eddy currents produce their own magnetic fields, which the detector senses. This allows the device to identify the presence of metal.
-                        </p>
-
-                        <h3>Eddy current testing</h3>
-                        <p>
-                            Eddy current testing is used to inspect metal objects for cracks or flaws without damaging them. A probe induces eddy currents in the material. If there is a crack or defect, the current pattern changes, which can be detected.
-                        </p>
-
-                        <h3>Exercise equipment</h3>
-                        <p>
-                            Some exercise bikes and rowing machines use eddy current resistance. Changing the magnetic field strength changes the resistance felt by the user, allowing smooth and adjustable resistance without direct friction pads.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="advantages">
-                        <h2><i class="fas fa-scale-balanced"></i> 10. Advantages and limitations</h2>
-                        <table style="width:100%; border-collapse: collapse; margin-top: 16px;">
-                            <thead>
-                                <tr style="border-bottom: 2px solid var(--border);">
-                                    <th style="text-align: left; padding: 12px; font-weight: 600;">Advantages</th>
-                                    <th style="text-align: left; padding: 12px; font-weight: 600;">Limitations</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border-bottom: 1px solid var(--border);">
-                                    <td style="padding: 12px;">Contactless braking reduces mechanical wear.</td>
-                                    <td style="padding: 12px;">Braking force becomes weaker at low speeds.</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border);">
-                                    <td style="padding: 12px;">Braking is smooth and quiet.</td>
-                                    <td style="padding: 12px;">Eddy current brakes cannot hold an object still.</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border);">
-                                    <td style="padding: 12px;">Permanent magnet systems can work without electrical power.</td>
-                                    <td style="padding: 12px;">Mechanical brakes are still needed for stopping and holding.</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid var(--border);">
-                                    <td style="padding: 12px;">Useful in wet conditions because braking does not depend mainly on surface friction.</td>
-                                    <td style="padding: 12px;">Heat is produced in the conductor and may need to be managed.</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 12px;">Can reduce wear in high-speed transport systems.</td>
-                                    <td style="padding: 12px;">Strong magnetic fields require careful design and safety control.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </article>
-
-                    <article class="note-section" id="summary">
-                        <h2><i class="fas fa-star"></i> Key takeaway</h2>
-                        <p>
-                            Eddy current magnetic braking demonstrates how electromagnetic induction can be used as a practical engineering solution. A changing magnetic flux induces eddy currents in a conductor. These currents create magnetic fields that oppose the motion that produced them, creating a smooth contactless braking force.
-                        </p>
-                        <p>
-                            The process is useful in rollercoasters, high-speed trains, maglev technology, induction cooking, metal detectors, non-destructive testing, and exercise equipment. However, because eddy current braking depends on motion, it becomes weaker at low speeds and must usually be combined with mechanical braking systems.
-                        </p>
-                    </article>
-
-                    <article class="note-section" id="bibliography">
-                        <h2><i class="fas fa-book"></i> Bibliography</h2>
-                        <p>The following sources and tools were used to support the podcast script, supplementary notes, and interactive website.</p>
-                        
-                        <h3>Research sources</h3>
-                        <ul style="margin-bottom: 20px;">
-                            <li>Smith, B. (2019). <em>How Eddy Current Brakes Work</em>. AZoM. Retrieved 24 April 2026, from <a href="https://www.azom.com/article.aspx?ArticleID=18334" target="_blank">https://www.azom.com/article.aspx?ArticleID=18334</a></li>
-                            <li>Smith, B. (2019). <em>How Eddy Current Brakes Work</em> [PDF]. AZoM. Uploaded source document: <em>How-Eddy-Current-Brakes-Work.pdf</em>.</li>
-                            <li>Bhavsar, P. B., Chaudhari, H. L., Choudhari, A. P., &amp; Adole, R. B. (2016). <em>Design of Contactless Braking System</em>. <em>International Journal on Recent and Innovation Trends in Computing and Communication, 4</em>(4), 157–160. Uploaded source document: <em>Eddy currents.pdf</em>.</li>
-                            <li>Iowa State University Center for Nondestructive Evaluation / American Society for Nondestructive Testing. (n.d.). <em>Eddy Current Testing</em>. NDT Resource Center. Retrieved 24 April 2026, from <a href="https://www.nde-ed.org/NDETechniques/EddyCurrent/index.xhtml" target="_blank">https://www.nde-ed.org/NDETechniques/EddyCurrent/index.xhtml</a></li>
-                            <li>Wikipedia contributors. (n.d.). <em>Eddy current brake</em>. <em>Wikipedia</em>. Retrieved 24 April 2026, from <a href="https://en.wikipedia.org/wiki/Eddy_current_brake" target="_blank">https://en.wikipedia.org/wiki/Eddy_current_brake</a></li>
-                        </ul>
-
-                        <h3>Student-created resource</h3>
-                        <ul style="margin-bottom: 20px;">
-                            <li>Doessel, C. (2026). <em>Eddy Current Explorer interactive simulation</em>. Student-created interactive website. Retrieved 24 April 2026, from <a href="https://eddy-currents.com/app/index.html" target="_blank">https://eddy-currents.com/app/index.html</a></li>
-                        </ul>
-
-                        <h3>Sound effects and music</h3>
-                        <ul style="margin-bottom: 20px;">
-                            <li>Epidemic Sound. (2026). <em>Find the perfect track — sound effects and music assistant</em>. Retrieved 24 April 2026, from <a href="https://www.epidemicsound.com" target="_blank">https://www.epidemicsound.com</a></li>
-                        </ul>
-
-                        <h3>AI assistance</h3>
-                        <ul>
-                            <li>
-                                Notion AI. (2026). Assistance provided to Carter Doessel in drafting, restructuring, and refining the podcast script and supplementary notes on eddy currents and magnetic braking. Prompts used included requests to shorten the podcast script, identify possible teacher follow-up questions, create supplementary notes for upload, and format the bibliography.
-                            </li>
-                            <li>
-                                Kimi AI. (2026). Assistance provided to Carter Doessel during development and refinement of the Eddy Current Explorer website. The assistance was used for troubleshooting, debugging, interface refinement, deployment guidance, and improving the accuracy of interactive simulations. Representative prompts included:
-                                <ul style="margin-top: 8px; list-style-type: disc;">
-                                    <li>"I have a physics assessment that needs a vodcast on eddy currents and magnetic braking. I want a website where I can upload the vodcast and include an interactive eddy currents app."</li>
-                                    <li>"Can you help me run the project locally?"</li>
-                                    <li>"In my eddy current app, the copper and aluminium values are wrong. Copper should show a stronger eddy current and braking effect than aluminium."</li>
-                                    <li>"The physics tab still is not working. Please focus on fixing the eddy currents app."</li>
-                                    <li>"Can the eddy currents app be integrated into the Science Unpacked website so it stays on one domain as a subpage?"</li>
-                                    <li>"Can you add a back arrow into the app to return to the main page?"</li>
-                                    <li>"Can you add a reports tab where full reports can be uploaded?"</li>
-                                    <li>"The maglev train should not work when it is not levitating."</li>
-                                    <li>"When emergency stop is pressed, it should stop and land the train. If land is pressed, it should emergency stop."</li>
-                                    <li>"In the rollercoaster section, fix the track support pillars so they extend from the ground/grid baseline to the track, and position the track labels clearly."</li>
-                                    <li>"Can you check the calculations and make everything accurate?"</li>
-                                    <li>"Can the podcast play from the main page and continue while users explore the interactive website?"</li>
-                                    <li>"Can you make the maglev train movement smoother and keep it in frame?"</li>
-                                    <li>"Can you make the rollercoaster braking smoother and show mechanical brakes after the coaster stops?"</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </article>
-                </main>
+                <main class="notes-main" id="notesMain">
+                    <!-- Populated dynamically -->
+                                </main>
             </div>
         </div>
     </section>
@@ -691,6 +392,8 @@
         </div>
     </footer>
 
+    <script src="js/notes-data.js"></script>
+    <script src="js/notes-viewer.js"></script>
     <script src="js/app.js"></script>
     <script src="js/audio-player.js"></script>
 <script src="js/auth.js"></script>
