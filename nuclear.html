@@ -198,6 +198,7 @@
             color: var(--text-muted);
             font-size: 0.95rem;
         }
+        .nuclear-formula .katex { letter-spacing: normal; }
 
         .insight-card {
             background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(249,115,22,0.08) 100%);
@@ -480,6 +481,12 @@
             transition: var(--transition);
         }
         .particle-btn:hover { background: rgba(255,255,255,0.06); }
+        .particle-btn:hover:not(:disabled) { background: rgba(255,255,255,0.06); }
+        .particle-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            background: rgba(255,255,255,0.02);
+        }
         .particle-btn .count { font-weight: 700; }
         .particle-btn.proton { border-color: rgba(239,68,68,0.3); }
         .particle-btn.neutron { border-color: rgba(148,163,184,0.3); }
@@ -508,6 +515,20 @@
         }
         .stability.stable { background: rgba(34,197,94,0.15); color: #86efac; }
         .stability.unstable { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .stability.ion { background: rgba(59,130,246,0.15); color: #93c5fd; }
+        .atom-error {
+            font-size: 0.8rem;
+            color: #fca5a5;
+            min-height: 1.2em;
+            margin-top: 4px;
+        }
+        .shell-config {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-family: 'Space Grotesk', monospace;
+        }
+        .shell-config span { margin-right: 10px; }
 
         /* ===== SELF TEST ===== */
         .self-test {
@@ -1129,11 +1150,143 @@
             font-weight: 600;
             margin-top: 6px;
         }
-        .nuclide-tooltip .tt-decay.stable { background: rgba(34,197,94,0.2); color: #86efac; }
-        .nuclide-tooltip .tt-decay.betaMinus { background: rgba(59,130,246,0.2); color: #93c5fd; }
-        .nuclide-tooltip .tt-decay.betaPlus { background: rgba(249,115,22,0.2); color: #fdba74; }
-        .nuclide-tooltip .tt-decay.alpha { background: rgba(239,68,68,0.2); color: #fca5a5; }
+        .nuclide-tooltip .tt-decay.stable { background: rgba(255,255,255,0.15); color: #fff; }
+        .nuclide-tooltip .tt-decay.betaMinus { background: rgba(38,198,218,0.2); color: #80deea; }
+        .nuclide-tooltip .tt-decay.betaPlus { background: rgba(76,175,80,0.2); color: #a5d6a7; }
+        .nuclide-tooltip .tt-decay.ecBetaPlus { background: rgba(76,175,80,0.2); color: #a5d6a7; }
+        .nuclide-tooltip .tt-decay.alpha { background: rgba(212,160,23,0.2); color: #ffe082; }
         .nuclide-tooltip .tt-decay.gamma { background: rgba(250,204,21,0.2); color: #fde047; }
+        .nuclide-tooltip .tt-decay.proton { background: rgba(255,152,0,0.2); color: #ffcc80; }
+        .nuclide-tooltip .tt-decay.neutron { background: rgba(224,64,251,0.2); color: #ea80fc; }
+        .nuclide-tooltip .tt-decay.ec { background: rgba(139,195,74,0.2); color: #c5e1a5; }
+        .nuclide-tooltip .tt-decay.sf { background: rgba(240,98,146,0.2); color: #f8bbd0; }
+        .nuclide-tooltip .tt-decay.unknown { background: rgba(255,255,255,0.05); color: #aaa; }
+
+        /* ===== IAEA CHART LAYOUT ===== */
+        .chart-layout {
+            display: flex;
+            gap: 0;
+            min-height: 520px;
+        }
+        .chart-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .chart-sidebar {
+            width: 200px;
+            background: rgba(255,255,255,0.02);
+            border-left: 1px solid rgba(255,255,255,0.06);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 0.85rem;
+            overflow-y: auto;
+            min-height: 0;
+        }
+        .chart-sidebar h4 {
+            font-size: 0.9rem;
+            margin: 0 0 4px;
+            color: var(--text);
+        }
+        .chart-search-bar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            align-items: center;
+        }
+        .chart-search-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: var(--radius);
+        }
+        .chart-search-wrap i { color: var(--text-muted); font-size: 0.85rem; }
+        .chart-search-wrap input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .chart-btn {
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .chart-btn:hover { background: rgba(255,255,255,0.1); }
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .legend-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+        .chart-instructions {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+        .chart-instructions p { margin: 0 0 6px; }
+        .chart-instructions i { width: 16px; text-align: center; }
+        .nuclide-info-panel {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 14px 24px;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            min-height: 56px;
+        }
+        .info-symbol {
+            font-family: 'Space Grotesk', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+            min-width: 60px;
+            text-align: center;
+        }
+        .info-details {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .info-details b { color: var(--text); font-weight: 600; }
+        .info-decay {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .info-empty { color: var(--text-muted); font-style: italic; }
 
 @media (max-width: 900px) {
             .chapter-grid { grid-template-columns: 1fr; }
@@ -1142,6 +1295,10 @@
             .atom-builder-body { grid-template-columns: 1fr; }
             .atom-canvas-wrap { height: 300px; }
             .iframe-embed { height: 400px; }
+            .chart-layout { flex-direction: column; }
+            .chart-sidebar { width: 100%; border-left: none; border-top: 1px solid rgba(255,255,255,0.06); }
+            .chart-legend { flex-direction: row; flex-wrap: wrap; }
+            .nuclide-info-panel { flex-direction: column; gap: 8px; align-items: flex-start; }
         }
     </style>
 </head>
@@ -1238,7 +1395,7 @@
                             A nucleus is held together by the <strong>strong nuclear force</strong>, an attractive force that acts between all nucleons — protons and neutrons alike. At distances of about 1 to 3 femtometres (where 1 fm = 10<sup>−15</sup> m), this force is roughly 100 times stronger than the electromagnetic repulsion between two individual nucleons at a distance of 1 fm. However, Coulomb repulsion is infinite-range and scales as Z(Z−1), meaning the total electromagnetic repulsion across all protons in a heavy nucleus can exceed the binding capacity of the strong force. The strong force has a critical limitation: beyond about 3 fm, its influence essentially vanishes.
                         </p>
                         <p>
-                            This tension — short-range attraction versus long-range repulsion — is the root cause of nuclear instability. For a nucleus to be stable, the binding provided by the strong force must outweigh the disruptive Coulomb repulsion. The balance depends on three numbers: the proton count (<strong>Z</strong>), the neutron count (<strong>N</strong>), and the total nucleon count, or mass number (<strong>A = Z + N</strong>). When this balance tips too far in either direction, the nucleus decays.
+                            This tension — short-range attraction versus long-range repulsion — is the root cause of nuclear instability. For a nucleus to be stable, the binding provided by the strong force must outweigh the disruptive Coulomb repulsion. The balance depends on three numbers: the proton count (<strong>Z</strong>), the neutron count (<strong>N</strong>), and the total nucleon count, or mass number ($A = Z + N$). When this balance tips too far in either direction, the nucleus decays.
                         </p>
                         <p>
                             The consequences of nuclear instability extend far beyond the physics laboratory. Radioactive decay provides the clock for radiometric dating, the radiation for cancer therapy, the signatures for medical imaging, and the energy that powers nuclear reactors. Understanding <em>why</em> nuclei decay, <em>how</em> they decay, and at <em>what rate</em> is essential for all of these applications.
@@ -1317,22 +1474,57 @@
 
                         <div class="scene-container">
                             <div class="scene-header">
-                                <h4><i class="fas fa-chart-scatter"></i> Figure 8.1 — Valley of Stability</h4>
+                                <h4><i class="fas fa-chart-scatter"></i> Figure 8.1 — Chart of Nuclides</h4>
                                 <span class="scene-badge">Interactive Chart</span>
                             </div>
-                            <div class="scene-canvas-wrap">
-                                <canvas id="valleyCanvas"></canvas>
+                            <div class="chart-layout">
+                                <div class="chart-main">
+                                    <div class="chart-search-bar">
+                                        <div class="chart-search-wrap">
+                                            <i class="fas fa-search"></i>
+                                            <input type="text" id="chartSearch" placeholder="Search nuclide (e.g. U-238, 92,146)...">
+                                        </div>
+                                        <button class="chart-btn" id="chartSearchBtn" title="Search"><i class="fas fa-search"></i></button>
+                                        <button class="chart-btn" id="chartResetBtn" title="Reset view"><i class="fas fa-compress"></i></button>
+                                    </div>
+                                    <div class="scene-canvas-wrap" style="height: 600px;">
+                                        <canvas id="valleyCanvas"></canvas>
+                                        <div class="nuclide-tooltip" id="chartTooltip">
+                                            <div class="tt-name" id="ttName"></div>
+                                            <div class="tt-prop">Z = <span id="ttZ"></span>, N = <span id="ttN"></span>, A = <span id="ttA"></span></div>
+                                            <div class="tt-prop" id="ttHalfLife"></div>
+                                            <div class="tt-decay" id="ttDecay"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chart-sidebar">
+                                    <h4>Main Decay Mode</h4>
+                                    <div class="chart-legend">
+                                        <div class="legend-row"><span class="legend-color" style="background:#D4A017"></span> α decay</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#4CAF50"></span> EC + β⁺</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#26C6DA"></span> β⁻</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#FF9800"></span> p (proton)</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#E040FB"></span> n (neutron)</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#8BC34A"></span> EC</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#F06292"></span> SF</div>
+                                        <div class="legend-row"><span class="legend-color" style="background:#FFFFFF; box-shadow: 0 0 0 1px rgba(255,255,255,0.3);"></span> Stable</div>
+                                    </div>
+                                    <div class="chart-instructions">
+                                        <p><i class="fas fa-mouse-pointer"></i> <strong>Click</strong> a nuclide to view details</p>
+                                        <p><i class="fas fa-arrows-alt"></i> <strong>Drag</strong> to pan the chart</p>
+                                        <p><i class="fas fa-search-plus"></i> <strong>Wheel</strong> to zoom in/out</p>
+                                        <p><i class="fas fa-compress-arrows-alt"></i> <strong>Double-click</strong> to reset view</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
-                                <span><span class="legend-dot" style="background:#3b82f6"></span> β⁻ decay</span>
-                                <span><span class="legend-dot" style="background:#f97316"></span> β⁺ / EC</span>
-                                <span><span class="legend-dot" style="background:#ef4444"></span> α decay</span>
-                                <span><span class="legend-dot" style="background:#facc15"></span> γ decay</span>
-                                <span><span class="legend-dot" style="background:rgba(255,255,255,0.3)"></span> Magic number</span>
+                            <div class="nuclide-info-panel" id="nuclideInfoPanel">
+                                <div class="info-symbol" id="infoSymbol">—</div>
+                                <div class="info-details" id="infoDetails">
+                                    <span class="info-empty">Click on a nuclide in the chart to view its data.</span>
+                                </div>
                             </div>
                             <div class="scene-info">
-                                <i class="fas fa-mouse-pointer"></i> Hover over points to see isotope names and decay modes. Orange dashed lines mark magic numbers (2, 8, 20, 28, 50, 82, 126).
+                                <i class="fas fa-info-circle"></i> Explore the valley of stability. The diagonal band of stable isotopes (white) is the valley centre. Nuclides above the valley tend toward β⁻ decay; those below tend toward β⁺ or EC. Heavy nuclides (Z > 83) predominantly undergo α decay.
                             </div>
                         </div>
 
@@ -1381,46 +1573,6 @@
                                 </tr>
                             </tbody>
                         </table>
-
-                        <div class="insight-card">
-                            <h4><i class="fas fa-atom"></i> Interactive Chart of Nuclides</h4>
-                            <p>Explore the valley of stability with our custom-built interactive chart. Hover over any nuclide to see its decay mode and half-life. Search for specific isotopes or filter by decay mode.</p>
-                        </div>
-                        <div class="scene-container">
-                            <div class="scene-header">
-                                <h4><i class="fas fa-chart-scatter"></i> Figure 8.1b — Chart of Nuclides</h4>
-                                <span class="scene-badge">Interactive</span>
-                            </div>
-                            <div class="scene-canvas-wrap" style="height: 520px;">
-                                <canvas id="nuclideChartCanvas"></canvas>
-                                <div class="nuclide-tooltip" id="nuclideTooltip">
-                                    <div class="tt-name" id="ttName"></div>
-                                    <div class="tt-prop">Z = <span id="ttZ"></span>, N = <span id="ttN"></span>, A = <span id="ttA"></span></div>
-                                    <div class="tt-prop" id="ttHalfLife"></div>
-                                    <div class="tt-decay" id="ttDecay"></div>
-                                </div>
-                            </div>
-                            <div class="nuclide-toolbar">
-                                <input type="text" class="nuclide-search" id="nuclideSearch" placeholder="Search isotope (e.g. U-238, Carbon-14)...">
-                                <div class="nuclide-filters">
-                                    <label><input type="checkbox" checked data-filter="stable"> <span style="color:#22c55e">●</span> Stable</label>
-                                    <label><input type="checkbox" checked data-filter="betaMinus"> <span style="color:#3b82f6">●</span> β⁻</label>
-                                    <label><input type="checkbox" checked data-filter="betaPlus"> <span style="color:#f97316">●</span> β⁺/EC</label>
-                                    <label><input type="checkbox" checked data-filter="alpha"> <span style="color:#ef4444">●</span> α</label>
-                                    <label><input type="checkbox" checked data-filter="gamma"> <span style="color:#facc15">●</span> γ</label>
-                                </div>
-                            </div>
-                            <div class="scene-legend">
-                                <span><span class="legend-dot" style="background:#22c55e"></span> Stable</span>
-                                <span><span class="legend-dot" style="background:#3b82f6"></span> β⁻ decay</span>
-                                <span><span class="legend-dot" style="background:#f97316"></span> β⁺ / EC</span>
-                                <span><span class="legend-dot" style="background:#ef4444"></span> α decay</span>
-                                <span><span class="legend-dot" style="background:rgba(255,255,255,0.3)"></span> Magic number</span>
-                            </div>
-                            <div class="scene-info">
-                                <i class="fas fa-mouse-pointer"></i> Hover over squares to see isotope details. Click to pin info. Use the search box to find specific isotopes.
-                            </div>
-                        </div>
                     </article>
 
                     <!-- 8.4 WHAT MAKES A NUCLEUS STABLE -->
@@ -1491,7 +1643,7 @@
 
                         <h3>Binding Energy and the Semi-Empirical Mass Formula</h3>
                         <p>
-                            The <strong>binding energy</strong> of a nucleus is the energy required to separate it into its constituent nucleons. It corresponds to the mass difference between the separated nucleons and the actual nucleus, converted to energy via E = mc². The <strong>binding energy per nucleon</strong> (BE/A) is a direct measure of stability: higher values mean each nucleon is more tightly bound.
+                            The <strong>binding energy</strong> of a nucleus is the energy required to separate it into its constituent nucleons. It corresponds to the mass difference between the separated nucleons and the actual nucleus, converted to energy via $E = mc^2$. The <strong>binding energy per nucleon</strong> (BE/A) is a direct measure of stability: higher values mean each nucleon is more tightly bound.
                         </p>
 
                         <div class="scene-container">
@@ -1523,7 +1675,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                BE = a<sub>v</sub>A − a<sub>s</sub>A<sup>2/3</sup> − a<sub>c</sub> <span style="display:inline-block; text-align:center; vertical-align:middle;"><span style="border-bottom:1px solid currentColor; display:block;">Z(Z−1)</span><span style="font-size:0.8em;">A<sup>1/3</sup></span></span> − a<sub>a</sub> <span style="display:inline-block; text-align:center; vertical-align:middle;"><span style="border-bottom:1px solid currentColor; display:block;">(N−Z)²</span><span style="font-size:0.8em;">A</span></span> ± δ(A)
+                                $$BE = a_v A - a_s A^{2/3} - a_c \frac{Z(Z-1)}{A^{1/3}} - a_a \frac{(N-Z)^2}{A} \pm \delta(A)$$
                             </div>
                             <div class="nuclear-formula-desc">Semi-empirical mass formula (Weizsäcker formula)</div>
                         </div>
@@ -1635,7 +1787,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                <sup>A</sup><sub>Z</sub>X → <sup>A−4</sup><sub>Z−2</sub>Y + <sup>4</sup><sub>2</sub>He + Q
+                                $$^{A}_{Z}\text{X} \rightarrow {}^{A-4}_{Z-2}\text{Y} + {}^{4}_{2}\text{He} + Q$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 Alpha decay equation. Q is the energy released, appearing as kinetic energy shared between the alpha particle and the recoiling daughter nucleus.
@@ -1643,7 +1795,7 @@
                         </div>
 
                         <p>
-                            The <strong>Q-value</strong> — the energy released — is calculated from the mass difference between the parent nucleus and the products: Q = (m<sub>X</sub> − m<sub>Y</sub> − m<sub>α</sub>)c². This energy appears as kinetic energy shared between the alpha particle and the recoiling daughter nucleus. Because the alpha particle is much lighter, it carries away the majority of the energy, typically 4–9 MeV.
+                            The <strong>Q-value</strong> — the energy released — is calculated from the mass difference between the parent nucleus and the products: $Q = (m_X - m_Y - m_\alpha)c^2$. This energy appears as kinetic energy shared between the alpha particle and the recoiling daughter nucleus. Because the alpha particle is much lighter, it carries away the majority of the energy, typically 4–9 MeV.
                         </p>
                         <p>
                             Alpha decay is fundamentally a <strong>quantum tunnelling</strong> process. The alpha particle exists as a pre-formed cluster inside the nucleus, bouncing against the potential wall created by the strong force. Each collision with the nuclear surface offers a small probability of tunnelling through the Coulomb barrier — the electrostatic potential that would classically trap the particle inside. This tunnelling mechanism, first explained by George Gamow in 1928, was one of the earliest compelling demonstrations of quantum mechanics.
@@ -1654,7 +1806,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                log<sub>10</sub> T<sub>1/2</sub> = <span style="display:inline-block; text-align:center; vertical-align:middle;"><span style="border-bottom:1px solid currentColor; display:block;">A(Z)</span><span style="font-size:0.8em;">√E</span></span> + B(Z)
+                                $$\log_{10} T_{1/2} = \frac{A(Z)}{\sqrt{E}} + B(Z)$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 Geiger-Nuttall law. A modest change in decay energy produces an enormous change in half-life.
@@ -1662,7 +1814,7 @@
                         </div>
 
                         <p>
-                            A modest change in decay energy produces an enormous change in half-life. Polonium-212 decays with Q<sub>α</sub> = 8.95 MeV and a half-life of only 0.3 microseconds, whereas uranium-238 has Q<sub>α</sub> = 4.27 MeV and a half-life of 4.47 billion years — a difference of twenty orders of magnitude in half-life arising from a factor of only two in decay energy.
+                            A modest change in decay energy produces an enormous change in half-life. Polonium-212 decays with $Q_\alpha = 8.95$ MeV and a half-life of only 0.3 microseconds, whereas uranium-238 has $Q_\alpha = 4.27$ MeV and a half-life of 4.47 billion years — a difference of twenty orders of magnitude in half-life arising from a factor of only two in decay energy.
                         </p>
 
                         <div class="scene-container">
@@ -1699,7 +1851,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                n → p + e<sup>−</sup> + ν̄<sub>e</sub>
+                                $$n \rightarrow p + e^- + \bar{\nu}_e$$
                             </div>
                             <div class="nuclear-formula-desc">Neutron decay via the weak nuclear force</div>
                         </div>
@@ -1710,7 +1862,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                <sup>A</sup><sub>Z</sub>X → <sup>A</sup><sub>Z+1</sub>Y + e<sup>−</sup> + ν̄<sub>e</sub> + Q
+                                $$^{A}_{Z}\text{X} \rightarrow {}^{A}_{Z+1}\text{Y} + e^- + \bar{\nu}_e + Q$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 The mass number A is unchanged, but the atomic number Z increases by one, transforming the nucleus into a different element.
@@ -1759,7 +1911,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                p → n + e<sup>+</sup> + ν<sub>e</sub>
+                                $$p \rightarrow n + e^+ + \nu_e$$
                             </div>
                             <div class="nuclear-formula-desc">Proton conversion via the weak nuclear force</div>
                         </div>
@@ -1770,7 +1922,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                <sup>A</sup><sub>Z</sub>X + e<sup>−</sup> → <sup>A</sup><sub>Z−1</sub>Y + ν<sub>e</sub>
+                                $$^{A}_{Z}\text{X} + e^- \rightarrow {}^{A}_{Z-1}\text{Y} + \nu_e$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 Electron capture. After capture, the vacancy in an inner shell produces characteristic X-rays unique to the daughter element.
@@ -1816,7 +1968,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                <sup>A</sup><sub>Z</sub>X* → <sup>A</sup><sub>Z</sub>X + γ
+                                $$^{A}_{Z}\text{X}^* \rightarrow {}^{A}_{Z}\text{X} + \gamma$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 Gamma emission typically follows alpha or beta decay, as the daughter nucleus is often left in an excited state.
@@ -1883,10 +2035,12 @@
                                     <button class="scene-btn" onclick="resetAtom()" style="margin-top:8px;">
                                         <i class="fas fa-rotate-left"></i> Reset Atom
                                     </button>
-                                    <div class="atom-info" style="margin-top:12px;">
+                                    <div class="atom-error" id="atomError"></div>
+                                    <div class="atom-info" style="margin-top:8px;">
                                         <div class="element-symbol" id="elementSymbol">—</div>
                                         <div class="element-name" id="elementName">Empty</div>
-                                        <div id="elementDetails" style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Add particles to build an atom</div>
+                                        <div id="elementDetails" style="color:var(--text-muted); font-size:0.85rem; margin-top:6px;">Add a proton to start building</div>
+                                        <div class="shell-config" id="shellConfig"></div>
                                         <div class="stability" id="stabilityLabel">Neutral</div>
                                     </div>
                                 </div>
@@ -2141,7 +2295,7 @@
 
                         <div class="insight-card">
                             <h4><i class="fas fa-lightbulb"></i> Why Doesn't the Decay Chain Run Away?</h4>
-                            <p>After a long time (many times the longest daughter half-life), the decay chain reaches <strong>secular equilibrium</strong>: the activity of every daughter equals the activity of the parent. This means 1 gram of U-238 produces radon-222 at exactly the same rate that the U-238 decays. Mathematically: A<sub>daughter</sub> = A<sub>parent</sub> when t &gt;&gt; t<sub>1/2</sub>(daughter). This is why radon gas in buildings is a constant health concern — it's continuously produced by uranium in the ground.</p>
+                            <p>After a long time (many times the longest daughter half-life), the decay chain reaches <strong>secular equilibrium</strong>: the activity of every daughter equals the activity of the parent. This means 1 gram of U-238 produces radon-222 at exactly the same rate that the U-238 decays. Mathematically: $A_{\text{daughter}} = A_{\text{parent}}$ when $t \gg t_{1/2}(\text{daughter})$. This is why radon gas in buildings is a constant health concern — it's continuously produced by uranium in the ground.</p>
                         </div>
                     </article>
 
@@ -2156,7 +2310,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                dN/dt = −λN
+                                $$\frac{dN}{dt} = -\lambda N$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 N = number of radioactive nuclei, t = time, λ = decay constant
@@ -2169,7 +2323,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                N(t) = N<sub>0</sub> e<sup>−λt</sup>
+                                $$N(t) = N_0 e^{-\lambda t}$$
                             </div>
                             <div class="nuclear-formula-desc">Exponential decay law</div>
                         </div>
@@ -2180,7 +2334,7 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                t<sub>1/2</sub> = ln(2)/λ = 0.693/λ
+                                $$t_{1/2} = \frac{\ln(2)}{\lambda} = \frac{0.693}{\lambda}$$
                             </div>
                             <div class="nuclear-formula-desc">
                                 Half-life is an intrinsic property of each radioisotope, independent of temperature, pressure, chemical environment, and the age of the sample.
@@ -2197,9 +2351,9 @@
                         </p>
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                τ = 1/λ = t<sub>1/2</sub> / ln(2) ≈ 1.443 × t<sub>1/2</sub>
+                                $$\tau = \frac{1}{\lambda} = \frac{t_{1/2}}{\ln(2)} \approx 1.443 \times t_{1/2}$$
                             </div>
-                            <div class="nuclear-formula-desc">Mean lifetime is the natural time constant in the exponential decay equation: N = N₀e^(−t/τ)</div>
+                            <div class="nuclear-formula-desc">Mean lifetime is the natural time constant in the exponential decay equation: $N = N_0 e^{-t/\tau}$</div>
                         </div>
                         <p>
                             While half-life is more commonly used, mean lifetime appears in many theoretical derivations and is the natural time constant in the exponential decay equation.
@@ -2212,13 +2366,13 @@
 
                         <div class="nuclear-formula-box">
                             <div class="nuclear-formula">
-                                A = λN = 0.693·N / t<sub>1/2</sub>
+                                $$A = \lambda N = \frac{0.693 \cdot N}{t_{1/2}}$$
                             </div>
                             <div class="nuclear-formula-desc">Activity equation</div>
                         </div>
 
                         <p>
-                            The SI unit of activity is the <strong>becquerel (Bq)</strong>, defined as one disintegration per second. An older unit still in common use is the <strong>curie (Ci)</strong>, originally defined as the activity of one gram of radium-226 (3.70 × 10¹⁰ Bq). Activity, like the number of nuclei, decays exponentially: A(t) = A₀e^(−λt). This equation is the foundation of all radioactive dating techniques.
+                            The SI unit of activity is the <strong>becquerel (Bq)</strong>, defined as one disintegration per second. An older unit still in common use is the <strong>curie (Ci)</strong>, originally defined as the activity of one gram of radium-226 (3.70 × 10¹⁰ Bq). Activity, like the number of nuclei, decays exponentially: $A(t) = A_0 e^{-\lambda t}$. This equation is the foundation of all radioactive dating techniques.
                         </p>
 
                         <div class="simulator-grid">
@@ -2267,7 +2421,7 @@
                                     <canvas id="decayCurveCanvas"></canvas>
                                     <div class="sim-stats">
                                         <div class="sim-stat">
-                                            <div class="sim-stat-value" style="font-size:1.2rem;">N = N<sub>0</sub>e<sup>−λt</sup></div>
+                                            <div class="sim-stat-value" style="font-size:1.2rem;">$N = N_0 e^{-\lambda t}$</div>
                                             <div class="sim-stat-label">Exponential decay law</div>
                                         </div>
                                     </div>
@@ -2340,7 +2494,7 @@
                             </div>
                             <h4>How technetium is produced</h4>
                             <p>Technetium-99m is produced in small nuclear generators located in hospitals. Molybdenum-99 decays by beta emission to form technetium-99m:</p>
-                            <p style="text-align:center;font-family:'Space Grotesk',monospace;"><sup>99</sup><sub>42</sub>Mo → <sup>99m</sup><sub>43</sub>Tc + <sup>0</sup><sub>−1</sub>β + ν</p>
+                            <p style="text-align:center;">$$^{99}_{42}\text{Mo} \rightarrow {}^{99\text{m}}_{43}\text{Tc} + {}^{0}_{-1}\beta + \nu$$</p>
                             <p>Technetium-99m is flushed from the generator using saline solution, then attached to an appropriate chemical compound before being administered to the patient.</p>
                         </div>
 
@@ -2356,7 +2510,7 @@
 
                         <h3>How Radiometric Dating Actually Works</h3>
                         <p>
-                            Radiometric dating doesn't just measure activity — it measures parent-to-daughter isotope ratios. In uranium-lead dating, scientists measure the ratio of ²⁰⁶Pb to ²³⁸U in a mineral. Because each U-238 decay produces exactly one Pb-206 atom, this ratio increases predictably over time. The age equation is: t = (1/λ) × ln(1 + N<sub>daughter</sub>/N<sub>parent</sub>). A critical assumption is that the system remained closed — no lead or uranium entered or left the mineral since it formed.
+                            Radiometric dating doesn't just measure activity — it measures parent-to-daughter isotope ratios. In uranium-lead dating, scientists measure the ratio of ²⁰⁶Pb to ²³⁸U in a mineral. Because each U-238 decay produces exactly one Pb-206 atom, this ratio increases predictably over time. The age equation is: $t = \frac{1}{\lambda} \ln\left(1 + \frac{N_{\text{daughter}}}{N_{\text{parent}}}\right)$. A critical assumption is that the system remained closed — no lead or uranium entered or left the mineral since it formed.
                         </p>
 
                         <h3>Why U-235, Not U-238?</h3>
@@ -2422,7 +2576,7 @@
                             <li>When a nucleus is unstable, it decays via one of several mechanisms. <strong>Alpha decay</strong> dominates for heavy nuclei and is governed by quantum tunnelling through the Coulomb barrier, with the Geiger-Nuttall law relating decay energy to half-life.</li>
                             <li><strong>Beta-minus decay</strong> converts neutrons to protons and moves neutron-rich nuclei toward the valley of stability, while <strong>beta-plus decay</strong> and <strong>electron capture</strong> convert protons to neutrons and move proton-rich nuclei toward stability.</li>
                             <li><strong>Gamma emission</strong> releases excess energy without changing the nucleus's composition. These processes often occur in <strong>decay chains</strong>, such as the 14-step uranium-238 series that terminates at stable lead-206.</li>
-                            <li>All radioactive decay follows <strong>first-order kinetics</strong> described by N = N₀e^(−λt), with a characteristic half-life that is independent of external conditions. Activity is measured in <strong>becquerels</strong> or <strong>curies</strong>.</li>
+                            <li>All radioactive decay follows <strong>first-order kinetics</strong> described by $N = N_0 e^{-\lambda t}$, with a characteristic half-life that is independent of external conditions. Activity is measured in <strong>becquerels</strong> or <strong>curies</strong>.</li>
                             <li>The predictable nature of radioactive decay underpins crucial applications in <strong>nuclear medicine</strong>, <strong>radiometric dating</strong>, and <strong>nuclear energy production</strong>.</li>
                         </ul>
                     </article>
@@ -3610,342 +3764,61 @@
         resize();
     })();
 
-    // ===== VALLEY OF STABILITY CHART (Canvas 2D) =====
+    // ===== IAEA LIVE CHART OF NUCLIDES =====
     (function() {
         const canvas = document.getElementById('valleyCanvas');
-        const ctx = canvas.getContext('2d');
-        function resize() {
-            const dpr = Math.min(window.devicePixelRatio, 2);
-            const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = 320 * dpr;
-            canvas.style.width = rect.width + 'px';
-            canvas.style.height = '320px';
-            ctx.scale(dpr, dpr);
-            draw();
-        }
-        const isotopes = [
-            [1,0,'H-1','stable'], [1,1,'H-2','stable'], [1,2,'H-3','betaMinus'],
-            [2,1,'He-3','stable'], [2,2,'He-4','stable'],
-            [6,6,'C-12','stable'], [6,7,'C-13','stable'], [6,8,'C-14','betaMinus'],
-            [7,7,'N-14','stable'], [7,8,'N-15','stable'],
-            [8,8,'O-16','stable'], [8,9,'O-17','stable'], [8,10,'O-18','stable'],
-            [9,10,'F-18','betaPlus'],
-            [11,12,'Na-22','betaPlus'], [11,13,'Na-23','stable'],
-            [17,18,'Cl-35','stable'], [17,20,'Cl-37','stable'],
-            [19,20,'K-39','stable'], [19,21,'K-40','betaMinus'], [19,22,'K-41','stable'],
-            [20,20,'Ca-40','stable'], [20,22,'Ca-42','stable'], [20,28,'Ca-48','betaMinus'],
-            [26,30,'Fe-56','stable'],
-            [43,56,'Tc-99m','gamma'],
-            [50,68,'Sn-118','stable'],
-            [53,78,'I-131','betaMinus'],
-            [55,82,'Cs-137','betaMinus'],
-            [27,33,'Co-60','betaMinus'],
-            [82,124,'Pb-206','stable'], [82,125,'Pb-207','stable'], [82,126,'Pb-208','stable'],
-            [83,126,'Bi-209','stable'],
-            [84,125,'Po-212','alpha'],
-            [86,136,'Rn-222','alpha'],
-            [88,138,'Ra-226','alpha'],
-            [92,143,'U-235','alpha'], [92,146,'U-238','alpha'],
-            [94,145,'Pu-239','alpha'], [94,150,'Pu-244','alpha'],
-        ];
-        const colors = {
-            stable: '#22c55e',
-            betaMinus: '#3b82f6',
-            betaPlus: '#f97316',
-            alpha: '#ef4444',
-            gamma: '#facc15',
-            fission: '#a855f7'
-        };
-        let hovered = null;
-        function draw() {
-            const w = canvas.width / Math.min(window.devicePixelRatio, 2);
-            const h = 320;
-            ctx.clearRect(0, 0, w, h);
-            const pad = { left: 45, right: 20, top: 20, bottom: 40 };
-            const gw = w - pad.left - pad.right;
-            const gh = h - pad.top - pad.bottom;
-            const maxZ = 100;
-            const maxN = 160;
-            // Grid
-            ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i <= 10; i++) {
-                const x = pad.left + (i / 10) * gw;
-                ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + gh); ctx.stroke();
-            }
-            for (let i = 0; i <= 8; i++) {
-                const y = pad.top + (i / 8) * gh;
-                ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + gw, y); ctx.stroke();
-            }
-            // Magic number lines
-            const magicNumbers = [2, 8, 20, 28, 50, 82, 126];
-            ctx.strokeStyle = 'rgba(251,191,36,0.25)';
-            ctx.setLineDash([4, 4]);
-            ctx.lineWidth = 1;
-            magicNumbers.forEach(m => {
-                // Vertical lines for N magic numbers
-                if (m <= maxN) {
-                    const x = pad.left + (m / maxN) * gw;
-                    ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, pad.top + gh); ctx.stroke();
-                }
-                // Horizontal lines for Z magic numbers
-                if (m <= maxZ) {
-                    const y = pad.top + gh - (m / maxZ) * gh;
-                    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + gw, y); ctx.stroke();
-                }
-            });
-            ctx.setLineDash([]);
-            // Valley band (approximate)
-            ctx.fillStyle = 'rgba(34,197,94,0.06)';
-            ctx.beginPath();
-            for (let z = 1; z <= maxZ; z += 1) {
-                const nStable = z < 20 ? z : z * (1 + 0.0077 * z);
-                const x = pad.left + (nStable / maxN) * gw;
-                const y = pad.top + gh - (z / maxZ) * gh;
-                if (z === 1) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.lineTo(pad.left + gw, pad.top + gh);
-            ctx.lineTo(pad.left, pad.top + gh);
-            ctx.closePath();
-            ctx.fill();
-            // N=Z line
-            ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-            ctx.setLineDash([3, 3]);
-            ctx.beginPath();
-            ctx.moveTo(pad.left, pad.top + gh);
-            ctx.lineTo(pad.left + (maxZ / maxN) * gw, pad.top + gh - (maxZ / maxZ) * gh);
-            ctx.stroke();
-            ctx.setLineDash([]);
-            // Decay arrows (schematic)
-            ctx.strokeStyle = '#3b82f6';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(pad.left + gw * 0.55, pad.top + gh * 0.35);
-            ctx.lineTo(pad.left + gw * 0.6, pad.top + gh * 0.4);
-            ctx.stroke();
-            ctx.fillStyle = '#3b82f6';
-            ctx.font = '10px Inter, sans-serif';
-            ctx.fillText('β⁻', pad.left + gw * 0.56, pad.top + gh * 0.36);
-            ctx.strokeStyle = '#f97316';
-            ctx.beginPath();
-            ctx.moveTo(pad.left + gw * 0.45, pad.top + gh * 0.55);
-            ctx.lineTo(pad.left + gw * 0.4, pad.top + gh * 0.5);
-            ctx.stroke();
-            ctx.fillStyle = '#f97316';
-            ctx.fillText('β⁺/EC', pad.left + gw * 0.32, pad.top + gh * 0.56);
-            // Alpha region label
-            ctx.fillStyle = '#ef4444';
-            ctx.font = 'bold 11px Inter, sans-serif';
-            ctx.fillText('α decay region (Z > 83)', pad.left + gw * 0.65, pad.top + gh * 0.15);
-            // Isotopes
-            isotopes.forEach(([z, n, name, type]) => {
-                const x = pad.left + (n / maxN) * gw;
-                const y = pad.top + gh - (z / maxZ) * gh;
-                const r = name === hovered ? 7 : 4.5;
-                ctx.fillStyle = colors[type] || '#fff';
-                ctx.beginPath();
-                ctx.arc(x, y, r, 0, Math.PI * 2);
-                ctx.fill();
-                if (name === hovered) {
-                    ctx.strokeStyle = '#fff';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                    ctx.fillStyle = '#fff';
-                    ctx.font = '12px Inter, sans-serif';
-                    ctx.fillText(name + ' (' + type + ')', x + 12, y + 4);
-                }
-            });
-            // Axes
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
-            ctx.font = '12px Inter, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText('Neutrons (N) →', pad.left + gw / 2, h - 8);
-            ctx.save();
-            ctx.translate(14, pad.top + gh / 2);
-            ctx.rotate(-Math.PI / 2);
-            ctx.fillText('Protons (Z) →', 0, 0);
-            ctx.restore();
-        }
-        canvas.addEventListener('mousemove', e => {
-            const rect = canvas.getBoundingClientRect();
-            const mx = (e.clientX - rect.left);
-            const my = (e.clientY - rect.top);
-            const w = rect.width;
-            const h = 320;
-            const pad = { left: 45, right: 20, top: 20, bottom: 40 };
-            const gw = w - pad.left - pad.right;
-            const gh = h - pad.top - pad.bottom;
-            const maxZ = 100;
-            const maxN = 160;
-            let closest = null;
-            let minDist = 12;
-            isotopes.forEach(([z, n, name]) => {
-                const x = pad.left + (n / maxN) * gw;
-                const y = pad.top + gh - (z / maxZ) * gh;
-                const dist = Math.hypot(mx - x, my - y);
-                if (dist < minDist) { minDist = dist; closest = name; }
-            });
-            if (closest !== hovered) { hovered = closest; draw(); }
-        });
-        canvas.addEventListener('mouseleave', () => { hovered = null; draw(); });
-        window.addEventListener('resize', resize);
-        resize();
-    })();
-
-    // ===== BUILD AN ATOM SIMULATION =====
-    (function() {
-        const container = document.getElementById('atomBuilderCanvasWrap');
-        const w = container.clientWidth || 600;
-        const h = container.clientHeight || 420;
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x050510);
-        const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
-        camera.position.set(0, 0, 18);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(w, h);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
-        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambient);
-        const point = new THREE.PointLight(0xffffff, 1, 50);
-        point.position.set(10, 10, 10);
-        scene.add(point);
-
-        let protons = 0, neutrons = 0, electrons = 0;
-        const nucleusGroup = new THREE.Group();
-        const electronGroup = new THREE.Group();
-        scene.add(nucleusGroup);
-        scene.add(electronGroup);
-
-        const elementNames = {
-            0: 'Empty', 1: 'Hydrogen', 2: 'Helium', 3: 'Lithium', 4: 'Beryllium', 5: 'Boron',
-            6: 'Carbon', 7: 'Nitrogen', 8: 'Oxygen', 9: 'Fluorine', 10: 'Neon',
-            11: 'Sodium', 12: 'Magnesium', 13: 'Aluminium', 14: 'Silicon', 15: 'Phosphorus',
-            16: 'Sulfur', 17: 'Chlorine', 18: 'Argon'
-        };
-        const elementSymbols = {
-            0: '—', 1: 'H', 2: 'He', 3: 'Li', 4: 'Be', 5: 'B', 6: 'C', 7: 'N', 8: 'O', 9: 'F', 10: 'Ne',
-            11: 'Na', 12: 'Mg', 13: 'Al', 14: 'Si', 15: 'P', 16: 'S', 17: 'Cl', 18: 'Ar'
-        };
-
-        function updateInfo() {
-            document.getElementById('protonCount').textContent = protons;
-            document.getElementById('neutronCount').textContent = neutrons;
-            document.getElementById('electronCount').textContent = electrons;
-            document.getElementById('elementSymbol').textContent = elementSymbols[protons] || '?';
-            document.getElementById('elementName').textContent = elementNames[protons] || 'Unknown';
-            const charge = protons - electrons;
-            const nz = protons > 0 ? neutrons / protons : 0;
-            let stability = 'Neutral';
-            let stableClass = 'stable';
-            if (charge > 0) { stability = 'Positive ion (+' + charge + ')'; stableClass = 'unstable'; }
-            else if (charge < 0) { stability = 'Negative ion (' + charge + ')'; stableClass = 'unstable'; }
-            else if (protons > 0) {
-                if (protons <= 20) {
-                    if (nz < 0.9 || nz > 1.3) { stability = 'Unstable N/Z ratio'; stableClass = 'unstable'; }
-                    else { stability = 'Likely stable'; stableClass = 'stable'; }
-                } else {
-                    if (nz < 1.2) { stability = 'Unstable N/Z ratio'; stableClass = 'unstable'; }
-                    else { stability = 'Check valley of stability'; stableClass = 'unstable'; }
-                }
-            }
-            const label = document.getElementById('stabilityLabel');
-            label.textContent = stability;
-            label.className = 'stability ' + stableClass;
-            const details = document.getElementById('elementDetails');
-            details.innerHTML = 'Z = ' + protons + ' &nbsp;|&nbsp; N = ' + neutrons + ' &nbsp;|&nbsp; A = ' + (protons + neutrons) + ' &nbsp;|&nbsp; Charge = ' + (charge >= 0 ? '+' + charge : charge);
-        }
-
-        function addProton() {
-            if (protons >= 18) return;
-            protons++;
-            const geo = new THREE.SphereGeometry(0.55, 20, 20);
-            const mat = new THREE.MeshPhongMaterial({ color: 0xef4444, emissive: 0x441111, emissiveIntensity: 0.3, shininess: 60 });
-            const mesh = new THREE.Mesh(geo, mat);
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.random() * 1.5;
-            mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, (Math.random() - 0.5) * 1.5);
-            nucleusGroup.add(mesh);
-            updateInfo();
-        }
-        function addNeutron() {
-            if (neutrons >= 30) return;
-            neutrons++;
-            const geo = new THREE.SphereGeometry(0.55, 20, 20);
-            const mat = new THREE.MeshPhongMaterial({ color: 0x94a3b8, emissive: 0x222233, emissiveIntensity: 0.3, shininess: 60 });
-            const mesh = new THREE.Mesh(geo, mat);
-            const angle = Math.random() * Math.PI * 2;
-            const dist = Math.random() * 1.5;
-            mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, (Math.random() - 0.5) * 1.5);
-            nucleusGroup.add(mesh);
-            updateInfo();
-        }
-        function addElectron() {
-            if (electrons >= 18) return;
-            electrons++;
-            const geo = new THREE.SphereGeometry(0.2, 16, 16);
-            const mat = new THREE.MeshBasicMaterial({ color: 0x3b82f6 });
-            const mesh = new THREE.Mesh(geo, mat);
-            const shell = Math.ceil(electrons / 2);
-            const radius = 3 + shell * 1.8;
-            const angle = (electrons * 2.4) % (Math.PI * 2);
-            mesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
-            mesh.userData = { radius: radius, angle: angle, speed: 0.01 + Math.random() * 0.01 };
-            electronGroup.add(mesh);
-            updateInfo();
-        }
-        function resetAtom() {
-            protons = 0; neutrons = 0; electrons = 0;
-            while (nucleusGroup.children.length > 0) nucleusGroup.remove(nucleusGroup.children[0]);
-            while (electronGroup.children.length > 0) electronGroup.remove(electronGroup.children[0]);
-            updateInfo();
-        }
-        window.addProton = addProton;
-        window.addNeutron = addNeutron;
-        window.addElectron = addElectron;
-        window.resetAtom = resetAtom;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            nucleusGroup.rotation.y += 0.003;
-            electronGroup.children.forEach(e => {
-                e.userData.angle += e.userData.speed;
-                e.position.x = Math.cos(e.userData.angle) * e.userData.radius;
-                e.position.y = Math.sin(e.userData.angle) * e.userData.radius;
-            });
-            electronGroup.rotation.x += 0.002;
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            const nw = container.clientWidth;
-            const nh = container.clientHeight;
-            camera.aspect = nw / nh;
-            camera.updateProjectionMatrix();
-            renderer.setSize(nw, nh);
-        });
-    })();
-    // ===== CUSTOM CHART OF NUCLIDES =====
-    (function() {
-        const canvas = document.getElementById('nuclideChartCanvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        const tooltip = document.getElementById('nuclideTooltip');
+        const tooltip = document.getElementById('chartTooltip');
         const ttName = document.getElementById('ttName');
         const ttZ = document.getElementById('ttZ');
         const ttN = document.getElementById('ttN');
         const ttA = document.getElementById('ttA');
         const ttHalfLife = document.getElementById('ttHalfLife');
         const ttDecay = document.getElementById('ttDecay');
+        const infoSymbol = document.getElementById('infoSymbol');
+        const infoDetails = document.getElementById('infoDetails');
 
-        // Offscreen canvas for caching the grid
-        let offscreen = null;
-        let offCtx = null;
+        const MAX_Z = 118;
+        const MAX_N = 180;
+        const PAD = { left: 44, right: 10, top: 10, bottom: 28 };
 
-        // Known isotopes: [Z, N, symbol, decayMode, halfLife]
+        const decayColors = {
+            alpha: '#D4A017',
+            ecBetaPlus: '#4CAF50',
+            betaMinus: '#26C6DA',
+            proton: '#FF9800',
+            neutron: '#E040FB',
+            ec: '#8BC34A',
+            sf: '#F06292',
+            stable: '#FFFFFF',
+            unknown: 'rgba(255,255,255,0.03)'
+        };
+        const decayLabels = {
+            alpha: 'α decay',
+            ecBetaPlus: 'EC + β⁺',
+            betaMinus: 'β⁻ decay',
+            proton: 'Proton emission',
+            neutron: 'Neutron emission',
+            ec: 'Electron capture',
+            sf: 'Spontaneous fission',
+            stable: 'Stable',
+            unknown: 'Unknown'
+        };
+        const decayBadge = {
+            alpha: 'background:rgba(212,160,23,0.2);color:#ffe082;',
+            ecBetaPlus: 'background:rgba(76,175,80,0.2);color:#a5d6a7;',
+            betaMinus: 'background:rgba(38,198,218,0.2);color:#80deea;',
+            proton: 'background:rgba(255,152,0,0.2);color:#ffcc80;',
+            neutron: 'background:rgba(224,64,251,0.2);color:#ea80fc;',
+            ec: 'background:rgba(139,195,74,0.2);color:#c5e1a5;',
+            sf: 'background:rgba(240,98,146,0.2);color:#f8bbd0;',
+            stable: 'background:rgba(255,255,255,0.15);color:#fff;',
+            unknown: 'background:rgba(255,255,255,0.05);color:#aaa;'
+        };
+
+        const elementSymbols = ['n','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm','Md','No','Lr','Rf','Db','Sg','Bh','Hs','Mt','Ds','Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og'];
+
         const knownIsotopes = [
             [1,0,'¹H','stable',''], [1,1,'²H','stable',''], [1,2,'³H','betaMinus','12.3 y'],
             [2,1,'³He','stable',''], [2,2,'⁴He','stable',''],
@@ -3955,21 +3828,21 @@
             [6,6,'¹²C','stable',''], [6,7,'¹³C','stable',''], [6,8,'¹⁴C','betaMinus','5,730 y'],
             [7,7,'¹⁴N','stable',''], [7,8,'¹⁵N','stable',''],
             [8,8,'¹⁶O','stable',''], [8,9,'¹⁷O','stable',''], [8,10,'¹⁸O','stable',''],
-            [9,10,'¹⁹F','stable',''], [9,10,'¹⁸F','betaPlus','109.8 min'],
+            [9,10,'¹⁹F','stable',''], [9,8,'¹⁷F','ecBetaPlus','64.5 s'],
             [10,10,'²⁰Ne','stable',''], [10,11,'²¹Ne','stable',''], [10,12,'²²Ne','stable',''],
-            [11,12,'²³Na','stable',''], [11,11,'²²Na','betaPlus','2.6 y'],
+            [11,12,'²³Na','stable',''], [11,11,'²²Na','ecBetaPlus','2.6 y'],
             [12,12,'²⁴Mg','stable',''], [12,13,'²⁵Mg','stable',''], [12,14,'²⁶Mg','stable',''],
             [13,14,'²⁷Al','stable',''],
             [14,14,'²⁸Si','stable',''], [14,15,'²⁹Si','stable',''], [14,16,'³⁰Si','stable',''],
-            [15,16,'³¹P','stable',''], [15,15,'³⁰P','betaPlus','2.5 min'],
+            [15,16,'³¹P','stable',''], [15,15,'³⁰P','ecBetaPlus','2.5 min'],
             [16,16,'³²S','stable',''], [16,17,'³³S','stable',''], [16,18,'³⁴S','stable',''], [16,20,'³⁶S','betaMinus',''],
             [17,18,'³⁵Cl','stable',''], [17,20,'³⁷Cl','stable',''],
             [18,18,'³⁶Ar','stable',''], [18,20,'³⁸Ar','stable',''], [18,22,'⁴⁰Ar','stable',''],
-            [19,20,'³⁹K','stable',''], [19,21,'⁴⁰K','betaMinus','1.25×10⁹ y'], [19,22,'⁴¹K','stable',''],
+            [19,20,'³⁹K','stable',''], [19,21,'⁴⁰K','ecBetaPlus','1.25×10⁹ y'], [19,22,'⁴¹K','stable',''],
             [20,20,'⁴⁰Ca','stable',''], [20,22,'⁴²Ca','stable',''], [20,23,'⁴³Ca','stable',''], [20,24,'⁴⁴Ca','stable',''], [20,26,'⁴⁶Ca','stable',''], [20,28,'⁴⁸Ca','betaMinus','>4×10¹⁹ y'],
             [22,24,'⁴⁶Ti','stable',''], [22,26,'⁴⁸Ti','stable',''], [22,27,'⁴⁹Ti','stable',''], [22,28,'⁵⁰Ti','stable',''],
             [24,26,'⁵⁰Cr','stable',''], [24,28,'⁵²Cr','stable',''], [24,29,'⁵³Cr','stable',''], [24,30,'⁵⁴Cr','stable',''],
-            [25,29,'⁵⁴Mn','betaPlus','312 d'], [25,30,'⁵⁵Mn','stable',''],
+            [25,29,'⁵⁴Mn','ecBetaPlus','312 d'], [25,30,'⁵⁵Mn','stable',''],
             [26,28,'⁵⁴Fe','stable',''], [26,30,'⁵⁶Fe','stable',''], [26,31,'⁵⁷Fe','stable',''], [26,32,'⁵⁸Fe','stable',''],
             [27,32,'⁵⁹Co','stable',''], [27,33,'⁶⁰Co','betaMinus','5.27 y'],
             [28,30,'⁵⁸Ni','stable',''], [28,32,'⁶⁰Ni','stable',''], [28,33,'⁶¹Ni','stable',''], [28,34,'⁶²Ni','stable',''], [28,36,'⁶⁴Ni','stable',''],
@@ -3979,7 +3852,7 @@
             [32,38,'⁷⁰Ge','stable',''], [32,40,'⁷²Ge','stable',''], [32,41,'⁷³Ge','stable',''], [32,42,'⁷⁴Ge','stable',''], [32,44,'⁷⁶Ge','stable',''],
             [33,42,'⁷⁵As','stable',''],
             [34,40,'⁷⁴Se','stable',''], [34,42,'⁷⁶Se','stable',''], [34,43,'⁷⁷Se','stable',''], [34,44,'⁷⁸Se','stable',''], [34,46,'⁸⁰Se','stable',''], [34,48,'⁸²Se','betaMinus',''],
-            [35,42,'⁷⁷Br','betaPlus','57 h'], [35,44,'⁷⁹Br','stable',''],
+            [35,42,'⁷⁷Br','ecBetaPlus','57 h'], [35,44,'⁷⁹Br','stable',''],
             [36,42,'⁷⁸Kr','stable',''], [36,44,'⁸⁰Kr','stable',''], [36,46,'⁸²Kr','stable',''], [36,48,'⁸⁴Kr','stable',''], [36,50,'⁸⁶Kr','stable',''],
             [37,46,'⁸³Rb','stable',''], [37,48,'⁸⁵Rb','stable',''],
             [38,48,'⁸⁶Sr','stable',''], [38,49,'⁸⁷Sr','stable',''], [38,50,'⁸⁸Sr','stable',''], [38,52,'⁹⁰Sr','betaMinus','28.8 y'],
@@ -3987,7 +3860,7 @@
             [40,50,'⁹⁰Zr','stable',''], [40,51,'⁹¹Zr','stable',''], [40,52,'⁹²Zr','stable',''], [40,54,'⁹⁴Zr','stable',''], [40,56,'⁹⁶Zr','stable',''],
             [41,52,'⁹³Nb','stable',''],
             [42,50,'⁹²Mo','stable',''], [42,52,'⁹⁴Mo','stable',''], [42,53,'⁹⁵Mo','stable',''], [42,54,'⁹⁶Mo','stable',''], [42,55,'⁹⁷Mo','stable',''], [42,56,'⁹⁸Mo','stable',''], [42,58,'¹⁰⁰Mo','betaMinus',''],
-            [43,56,'⁹⁹Tc','gamma','6.01 h'],
+            [43,56,'⁹⁹Tc','ec','6.01 h'],
             [44,54,'⁹⁸Ru','stable',''], [44,56,'¹⁰⁰Ru','stable',''], [44,57,'¹⁰¹Ru','stable',''], [44,58,'¹⁰²Ru','stable',''], [44,60,'¹⁰⁴Ru','stable',''], [44,62,'¹⁰⁶Ru','betaMinus',''],
             [45,58,'¹⁰³Rh','stable',''],
             [46,56,'¹⁰²Pd','stable',''], [46,58,'¹⁰⁴Pd','stable',''], [46,59,'¹⁰⁵Pd','stable',''], [46,60,'¹⁰⁶Pd','stable',''], [46,62,'¹⁰⁸Pd','stable',''], [46,64,'¹¹⁰Pd','stable',''],
@@ -4033,38 +3906,33 @@
             [90,142,'²³²Th','alpha','1.4×10¹⁰ y'], [90,140,'²³⁰Th','alpha','7.54×10⁴ y'], [90,138,'²²⁸Th','alpha','1.9 y'],
             [92,143,'²³⁵U','alpha','7.04×10⁸ y'], [92,146,'²³⁸U','alpha','4.47×10⁹ y'], [92,142,'²³⁴U','alpha','2.45×10⁵ y'], [92,141,'²³³U','alpha','1.59×10⁵ y'],
             [94,145,'²³⁹Pu','alpha','2.41×10⁴ y'], [94,146,'²⁴⁰Pu','alpha','6,560 y'], [94,147,'²⁴¹Pu','betaMinus','14.4 y'], [94,148,'²⁴²Pu','alpha','3.73×10⁵ y'], [94,150,'²⁴⁴Pu','alpha','8.1×10⁷ y'],
-            [95,146,'²⁴¹Am','alpha','432 y'], [95,148,'²⁴³Am','alpha','7,370 y']
+            [94,152,'²⁴⁶Pu','sf',''],
+            [95,146,'²⁴¹Am','alpha','432 y'], [95,148,'²⁴³Am','alpha','7,370 y'],
+            [96,148,'²⁴⁴Cm','alpha','18.1 y'], [96,150,'²⁴⁶Cm','alpha','4.73×10³ y'], [96,152,'²⁴⁸Cm','sf',''],
+            [98,152,'²⁵²Cf','sf','2.6 y']
         ];
 
-        const decayColors = {
-            stable: '#22c55e',
-            betaMinus: '#3b82f6',
-            betaPlus: '#f97316',
-            alpha: '#ef4444',
-            gamma: '#facc15',
-            unknown: 'rgba(255,255,255,0.06)'
-        };
-
-        const decayLabels = {
-            stable: 'Stable',
-            betaMinus: 'β⁻ decay',
-            betaPlus: 'β⁺ / EC',
-            alpha: 'α decay',
-            gamma: 'γ decay',
-            unknown: 'Unknown'
-        };
-
         const isotopeMap = new Map();
+        const nameToZN = new Map();
         knownIsotopes.forEach(function(row) {
-            isotopeMap.set(row[0] + ',' + row[1], { z: row[0], n: row[1], sym: row[2], decay: row[3], hl: row[4] });
+            var z = row[0], n = row[1], sym = row[2], decay = row[3], hl = row[4];
+            isotopeMap.set(z + ',' + n, { z: z, n: n, sym: sym, decay: decay, hl: hl });
+            var plainName = sym.toLowerCase().replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, '');
+            nameToZN.set(plainName, { z: z, n: n });
+            nameToZN.set(sym.toLowerCase(), { z: z, n: n });
         });
 
         function predictDecay(Z, N) {
             if (isotopeMap.has(Z + ',' + N)) return isotopeMap.get(Z + ',' + N).decay;
             if (N === 0 && Z > 1) return null;
-            if (Z > 100 || N > 160) return null;
+            if (Z > 118 || N > 180) return null;
+            if (Z >= 100) return 'sf';
+            if (Z >= 96 && N > 150) return 'sf';
             if (Z > 83) return 'alpha';
-
+            if (Z > 10 && N < Z - 5) return 'proton';
+            if (Z <= 10 && N < Z - 2) return 'proton';
+            if (Z > 20 && N > Z * 1.8) return 'neutron';
+            if (Z <= 20 && N > Z + 8) return 'neutron';
             var nStable;
             if (Z <= 20) nStable = Z;
             else if (Z <= 30) nStable = Z * 1.15;
@@ -4074,165 +3942,167 @@
             else if (Z <= 70) nStable = Z * 1.4;
             else if (Z <= 82) nStable = Z * 1.5;
             else nStable = Z * 1.52;
-
             var dist = N - nStable;
-            if (dist > 3) return 'betaMinus';
-            if (dist < -3) return 'betaPlus';
+            if (dist > 4) return 'betaMinus';
+            if (dist < -4) return 'ecBetaPlus';
             if (dist >= 0) return 'betaMinus';
-            return 'betaPlus';
+            return 'ecBetaPlus';
         }
 
         function getIsotopeInfo(Z, N) {
             var key = Z + ',' + N;
             if (isotopeMap.has(key)) return isotopeMap.get(key);
-
             var decay = predictDecay(Z, N);
             if (decay === null) return null;
-
-            var elementSymbols = ['n','H','He','Li','Be','B','C','N','O','F','Ne','Na','Mg','Al','Si','P','S','Cl','Ar','K','Ca','Sc','Ti','V','Cr','Mn','Fe','Co','Ni','Cu','Zn','Ga','Ge','As','Se','Br','Kr','Rb','Sr','Y','Zr','Nb','Mo','Tc','Ru','Rh','Pd','Ag','Cd','In','Sn','Sb','Te','I','Xe','Cs','Ba','La','Ce','Pr','Nd','Pm','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu','Hf','Ta','W','Re','Os','Ir','Pt','Au','Hg','Tl','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th','Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm'];
             var sym = elementSymbols[Z] || '?';
             var massNum = Z + N;
-            var superscript = '';
-            var digits = massNum.toString();
             var superscripts = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
-            for (var i = 0; i < digits.length; i++) superscript += superscripts[digits[i]];
-            var symbol = superscript + sym;
-
-            return { z: Z, n: N, sym: symbol, decay: decay, hl: '' };
+            var s = '';
+            var digits = massNum.toString();
+            for (var i = 0; i < digits.length; i++) s += superscripts[digits[i]];
+            return { z: Z, n: N, sym: s + sym, decay: decay, hl: '' };
         }
 
-        var maxZ = 100;
-        var maxN = 160;
-        var pad = { left: 50, right: 20, top: 20, bottom: 40 };
-        var cellW, cellH, gw, gh;
+        var viewScale = 1;
+        var viewOffX = 0;
+        var viewOffY = 0;
+        var isDragging = false;
+        var dragStartMX = 0, dragStartMY = 0;
+        var dragStartOffX = 0, dragStartOffY = 0;
+        var hoveredZN = null;
+        var selectedZN = null;
 
-        var hoveredCell = null;
-        var pinnedCell = null;
-        var activeFilters = new Set(['stable','betaMinus','betaPlus','alpha','gamma','unknown']);
+        var dpr = 1;
+        var cssW = 0, cssH = 0;
+        var cellW = 0, cellH = 0;
+        var offscreen = null, offCtx = null;
+        var needsRebuild = true;
 
         function resize() {
-            var dpr = Math.min(window.devicePixelRatio, 2);
+            dpr = Math.min(window.devicePixelRatio, 2);
             var rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width * dpr;
-            canvas.height = 520 * dpr;
-            canvas.style.width = rect.width + 'px';
-            canvas.style.height = '520px';
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            buildOffscreen();
+            cssW = rect.width;
+            cssH = 600;
+            canvas.width = Math.floor(cssW * dpr);
+            canvas.height = Math.floor(cssH * dpr);
+            canvas.style.width = cssW + 'px';
+            canvas.style.height = cssH + 'px';
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+            cellW = cssW / (MAX_N + 2);
+            cellH = (cssH - PAD.top - PAD.bottom) / (MAX_Z + 2);
+            if (viewScale === 1 && viewOffX === 0 && viewOffY === 0) {
+                resetView();
+            }
+            needsRebuild = true;
             draw();
         }
 
+        function resetView() {
+            var gw = cssW - PAD.left - PAD.right;
+            var gh = cssH - PAD.top - PAD.bottom;
+            var scaleX = gw / ((MAX_N + 1) * cellW);
+            var scaleY = gh / ((MAX_Z + 1) * cellH);
+            viewScale = Math.min(scaleX, scaleY, 1);
+            var contentW = (MAX_N + 1) * cellW * viewScale;
+            var contentH = (MAX_Z + 1) * cellH * viewScale;
+            viewOffX = (gw - contentW) / 2 + PAD.left;
+            viewOffY = (gh - contentH) / 2 + PAD.top;
+        }
+
         function buildOffscreen() {
-            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
-            var h = 520;
-            gw = w - pad.left - pad.right;
-            gh = h - pad.top - pad.bottom;
-            cellW = gw / (maxN + 1);
-            cellH = gh / maxZ;
-
+            if (!needsRebuild) return;
+            needsRebuild = false;
             offscreen = document.createElement('canvas');
-            offscreen.width = canvas.width;
-            offscreen.height = canvas.height;
+            offscreen.width = Math.ceil(cssW * dpr);
+            offscreen.height = Math.ceil(cssH * dpr);
             offCtx = offscreen.getContext('2d');
-            var dpr = Math.min(window.devicePixelRatio, 2);
             offCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            offCtx.clearRect(0, 0, cssW, cssH);
 
-            // Draw cells to offscreen
-            for (var z = 1; z <= maxZ; z++) {
-                for (var n = 0; n <= maxN; n++) {
+            var gap = 0.5;
+            var dw = cellW - gap * 2;
+            var dh = cellH - gap * 2;
+            if (dw < 1) dw = 1;
+            if (dh < 1) dh = 1;
+
+            for (var z = 1; z <= MAX_Z; z++) {
+                for (var n = 0; n <= MAX_N; n++) {
                     var info = getIsotopeInfo(z, n);
                     if (!info) continue;
-                    if (!activeFilters.has(info.decay)) continue;
-
-                    var x = pad.left + n * cellW;
-                    var y = pad.top + gh - z * cellH;
-                    var color = decayColors[info.decay] || decayColors.unknown;
-
-                    offCtx.fillStyle = color;
-                    offCtx.fillRect(x, y, cellW + 0.5, cellH + 0.5);
+                    var wx = PAD.left + n * cellW + gap;
+                    var wy = PAD.top + (MAX_Z - z) * cellH + gap;
+                    var sx = wx * viewScale + viewOffX;
+                    var sy = wy * viewScale + viewOffY;
+                    var sw = dw * viewScale;
+                    var sh = dh * viewScale;
+                    if (sx + sw < 0 || sy + sh < 0 || sx > cssW || sy > cssH) continue;
+                    offCtx.fillStyle = decayColors[info.decay] || decayColors.unknown;
+                    offCtx.fillRect(sx, sy, sw, sh);
                 }
             }
 
-            // Magic number lines
-            var magicNumbers = [2, 8, 20, 28, 50, 82, 126];
-            offCtx.strokeStyle = 'rgba(251,191,36,0.3)';
-            offCtx.setLineDash([3, 3]);
-            offCtx.lineWidth = 1;
-            magicNumbers.forEach(function(m) {
-                if (m <= maxN) {
-                    var x = pad.left + m * cellW;
-                    offCtx.beginPath(); offCtx.moveTo(x, pad.top); offCtx.lineTo(x, pad.top + gh); offCtx.stroke();
-                }
-                if (m <= maxZ) {
-                    var y = pad.top + gh - m * cellH;
-                    offCtx.beginPath(); offCtx.moveTo(pad.left, y); offCtx.lineTo(pad.left + gw, y); offCtx.stroke();
-                }
-            });
-            offCtx.setLineDash([]);
-
-            // N=Z line
-            offCtx.strokeStyle = 'rgba(255,255,255,0.15)';
-            offCtx.lineWidth = 1.5;
-            offCtx.beginPath();
-            offCtx.moveTo(pad.left, pad.top + gh);
-            var nzEnd = Math.min(maxZ, maxN);
-            offCtx.lineTo(pad.left + nzEnd * cellW, pad.top + gh - nzEnd * cellH);
-            offCtx.stroke();
-
-            // Axes
             offCtx.fillStyle = 'rgba(255,255,255,0.5)';
-            offCtx.font = '12px Inter, sans-serif';
-            offCtx.textAlign = 'center';
-            offCtx.fillText('Neutrons (N) →', pad.left + gw / 2, h - 10);
-            offCtx.save();
-            offCtx.translate(16, pad.top + gh / 2);
-            offCtx.rotate(-Math.PI / 2);
-            offCtx.fillText('Protons (Z) →', 0, 0);
-            offCtx.restore();
-
-            // Axis ticks
+            offCtx.font = '11px Inter, sans-serif';
             offCtx.textAlign = 'center';
             offCtx.textBaseline = 'top';
-            for (var i = 0; i <= maxN; i += 20) {
-                var x = pad.left + i * cellW;
-                offCtx.fillText(i, x, pad.top + gh + 6);
+            for (var i = 0; i <= MAX_N; i += 20) {
+                var wx = PAD.left + i * cellW;
+                var sx = wx * viewScale + viewOffX;
+                if (sx >= 0 && sx <= cssW) {
+                    offCtx.fillText(i, sx, cssH - PAD.bottom + 6);
+                }
             }
             offCtx.textAlign = 'right';
             offCtx.textBaseline = 'middle';
-            for (var i = 0; i <= maxZ; i += 20) {
-                var y = pad.top + gh - i * cellH;
-                offCtx.fillText(i, pad.left - 6, y);
+            for (var i = 0; i <= MAX_Z; i += 20) {
+                var wy = PAD.top + (MAX_Z - i) * cellH;
+                var sy = wy * viewScale + viewOffY;
+                if (sy >= 0 && sy <= cssH) {
+                    offCtx.fillText(i, PAD.left - 6, sy);
+                }
             }
+            offCtx.textAlign = 'center';
+            offCtx.fillText('Neutron Number →', cssW / 2, cssH - 6);
+            offCtx.save();
+            offCtx.translate(14, cssH / 2);
+            offCtx.rotate(-Math.PI / 2);
+            offCtx.fillText('Proton Number →', 0, 0);
+            offCtx.restore();
         }
 
         function draw() {
-            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
-            var h = 520;
-            ctx.clearRect(0, 0, w, h);
-
+            ctx.clearRect(0, 0, cssW, cssH);
+            buildOffscreen();
             if (offscreen) {
-                ctx.drawImage(offscreen, 0, 0);
+                ctx.drawImage(offscreen, 0, 0, cssW, cssH);
             }
-
-            // Highlight hovered/pinned
-            var highlight = pinnedCell || hoveredCell;
-            if (highlight) {
-                var hz = highlight[0], hn = highlight[1];
-                var hx = pad.left + hn * cellW;
-                var hy = pad.top + gh - hz * cellH;
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(hx - 1, hy - 1, cellW + 2, cellH + 2);
+            if (hoveredZN) {
+                drawCellBorder(hoveredZN[0], hoveredZN[1], 'rgba(255,255,255,0.6)', 1);
+            }
+            if (selectedZN) {
+                drawCellBorder(selectedZN[0], selectedZN[1], '#f39c12', 2);
             }
         }
 
-        function updateTooltip(z, n, clientX, clientY) {
-            var info = getIsotopeInfo(z, n);
+        function drawCellBorder(z, n, color, width) {
+            var wx = PAD.left + n * cellW;
+            var wy = PAD.top + (MAX_Z - z) * cellH;
+            var sx = wx * viewScale + viewOffX;
+            var sy = wy * viewScale + viewOffY;
+            var sw = cellW * viewScale;
+            var sh = cellH * viewScale;
+            if (sx + sw < 0 || sy + sh < 0 || sx > cssW || sy > cssH) return;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.strokeRect(sx - 0.5, sy - 0.5, sw + 1, sh + 1);
+        }
+
+        function updateTooltip(info, clientX, clientY) {
             if (!info) {
                 tooltip.classList.remove('visible');
                 return;
             }
-
             ttName.textContent = info.sym || '';
             ttZ.textContent = info.z;
             ttN.textContent = info.n;
@@ -4240,137 +4110,534 @@
             ttHalfLife.textContent = info.hl ? 't₁/₂ = ' + info.hl : '';
             ttDecay.textContent = decayLabels[info.decay] || info.decay;
             ttDecay.className = 'tt-decay ' + info.decay;
-
+            ttDecay.style.cssText = decayBadge[info.decay] || '';
             tooltip.classList.add('visible');
 
             var rect = canvas.parentElement.getBoundingClientRect();
-            var left = clientX - rect.left + 16;
-            var top = clientY - rect.top + 16;
-
+            var left = clientX - rect.left + 12;
+            var top = clientY - rect.top + 12;
             if (left + 200 > rect.width) left = clientX - rect.left - 200;
-            if (left < 0) left = 8;
+            if (left < 0) left = 4;
             if (top + 120 > rect.height) top = clientY - rect.top - 120;
-            if (top < 0) top = 8;
-
+            if (top < 0) top = 4;
             tooltip.style.left = left + 'px';
             tooltip.style.top = top + 'px';
+        }
+
+        function updateInfoPanel(info) {
+            if (!info) {
+                infoSymbol.textContent = '—';
+                infoDetails.innerHTML = '<span class="info-empty">Click on a nuclide in the chart to view its data.</span>';
+                return;
+            }
+            infoSymbol.textContent = info.sym || '';
+            var badgeStyle = decayBadge[info.decay] || '';
+            var hlText = info.hl ? '<span>|</span> <span>t₁/₂ = <b>' + info.hl + '</b></span>' : '';
+            infoDetails.innerHTML =
+                '<span>Z = <b>' + info.z + '</b></span>' +
+                '<span>N = <b>' + info.n + '</b></span>' +
+                '<span>A = <b>' + (info.z + info.n) + '</b></span>' +
+                '<span class="info-decay" style="' + badgeStyle + '">' + (decayLabels[info.decay] || info.decay) + '</span>' +
+                hlText;
+        }
+
+        function screenToCell(mx, my) {
+            var wx = (mx - viewOffX) / viewScale;
+            var wy = (my - viewOffY) / viewScale;
+            var n = Math.floor((wx - PAD.left) / cellW);
+            var z = MAX_Z - Math.floor((wy - PAD.top) / cellH);
+            if (n < 0 || n > MAX_N || z < 1 || z > MAX_Z) return null;
+            return [z, n];
         }
 
         canvas.addEventListener('mousemove', function(e) {
             var rect = canvas.getBoundingClientRect();
             var mx = e.clientX - rect.left;
             var my = e.clientY - rect.top;
-
-            var w = canvas.width / Math.min(window.devicePixelRatio, 2);
-            var h = 520;
-            var gw2 = w - pad.left - pad.right;
-            var gh2 = h - pad.top - pad.bottom;
-            var cw = gw2 / (maxN + 1);
-            var ch = gh2 / maxZ;
-
-            var n = Math.max(0, Math.min(maxN, Math.floor((mx - pad.left) / cw)));
-            var z = Math.max(1, Math.min(maxZ, Math.floor((pad.top + gh2 - my) / ch) + 1));
-
-            if (mx >= pad.left && mx <= pad.left + gw2 && my >= pad.top && my <= pad.top + gh2) {
-                if (!hoveredCell || hoveredCell[0] !== z || hoveredCell[1] !== n) {
-                    hoveredCell = [z, n];
+            var zn = screenToCell(mx, my);
+            if (zn) {
+                if (!hoveredZN || hoveredZN[0] !== zn[0] || hoveredZN[1] !== zn[1]) {
+                    hoveredZN = zn;
                     draw();
-                    updateTooltip(z, n, e.clientX, e.clientY);
-                } else {
-                    updateTooltip(z, n, e.clientX, e.clientY);
                 }
+                var info = getIsotopeInfo(zn[0], zn[1]);
+                if (info) updateTooltip(info, e.clientX, e.clientY);
             } else {
-                if (hoveredCell) {
-                    hoveredCell = null;
+                if (hoveredZN) {
+                    hoveredZN = null;
                     draw();
-                    if (!pinnedCell) tooltip.classList.remove('visible');
+                    tooltip.classList.remove('visible');
                 }
             }
         });
 
         canvas.addEventListener('mouseleave', function() {
-            hoveredCell = null;
+            hoveredZN = null;
             draw();
-            if (!pinnedCell) tooltip.classList.remove('visible');
+            tooltip.classList.remove('visible');
         });
 
-        canvas.addEventListener('click', function() {
-            if (hoveredCell) {
-                if (pinnedCell && pinnedCell[0] === hoveredCell[0] && pinnedCell[1] === hoveredCell[1]) {
-                    pinnedCell = null;
-                } else {
-                    pinnedCell = [hoveredCell[0], hoveredCell[1]];
+        canvas.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            dragStartMX = e.clientX;
+            dragStartMY = e.clientY;
+            dragStartOffX = viewOffX;
+            dragStartOffY = viewOffY;
+            canvas.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            var dx = e.clientX - dragStartMX;
+            var dy = e.clientY - dragStartMY;
+            viewOffX = dragStartOffX + dx;
+            viewOffY = dragStartOffY + dy;
+            needsRebuild = true;
+            draw();
+        });
+
+        window.addEventListener('mouseup', function() {
+            isDragging = false;
+            canvas.style.cursor = 'crosshair';
+        });
+
+        canvas.addEventListener('click', function(e) {
+            if (isDragging) return;
+            var rect = canvas.getBoundingClientRect();
+            var mx = e.clientX - rect.left;
+            var my = e.clientY - rect.top;
+            var zn = screenToCell(mx, my);
+            if (zn) {
+                var info = getIsotopeInfo(zn[0], zn[1]);
+                if (info) {
+                    selectedZN = zn;
+                    updateInfoPanel(info);
+                    draw();
                 }
-                draw();
             }
         });
 
-        // Search
-        var searchInput = document.getElementById('nuclideSearch');
+        canvas.addEventListener('dblclick', function() {
+            resetView();
+            needsRebuild = true;
+            draw();
+        });
+
+        canvas.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            var rect = canvas.getBoundingClientRect();
+            var mx = e.clientX - rect.left;
+            var my = e.clientY - rect.top;
+            var zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
+            var newScale = Math.max(0.3, Math.min(20, viewScale * zoomFactor));
+            viewOffX = mx - (mx - viewOffX) * (newScale / viewScale);
+            viewOffY = my - (my - viewOffY) * (newScale / viewScale);
+            viewScale = newScale;
+            needsRebuild = true;
+            draw();
+        }, { passive: false });
+
+        function doSearch() {
+            var input = document.getElementById('chartSearch');
+            if (!input) return;
+            var query = input.value.trim().toLowerCase();
+            if (!query) return;
+            var found = null;
+            var znMatch = query.match(/(\d+)[,\s]+(\d+)/);
+            if (znMatch) {
+                found = [parseInt(znMatch[1]), parseInt(znMatch[2])];
+            }
+            if (!found) {
+                var sm = query.match(/^([a-z]+)[\s-]*(\d+)$/i);
+                if (sm) {
+                    var sym = sm[1].toLowerCase();
+                    var mass = parseInt(sm[2]);
+                    var z = elementSymbols.map(function(s){return s.toLowerCase();}).indexOf(sym);
+                    if (z >= 0) {
+                        var n = mass - z;
+                        if (n >= 0) found = [z, n];
+                    }
+                }
+            }
+            if (!found) {
+                var ms = query.match(/^(\d+)([a-z]+)$/i);
+                if (ms) {
+                    var sym = ms[2].toLowerCase();
+                    var mass = parseInt(ms[1]);
+                    var z = elementSymbols.map(function(s){return s.toLowerCase();}).indexOf(sym);
+                    if (z >= 0) {
+                        var n = mass - z;
+                        if (n >= 0) found = [z, n];
+                    }
+                }
+            }
+            if (!found && nameToZN.has(query)) {
+                var r = nameToZN.get(query);
+                found = [r.z, r.n];
+            }
+            if (found) {
+                var z = found[0], n = found[1];
+                if (z >= 1 && z <= MAX_Z && n >= 0 && n <= MAX_N) {
+                    selectedZN = [z, n];
+                    var info = getIsotopeInfo(z, n);
+                    updateInfoPanel(info);
+                    viewScale = 6;
+                    var wx = PAD.left + n * cellW;
+                    var wy = PAD.top + (MAX_Z - z) * cellH;
+                    viewOffX = cssW / 2 - wx * viewScale;
+                    viewOffY = cssH / 2 - wy * viewScale;
+                    needsRebuild = true;
+                    draw();
+                }
+            }
+        }
+
+        var searchBtn = document.getElementById('chartSearchBtn');
+        var resetBtn = document.getElementById('chartResetBtn');
+        var searchInput = document.getElementById('chartSearch');
+        if (searchBtn) searchBtn.addEventListener('click', doSearch);
+        if (resetBtn) resetBtn.addEventListener('click', function(){ resetView(); needsRebuild=true; draw(); });
         if (searchInput) {
             searchInput.addEventListener('keydown', function(e) {
-                if (e.key !== 'Enter') return;
-                var query = searchInput.value.trim().toLowerCase();
-                if (!query) return;
-
-                var found = null;
-
-                // Z,N format
-                var znMatch = query.match(/(\d+)[,\s]+(\d+)/);
-                if (znMatch) {
-                    found = [parseInt(znMatch[2]), parseInt(znMatch[1])];
-                }
-
-                // Symbol-mass format
-                if (!found) {
-                    var symMatch = query.match(/^([a-z]+)[\s-]*(\d+)$/i);
-                    if (symMatch) {
-                        var sym = symMatch[1].toLowerCase();
-                        var mass = parseInt(symMatch[2]);
-                        var elementSymbols = ['n','h','he','li','be','b','c','n','o','f','ne','na','mg','al','si','p','s','cl','ar','k','ca','sc','ti','v','cr','mn','fe','co','ni','cu','zn','ga','ge','as','se','br','kr','rb','sr','y','zr','nb','mo','tc','ru','rh','pd','ag','cd','in','sn','sb','te','i','xe','cs','ba','la','ce','pr','nd','pm','sm','eu','gd','tb','dy','ho','er','tm','yb','lu','hf','ta','w','re','os','ir','pt','au','hg','tl','pb','bi','po','at','rn','fr','ra','ac','th','pa','u','np','pu','am','cm','bk','cf','es','fm'];
-                        var z = elementSymbols.indexOf(sym);
-                        if (z >= 0) {
-                            var n = mass - z;
-                            if (n >= 0) found = [z, n];
-                        }
-                    }
-                }
-
-                if (found) {
-                    var z = found[0], n = found[1];
-                    if (z >= 1 && z <= maxZ && n >= 0 && n <= maxN) {
-                        pinnedCell = [z, n];
-                        hoveredCell = [z, n];
-                        draw();
-
-                        var rect = canvas.getBoundingClientRect();
-                        var w = canvas.width / Math.min(window.devicePixelRatio, 2);
-                        var gw2 = w - pad.left - pad.right;
-                        var gh2 = 520 - pad.top - pad.bottom;
-                        var cw = gw2 / (maxN + 1);
-                        var ch = gh2 / maxZ;
-                        var cx = rect.left + pad.left + n * cw + cw / 2;
-                        var cy = rect.top + pad.top + gh2 - z * ch + ch / 2;
-                        updateTooltip(z, n, cx, cy);
-                    }
-                }
+                if (e.key === 'Enter') doSearch();
             });
         }
 
-        // Filters
-        document.querySelectorAll('.nuclide-filters input[data-filter]').forEach(function(cb) {
-            cb.addEventListener('change', function() {
-                activeFilters.clear();
-                document.querySelectorAll('.nuclide-filters input[data-filter]').forEach(function(box) {
-                    if (box.checked) activeFilters.add(box.dataset.filter);
-                });
-                buildOffscreen();
-                draw();
-            });
-        });
-
         window.addEventListener('resize', resize);
+        canvas.style.cursor = 'crosshair';
         resize();
+    })();
+
+    // Render KaTeX math in chapter content after deferred scripts load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof renderMathInElement !== 'undefined') {
+            renderMathInElement(document.querySelector('.chapter-main'), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        }
+    });
+
+    // ===== BUILD AN ATOM SIMULATION =====
+    (function() {
+        const container = document.getElementById('atomBuilderCanvasWrap');
+        const w = container.clientWidth || 600;
+        const h = container.clientHeight || 420;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050510);
+        const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+        camera.position.set(0, 0, 18);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambient);
+        const point = new THREE.PointLight(0xffffff, 1, 50);
+        point.position.set(10, 10, 10);
+        scene.add(point);
+
+        let protons = 0, neutrons = 0, electrons = 0;
+        const nucleusGroup = new THREE.Group();
+        const electronGroup = new THREE.Group();
+        scene.add(nucleusGroup);
+        scene.add(electronGroup);
+
+        const MAX_Z = 36;
+        const elementNames = {
+            0:'Empty',1:'Hydrogen',2:'Helium',3:'Lithium',4:'Beryllium',5:'Boron',6:'Carbon',
+            7:'Nitrogen',8:'Oxygen',9:'Fluorine',10:'Neon',11:'Sodium',12:'Magnesium',
+            13:'Aluminium',14:'Silicon',15:'Phosphorus',16:'Sulfur',17:'Chlorine',18:'Argon',
+            19:'Potassium',20:'Calcium',21:'Scandium',22:'Titanium',23:'Vanadium',24:'Chromium',
+            25:'Manganese',26:'Iron',27:'Cobalt',28:'Nickel',29:'Copper',30:'Zinc',
+            31:'Gallium',32:'Germanium',33:'Arsenic',34:'Selenium',35:'Bromine',36:'Krypton'
+        };
+        const elementSymbols = {
+            0:'—',1:'H',2:'He',3:'Li',4:'Be',5:'B',6:'C',7:'N',8:'O',9:'F',10:'Ne',
+            11:'Na',12:'Mg',13:'Al',14:'Si',15:'P',16:'S',17:'Cl',18:'Ar',
+            19:'K',20:'Ca',21:'Sc',22:'Ti',23:'V',24:'Cr',25:'Mn',26:'Fe',27:'Co',28:'Ni',
+            29:'Cu',30:'Zn',31:'Ga',32:'Ge',33:'As',34:'Se',35:'Br',36:'Kr'
+        };
+
+        // Known isotope ranges (minN, maxN) and stable isotopes for Z=1-36
+        const isotopeData = {
+            1: { minN:0, maxN:4, stableN:[0,1] },           // H
+            2: { minN:1, maxN:4, stableN:[1,2] },           // He
+            3: { minN:3, maxN:5, stableN:[3,4] },           // Li (Li-5 unbound)
+            4: { minN:3, maxN:6, stableN:[5] },             // Be (Be-7 lightest bound)
+            5: { minN:4, maxN:7, stableN:[5,6] },           // B
+            6: { minN:4, maxN:8, stableN:[4,5,6,7] },       // C
+            7: { minN:6, maxN:9, stableN:[6,7] },           // N
+            8: { minN:7, maxN:10, stableN:[7,8,9,10] },     // O
+            9: { minN:9, maxN:11, stableN:[9,10] },         // F
+            10:{ minN:9, maxN:12, stableN:[10,11,12] },     // Ne
+            11:{ minN:11, maxN:13, stableN:[11,12] },       // Na
+            12:{ minN:11, maxN:14, stableN:[11,12,13,14] }, // Mg
+            13:{ minN:13, maxN:15, stableN:[13,14] },       // Al
+            14:{ minN:13, maxN:16, stableN:[13,14,15,16] }, // Si
+            15:{ minN:15, maxN:17, stableN:[15,16] },       // P
+            16:{ minN:14, maxN:20, stableN:[14,15,16,17,18,19,20] }, // S
+            17:{ minN:16, maxN:20, stableN:[16,17,18,19,20] },      // Cl
+            18:{ minN:16, maxN:24, stableN:[18,20,21,22] },         // Ar
+            19:{ minN:19, maxN:24, stableN:[19,20,21,22] },         // K
+            20:{ minN:19, maxN:26, stableN:[19,20,21,22,23,24] },   // Ca
+            21:{ minN:23, maxN:26, stableN:[23,24] },               // Sc
+            22:{ minN:23, maxN:28, stableN:[24,25,26] },            // Ti
+            23:{ minN:26, maxN:30, stableN:[26,27,28] },            // V
+            24:{ minN:24, maxN:30, stableN:[26,28,29,30] },         // Cr
+            25:{ minN:29, maxN:32, stableN:[29,30] },               // Mn
+            26:{ minN:27, maxN:34, stableN:[27,28,29,30,31,32,33] },// Fe
+            27:{ minN:30, maxN:34, stableN:[30,31,32,33] },         // Co
+            28:{ minN:29, maxN:36, stableN:[29,30,31,32,33,34,35,36] }, // Ni
+            29:{ minN:32, maxN:38, stableN:[32,33,34,35,36] },      // Cu
+            30:{ minN:33, maxN:40, stableN:[33,34,35,36,37,38] },   // Zn
+            31:{ minN:36, maxN:42, stableN:[36,38,39,40] },         // Ga
+            32:{ minN:36, maxN:44, stableN:[36,37,38,39,40,41,42] },// Ge
+            33:{ minN:40, maxN:46, stableN:[40,41,42] },            // As
+            34:{ minN:38, maxN:48, stableN:[38,39,40,41,42,43,44,45,46] }, // Se
+            35:{ minN:42, maxN:50, stableN:[42,43,44,45,46,47,48,49] },    // Br
+            36:{ minN:38, maxN:52, stableN:[40,42,43,44,46,47,48,50] }  // Kr
+        };
+
+        function shellCapacity(shellIndex) {
+            // shell 0=K(2), 1=L(8), 2=M(8 for period 3, else 18), 3=N(18), ...
+            const caps = [2, 8, 8, 18, 18, 32];
+            return caps[shellIndex] || 2;
+        }
+        function shellRadius(shellIndex) {
+            return 2.8 + shellIndex * 1.9;
+        }
+        function getElectronShells(count) {
+            const shells = [];
+            let remaining = count;
+            let shell = 0;
+            while (remaining > 0 && shell < 6) {
+                const cap = shellCapacity(shell);
+                const n = Math.min(remaining, cap);
+                shells.push(n);
+                remaining -= n;
+                shell++;
+            }
+            return shells;
+        }
+        function getShellOfElectron(index) {
+            // index is 0-based electron number
+            let shell = 0;
+            let count = 0;
+            while (shell < 6) {
+                const cap = shellCapacity(shell);
+                if (index < count + cap) return shell;
+                count += cap;
+                shell++;
+            }
+            return 5;
+        }
+
+        function getMaxNeutrons(z) {
+            if (z <= 0) return 0;
+            return (isotopeData[z] && isotopeData[z].maxN) || Math.floor(z * 1.6) + 10;
+        }
+        function getMinNeutrons(z) {
+            if (z <= 0) return 0;
+            return (isotopeData[z] && isotopeData[z].minN) || Math.max(0, z - 2);
+        }
+        function getMaxElectrons(z) {
+            if (z <= 0) return 0;
+            // Cap electrons to total shell capacity for the element's period
+            if (z <= 2) return 2;           // Period 1: K shell only
+            if (z <= 10) return 10;         // Period 2: K + L shells
+            if (z <= 18) return 18;         // Period 3: K + L + M shells
+            return 36;                       // Period 4: K + L + M + N shells
+        }
+        function isStableIsotope(z, n) {
+            if (!isotopeData[z]) return false;
+            return isotopeData[z].stableN.includes(n);
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('atomError');
+            el.textContent = msg;
+            clearTimeout(el._timer);
+            el._timer = setTimeout(() => { el.textContent = ''; }, 2500);
+        }
+        function clearError() {
+            const el = document.getElementById('atomError');
+            el.textContent = '';
+        }
+
+        function updateButtons() {
+            const pBtn = document.querySelector('.particle-btn.proton');
+            const nBtn = document.querySelector('.particle-btn.neutron');
+            const eBtn = document.querySelector('.particle-btn.electron');
+
+            const nextZ = protons + 1;
+            const needMoreNeutrons = protons > 0 && nextZ <= MAX_Z && neutrons < getMinNeutrons(nextZ);
+            pBtn.disabled = protons >= MAX_Z || needMoreNeutrons;
+            nBtn.disabled = protons === 0 || neutrons >= getMaxNeutrons(protons);
+            eBtn.disabled = protons === 0 || electrons >= getMaxElectrons(protons);
+        }
+
+        function updateInfo() {
+            document.getElementById('protonCount').textContent = protons;
+            document.getElementById('neutronCount').textContent = neutrons;
+            document.getElementById('electronCount').textContent = electrons;
+            document.getElementById('elementSymbol').textContent = elementSymbols[protons] || '?';
+            document.getElementById('elementName').textContent = elementNames[protons] || 'Unknown';
+            const charge = protons - electrons;
+            const nz = protons > 0 ? (neutrons / protons) : 0;
+
+            // Shell config display
+            const shells = getElectronShells(electrons);
+            const shellText = shells.map((n, i) => {
+                const letters = ['K','L','M','N','O','P'];
+                return letters[i] + '<sup>' + n + '</sup>';
+            }).join(' ');
+            document.getElementById('shellConfig').innerHTML = shellText ? 'e⁻ config: ' + shellText : '';
+
+            // Stability / charge label
+            let stability = 'Neutral';
+            let stableClass = 'stable';
+            if (protons === 0) {
+                stability = 'Add a proton to start';
+                stableClass = 'stable';
+            } else if (charge > 0) {
+                stability = 'Cation (+' + charge + ')';
+                stableClass = 'ion';
+            } else if (charge < 0) {
+                stability = 'Anion (' + charge + ')';
+                stableClass = 'ion';
+            } else if (isStableIsotope(protons, neutrons)) {
+                stability = 'Stable isotope';
+                stableClass = 'stable';
+            } else if (neutrons < getMinNeutrons(protons)) {
+                stability = 'Too few neutrons — impossible';
+                stableClass = 'unstable';
+            } else if (neutrons > getMaxNeutrons(protons)) {
+                stability = 'Too many neutrons — impossible';
+                stableClass = 'unstable';
+            } else {
+                stability = 'Radioactive / unstable';
+                stableClass = 'unstable';
+            }
+            const label = document.getElementById('stabilityLabel');
+            label.textContent = stability;
+            label.className = 'stability ' + stableClass;
+
+            const details = document.getElementById('elementDetails');
+            details.innerHTML = 'Z = ' + protons + ' &nbsp;|&nbsp; N = ' + neutrons +
+                ' &nbsp;|&nbsp; A = ' + (protons + neutrons) +
+                ' &nbsp;|&nbsp; Charge = ' + (charge >= 0 ? '+' + charge : charge);
+
+            updateButtons();
+        }
+
+        function randomNucleusPos() {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = Math.random() * 1.2;
+            return {
+                x: Math.cos(angle) * dist,
+                y: Math.sin(angle) * dist,
+                z: (Math.random() - 0.5) * 1.2
+            };
+        }
+
+        function addProton() {
+            if (protons >= MAX_Z) { showError('Maximum ' + MAX_Z + ' protons'); return; }
+            const nextZ = protons + 1;
+            if (protons > 0 && neutrons < getMinNeutrons(nextZ)) {
+                const needed = getMinNeutrons(nextZ) - neutrons;
+                showError('Add ' + needed + ' more neutron' + (needed > 1 ? 's' : '') + ' first'); return;
+            }
+            if (protons > 0 && neutrons > getMaxNeutrons(nextZ)) {
+                showError('Too many neutrons for next element'); return;
+            }
+            clearError();
+            protons++;
+            const geo = new THREE.SphereGeometry(0.55, 20, 20);
+            const mat = new THREE.MeshPhongMaterial({ color: 0xef4444, emissive: 0x441111, emissiveIntensity: 0.3, shininess: 60 });
+            const mesh = new THREE.Mesh(geo, mat);
+            const pos = randomNucleusPos();
+            mesh.position.set(pos.x, pos.y, pos.z);
+            nucleusGroup.add(mesh);
+            updateInfo();
+        }
+
+        function addNeutron() {
+            if (protons === 0) { showError('Add a proton first'); return; }
+            if (neutrons >= getMaxNeutrons(protons)) {
+                showError('Too many neutrons for this element'); return;
+            }
+            clearError();
+            neutrons++;
+            const geo = new THREE.SphereGeometry(0.55, 20, 20);
+            const mat = new THREE.MeshPhongMaterial({ color: 0x94a3b8, emissive: 0x222233, emissiveIntensity: 0.3, shininess: 60 });
+            const mesh = new THREE.Mesh(geo, mat);
+            const pos = randomNucleusPos();
+            mesh.position.set(pos.x, pos.y, pos.z);
+            nucleusGroup.add(mesh);
+            updateInfo();
+        }
+
+        function addElectron() {
+            if (protons === 0) { showError('Add a proton first'); return; }
+            const maxE = getMaxElectrons(protons);
+            if (electrons >= maxE) {
+                showError('Maximum ' + maxE + ' electrons for this element'); return;
+            }
+            clearError();
+            electrons++;
+            const geo = new THREE.SphereGeometry(0.22, 16, 16);
+            const mat = new THREE.MeshBasicMaterial({ color: 0x3b82f6 });
+            const mesh = new THREE.Mesh(geo, mat);
+            const shell = getShellOfElectron(electrons - 1);
+            const radius = shellRadius(shell);
+            const angle = (electrons * 1.61803398875) % (Math.PI * 2);
+            const tilt = (shell % 2 === 1) ? 0.3 : -0.3;
+            mesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, 0);
+            mesh.userData = { radius: radius, angle: angle, speed: 0.008 + Math.random() * 0.006, tilt: tilt };
+            electronGroup.add(mesh);
+            updateInfo();
+        }
+
+        function resetAtom() {
+            protons = 0; neutrons = 0; electrons = 0;
+            while (nucleusGroup.children.length > 0) nucleusGroup.remove(nucleusGroup.children[0]);
+            while (electronGroup.children.length > 0) electronGroup.remove(electronGroup.children[0]);
+            clearError();
+            updateInfo();
+        }
+        window.addProton = addProton;
+        window.addNeutron = addNeutron;
+        window.addElectron = addElectron;
+        window.resetAtom = resetAtom;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            nucleusGroup.rotation.y += 0.003;
+            electronGroup.children.forEach((e, i) => {
+                e.userData.angle += e.userData.speed;
+                const r = e.userData.radius;
+                const tilt = e.userData.tilt || 0;
+                e.position.x = Math.cos(e.userData.angle) * r;
+                e.position.y = Math.sin(e.userData.angle) * r * Math.cos(tilt);
+                e.position.z = Math.sin(e.userData.angle) * r * Math.sin(tilt);
+            });
+            electronGroup.rotation.x += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+        updateInfo();
+
+        window.addEventListener('resize', () => {
+            const nw = container.clientWidth;
+            const nh = container.clientHeight;
+            camera.aspect = nw / nh;
+            camera.updateProjectionMatrix();
+            renderer.setSize(nw, nh);
+        });
     })();
     </script>
     <script src="js/auth.js"></script>
