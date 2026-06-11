@@ -166,12 +166,22 @@
             
             <div class="nav-menu" id="navMenu">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="topics.html" class="nav-link">Topics</a>
-                <a href="eddy-currents.html" class="nav-link active">Eddy Currents</a>
-                <a href="nuclear.html" class="nav-link">Nuclear Decay</a>
+                <div class="nav-dropdown">
+                    <a href="topics.html" class="nav-link active">Topics <i class="fas fa-chevron-down" style="font-size:0.7em; margin-left:4px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="topics.html" class="dropdown-link"><i class="fas fa-th-large"></i> All Topics</a>
+                        <div class="dropdown-divider"></div>
+                        <span class="dropdown-label">Physics</span>
+                        <a href="eddy-currents.html" class="dropdown-link"><i class="fas fa-magnet"></i> Eddy Currents</a>
+                        <a href="nuclear.html" class="dropdown-link"><i class="fas fa-atom"></i> Nuclear Decay</a>
+                        <div class="dropdown-divider"></div>
+                        <span class="dropdown-label">Chemistry</span>
+                        <a href="topics.html" class="dropdown-link disabled"><i class="fas fa-flask"></i> Coming Soon</a>
+                    </div>
+                </div>
                 <a href="notes.html" class="nav-link">Notes</a>
                 <a href="quiz.html" class="nav-link">Quiz</a>
-                <a href="reports.html" class="nav-link">Reports</a><a href="about.html" class="nav-link">About</a>
+                <a href="about.html" class="nav-link">About</a>
             </div>
             
             <button class="mobile-toggle" id="mobileToggle">
