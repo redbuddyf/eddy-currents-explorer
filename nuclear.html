@@ -2958,12 +2958,103 @@
         document.getElementById('tutorPanel').classList.toggle('visible');
     }
 
+    // ===== BUILT-IN GLOSSARY (instant answers for bold terms) =====
+    const GLOSSARY = {
+        'alpha decay': 'Alpha decay is the emission of a helium-4 nucleus (2 protons + 2 neutrons) from a heavy, unstable nucleus. It reduces both the mass number by 4 and the atomic number by 2. Alpha particles are the least penetrating form of nuclear radiation and can be stopped by a sheet of paper.',
+        'beta-minus decay': 'Beta-minus decay occurs when a neutron inside the nucleus converts into a proton, emitting an electron (beta particle) and an electron antineutrino. The atomic number increases by 1 while the mass number stays the same.',
+        'beta-plus decay': 'Beta-plus decay occurs when a proton converts into a neutron, emitting a positron (antielectron) and a neutrino. The atomic number decreases by 1 while the mass number stays the same.',
+        'electron capture': 'Electron capture is a process where a proton-rich nucleus captures one of its own inner orbital electrons, converting a proton into a neutron and emitting a neutrino. It is an alternative decay mode to beta-plus decay.',
+        'gamma emission': 'Gamma emission is the release of high-energy photons from an excited nucleus, typically after alpha or beta decay leaves the daughter nucleus in an excited state. Gamma rays are the most penetrating form of nuclear radiation.',
+        'half-life': 'Half-life is the time required for half of the radioactive nuclei in a sample to decay. It is a constant characteristic of each radioisotope and is independent of temperature, pressure, or chemical environment.',
+        'decay constant': 'The decay constant (λ) is the probability per unit time that a given nucleus will decay. It is related to half-life by the equation λ = ln(2) / t₁/₂.',
+        'decay chain': 'A decay chain is a sequence of successive radioactive decays where a parent nucleus transforms through multiple daughter nuclei until a stable isotope is finally reached. The uranium-238 series is the most well-known example.',
+        'q-value': 'The Q-value is the total energy released in a nuclear decay or reaction, calculated from the mass difference between reactants and products using Einstein\'s equation E = mc². In alpha decay, this energy appears as kinetic energy shared between the alpha particle and the recoiling daughter nucleus.',
+        'binding energy': 'Nuclear binding energy is the energy required to separate a nucleus into its individual protons and neutrons. It represents the energy released when nucleons bind together and is a measure of nuclear stability.',
+        'binding energy per nucleon': 'Binding energy per nucleon (BE/A) is the total binding energy of a nucleus divided by its mass number. It peaks around iron-56 at approximately 8.79 MeV/nucleon, making Fe-56 one of the most stable nuclei.',
+        'valley of stability': 'The valley of stability is the region on a chart of nuclides where stable isotopes cluster. Isotopes to the left have too many neutrons; those to the right have too many protons. Unstable isotopes decay toward this valley.',
+        'neutron-to-proton ratio': 'The neutron-to-proton ratio (N/Z) is the number of neutrons divided by the number of protons in a nucleus. For light elements it is approximately 1:1, but increases to about 1.5:1 for heavy elements due to the growing Coulomb repulsion between protons.',
+        'strong nuclear force': 'The strong nuclear force is one of the four fundamental forces of nature. It acts between all nucleons (protons and neutrons) and is responsible for holding the nucleus together against electromagnetic repulsion. It operates over very short ranges (~1–3 fm).',
+        'weak nuclear force': 'The weak nuclear force is responsible for beta decay processes. It mediates the transformation of quark flavours inside nucleons, allowing neutrons to convert to protons and vice versa.',
+        'quantum tunnelling': 'Quantum tunnelling is a phenomenon where a particle passes through a potential energy barrier that it classically shouldn\'t be able to overcome. In alpha decay, alpha particles escape the nucleus by tunnelling through the Coulomb barrier.',
+        'geiger-nuttall law': 'The Geiger-Nuttall law describes the relationship between alpha decay energy and half-life: a modest change in decay energy produces an enormous change in half-life. This is a direct consequence of quantum tunnelling probabilities.',
+        'magic numbers': 'Magic numbers (2, 8, 20, 28, 50, 82, 126) are specific numbers of protons or neutrons that produce exceptionally stable nuclei due to complete filling of nuclear shells. Nuclei with magic numbers of both protons and neutrons are called \"doubly magic.\"',
+        'doubly magic': 'A doubly magic nucleus has magic numbers of both protons and neutrons, making it exceptionally stable. Examples include helium-4, oxygen-16, calcium-48, and lead-208.',
+        'pairing energy': 'Pairing energy is the extra stability gained when nucleons of the same type pair up (two protons or two neutrons with opposite spins). Even-even nuclei are more stable than odd-A or odd-odd nuclei due to this pairing term.',
+        'semi-empirical mass formula': 'The semi-empirical mass formula (Weizsäcker formula) is a theoretical model that estimates nuclear binding energy by combining volume, surface, Coulomb, asymmetry, and pairing terms. It explains the overall trends in nuclear stability.',
+        'nuclear shell model': 'The nuclear shell model describes nucleons moving in discrete energy levels (shells) within the nucleus, analogous to electron shells in atoms. It successfully explains magic numbers and the existence of discrete nuclear energy states.',
+        'spontaneous fission': 'Spontaneous fission is a decay mode where a very heavy nucleus splits into two roughly equal fragments plus several neutrons. It competes with alpha decay in very heavy elements and becomes dominant beyond fermium (Z = 100).',
+        'fission': 'Nuclear fission is the splitting of a heavy nucleus into two smaller nuclei, releasing a large amount of energy (~200 MeV per fission) and several neutrons. It is the process used in nuclear power reactors and atomic bombs.',
+        'fusion': 'Nuclear fusion is the process where light nuclei combine to form a heavier nucleus, releasing energy. It powers stars and is the basis of hydrogen bomb design. Fusion of light elements up to iron-56 is energetically favourable.',
+        'radiometric dating': 'Radiometric dating uses the known decay rates of radioactive isotopes to determine the age of materials. Common methods include carbon-14 dating for organic materials and uranium-lead dating for rocks.',
+        'carbon-14 dating': 'Carbon-14 dating measures the remaining proportion of radioactive carbon-14 in organic materials. With a half-life of 5730 years, it is effective for dating specimens up to about 50,000 years old.',
+        'uranium-lead dating': 'Uranium-lead dating is one of the oldest and most reliable radiometric dating methods. It uses the decay chains of uranium-238 and uranium-235 to stable lead-206 and lead-207, respectively.',
+        'secular equilibrium': 'Secular equilibrium occurs in a decay chain when the half-life of the parent is much longer than that of the daughter. In this state, the daughter decays as fast as it is produced, so their activities become equal.',
+        'nuclear medicine': 'Nuclear medicine uses radioactive isotopes for diagnostic imaging and cancer treatment. Technetium-99m is used in ~80% of all nuclear medicine scans, while fluorine-18 is used in PET scans.',
+        'technetium-99m': 'Technetium-99m is the most widely used radioisotope in nuclear medicine. It emits gamma rays with a half-life of 6 hours — long enough for medical procedures but short enough to minimise radiation exposure.',
+        'smoke detectors': 'Ionisation smoke detectors contain a small amount of americium-241, which emits alpha particles to ionise air. Smoke particles disrupt this ionisation current, triggering the alarm.',
+        'becquerel': 'The becquerel (Bq) is the SI unit of radioactivity, defined as one decay per second. It is named after Henri Becquerel, who discovered radioactivity in 1896.',
+        'curie': 'The curie (Ci) is a non-SI unit of radioactivity equal to 3.7 × 10¹⁰ decays per second. It is named after Marie and Pierre Curie. 1 Ci = 37 GBq.',
+        'activity': 'Activity is the rate at which radioactive decays occur in a sample, measured in becquerels (Bq). It follows first-order kinetics: A = λN, where λ is the decay constant and N is the number of radioactive nuclei.',
+        'mean lifetime': 'The mean lifetime (τ) is the average time a radioactive nucleus exists before decaying. It is related to the decay constant by τ = 1/λ, and to half-life by τ = t₁/₂ / ln(2).',
+        'first-order kinetics': 'Radioactive decay follows first-order kinetics, meaning the decay rate is proportional only to the number of radioactive nuclei present. The integrated rate law is N(t) = N₀e^(−λt).',
+        'electromagnetic repulsion': 'Electromagnetic repulsion (Coulomb repulsion) is the force between positively charged protons in the nucleus. It scales as Z(Z−1) and becomes overwhelming in heavy nuclei, which is why neutrons are needed for additional binding.',
+        'charge independence': 'Charge independence is the property of the strong nuclear force that causes it to act equally between all nucleon pairs — proton-proton, neutron-neutron, and proton-neutron — regardless of electric charge.',
+        'continuous energy spectrum': 'Beta particles are emitted with a continuous range of energies from near zero up to a maximum equal to the Q-value. This continuous spectrum, unlike the discrete energies of alpha particles, provided early evidence for the existence of the neutrino.',
+        'characteristic x-rays': 'Characteristic X-rays are emitted when an electron from a higher shell fills the vacancy left by electron capture. Their energy is characteristic of the element and can be used to identify it.',
+        'nuclear reactors': 'Nuclear reactors use controlled nuclear fission of uranium-235 or plutonium-239 to generate heat, which produces steam to drive turbines and generate electricity.',
+        'thickness gauges': 'Industrial thickness gauges use beta radiation to monitor the thickness of materials like paper, metal, and plastic during manufacturing. The amount of radiation passing through indicates material thickness.',
+        'nuclear energy production': 'Nuclear energy production harnesses the energy released from nuclear fission or fusion reactions. Fission reactors currently provide roughly 10% of global electricity.',
+        'iron-56': 'Iron-56 is the most stable nucleus, with a binding energy per nucleon of approximately 8.79 MeV. It represents the turning point where fusion of lighter elements releases energy, but fission of heavier elements is required to extract energy.',
+        'chien-shiung wu': 'Chien-Shiung Wu was a Chinese-American physicist who conducted the famous \"Wu experiment\" in 1956, demonstrating that parity is not conserved in weak nuclear interactions.',
+        'even-even': 'Even-even nuclei have even numbers of both protons and neutrons. They are the most stable configuration due to the pairing energy term, while odd-odd nuclei are the least stable.'
+    };
+
+    function glossaryLookup(term) {
+        const lower = term.toLowerCase().replace(/[.!?]+$/, '');
+        // Direct match
+        if (GLOSSARY[lower]) return GLOSSARY[lower];
+        // Try without parenthetical content
+        const noParen = lower.replace(/\s*\([^)]*\)/g, '').trim();
+        if (GLOSSARY[noParen]) return GLOSSARY[noParen];
+        // Try singular/plural normalisation
+        if (lower.endsWith('s') && GLOSSARY[lower.slice(0,-1)]) return GLOSSARY[lower.slice(0,-1)];
+        if (!lower.endsWith('s') && GLOSSARY[lower + 's']) return GLOSSARY[lower + 's'];
+        // Partial key match
+        for (const [key, def] of Object.entries(GLOSSARY)) {
+            if (key.includes(lower) || lower.includes(key)) return def;
+        }
+        return null;
+    }
+
     function askTutorAbout(term) {
         const panel = document.getElementById('tutorPanel');
         if (!panel.classList.contains('visible')) {
             panel.classList.add('visible');
         }
-        // Small delay to let panel open
+        const body = document.getElementById('tutorBody');
+        // Show user message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'tutor-message user';
+        userMsg.textContent = 'What is ' + term + '?';
+        body.appendChild(userMsg);
+        body.scrollTop = body.scrollHeight;
+
+        // Check glossary first for instant answer
+        const def = glossaryLookup(term);
+        if (def) {
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                const botMsg = document.createElement('div');
+                botMsg.className = 'tutor-message bot';
+                botMsg.innerHTML = '<strong>' + term + '</strong><br><br>' + def;
+                body.appendChild(botMsg);
+                body.scrollTop = body.scrollHeight;
+            }, 600);
+            return;
+        }
+
+        // Fallback to AI tutor
         setTimeout(() => {
             tutorAsk('What is ' + term + '?');
         }, 300);
