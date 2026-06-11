@@ -4760,15 +4760,42 @@
 
     // ===== MAKE BOLD TERMS CLICKABLE =====
     (function initClickableTerms() {
+        // Never make these UI/action words clickable
+        const BLOCKLIST = new Set([
+            'click', 'drag', 'wheel', 'double-click', 'double click', 'correct!',
+            'answer:', 'model answer:', 'answer', 'model answer', 'first', 'second', 'third',
+            'peak', 'total be', 'be/a', '⁵⁶fe', '⁹⁹ᵐtc → ⁹⁹tc + γ',
+            'carbon-14 → nitrogen-14 + e⁻ + ν̄ₑ',
+            'fluorine-18 → oxygen-18 + e⁺ + νₑ',
+            'uranium-238 → thorium-234 + α',
+            'pb-206 (stable)', 'pb-206'
+        ]);
+
+        // Skip these containers entirely (UI instructions, answers, controls)
+        const SKIP_CONTAINERS = '.chart-instructions, .self-test-feedback, .self-test-answer-reveal, .scene-info, .controls-help, .quiz-controls, button, .tutor-panel, .tutor-btn, .scene-btn, .particle-btn, .quiz-option, .legend-dot, .atom-controls';
+
         const articles = document.querySelectorAll('.chapter-content article');
         articles.forEach(article => {
             const strongs = article.querySelectorAll('strong');
             strongs.forEach(el => {
-                // Skip if already clickable, inside a button, or inside the tutor
                 if (el.classList.contains('clickable-term')) return;
-                if (el.closest('button, .tutor-panel, .tutor-btn, .scene-btn, .particle-btn, .quiz-option, .legend-dot')) return;
+                if (el.closest(SKIP_CONTAINERS)) return;
+
                 const text = el.textContent.trim();
-                if (!text || text.length < 2) return;
+                const lower = text.toLowerCase();
+
+                // Skip blocklisted words
+                if (BLOCKLIST.has(lower)) return;
+                // Skip very short or empty
+                if (!text || text.length < 3) return;
+                // Skip pure numbers/equations/symbols
+                if (/^[\d\s~\-+±.!?()⁰¹²³⁴⁵⁶⁷⁸⁹₀₁₂₃₄₅₆₇₈₉MeVnbqryuαβγ→←]+$/.test(text)) return;
+                // Skip text that starts with UI patterns
+                if (/^(click|drag|wheel|scroll|hover|tap|press|hold|answer|model\s+answer)/i.test(text)) return;
+                // Skip if parent is a figure caption with instructions
+                const parent = el.parentElement;
+                if (parent && /click|drag|wheel|scroll|zoom|rotate/i.test(parent.textContent) && parent.textContent.length < 120) return;
+
                 el.classList.add('clickable-term');
                 el.title = 'Click to ask the Study Assistant about "' + text + '"';
                 el.addEventListener('click', function(e) {
