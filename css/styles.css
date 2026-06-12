@@ -62,6 +62,14 @@ body {
     color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
+    /* Establish a stacking context so the fixed universe canvas
+       (z-index: 0) stays behind all body content. */
+    position: relative;
+    z-index: 1;
+}
+
+#universe-bg {
+    z-index: 0 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
