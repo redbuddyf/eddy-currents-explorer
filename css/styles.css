@@ -72,6 +72,14 @@ body {
     z-index: 0 !important;
 }
 
+/* Raise all major content blocks above the universe canvas.
+   Without this, inline text inside static sections paints below
+   the fixed-position canvas (CSS stacking-order behaviour). */
+section, footer, main, header, .moved-card {
+    position: relative;
+    z-index: 1;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
