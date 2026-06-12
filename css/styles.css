@@ -478,10 +478,8 @@ img {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 2rem;
     font-weight: 700;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #22d3ee;
+    text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 .stat-label {
