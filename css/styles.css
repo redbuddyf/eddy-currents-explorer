@@ -53,7 +53,7 @@
 
 html {
     scroll-behavior: smooth;
-    background: var(--background);
+    background: transparent;
 }
 
 body {
@@ -63,21 +63,16 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     /* Establish a stacking context so the fixed universe canvas
-       (z-index: 0) stays behind all body content. */
+       can sit at z-index:-1 behind everything. */
     position: relative;
     z-index: 1;
 }
 
 #universe-bg {
-    z-index: 0 !important;
-}
-
-/* Raise all major content blocks above the universe canvas.
-   Without this, inline text inside static sections paints below
-   the fixed-position canvas (CSS stacking-order behaviour). */
-section, footer, main, header, .moved-card {
-    position: relative;
-    z-index: 1;
+    /* The canvas draws its own #020205 background and stars.
+       Negative z-index keeps it behind every body child without
+       needing to touch individual sections or divs. */
+    z-index: -1 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
