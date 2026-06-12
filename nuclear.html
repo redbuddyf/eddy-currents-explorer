@@ -3127,7 +3127,28 @@
     };
 
     function glossaryLookup(term) {
-        const lower = term.toLowerCase().replace(/[.!?]+$/, '');
+        let lower = term.toLowerCase().replace(/[.!?]+$/, '').trim();
+        
+        // Strip common question prefixes to extract the core term
+        const prefixes = [
+            /^what is (?:an? |the )?/,
+            /^what are (?:the )?/,
+            /^explain (?:an? |the )?/,
+            /^define (?:an? |the )?/,
+            /^tell me about (?:an? |the )?/,
+            /^describe (?:an? |the )?/,
+            /^how does (?:an? |the )?/,
+            /^how do (?:an? |the )?/,
+            /^why does (?:an? |the )?/,
+            /^why do (?:an? |the )?/,
+        ];
+        for (const prefix of prefixes) {
+            lower = lower.replace(prefix, '');
+        }
+        lower = lower.replace(/\?$/, '').trim();
+        
+        if (!lower) return null;
+        
         // Direct match
         if (GLOSSARY[lower]) return GLOSSARY[lower];
         // Try without parenthetical content
@@ -3209,7 +3230,47 @@
         userMsg.textContent = question;
         body.appendChild(userMsg);
         body.scrollTop = body.scrollHeight;
+        
+        // Check glossary first for instant definitions
+        const glossaryDef = glossaryLookup(question);
+        if (glossaryDef) {
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                const term = extractTermForGlossary(question);
+                const botMsg = document.createElement('div');
+                botMsg.className = 'tutor-message bot';
+                botMsg.innerHTML = '<strong>' + term + '</strong><br><br>' + glossaryDef;
+                body.appendChild(botMsg);
+                body.scrollTop = body.scrollHeight;
+            }, 500);
+            return;
+        }
+        
         await tutorAskLLM(question);
+    }
+    
+    function extractTermForGlossary(question) {
+        let term = question.toLowerCase().replace(/[.!?]+$/, '').trim();
+        const prefixes = [
+            /^what is (?:an? |the )?/,
+            /^what are (?:the )?/,
+            /^explain (?:an? |the )?/,
+            /^define (?:an? |the )?/,
+            /^tell me about (?:an? |the )?/,
+            /^describe (?:an? |the )?/,
+            /^how does (?:an? |the )?/,
+            /^how do (?:an? |the )?/,
+            /^why does (?:an? |the )?/,
+            /^why do (?:an? |the )?/,
+        ];
+        for (const prefix of prefixes) {
+            term = term.replace(prefix, '');
+        }
+        term = term.replace(/\?$/, '').trim();
+        // Capitalise first letter
+        if (term) term = term.charAt(0).toUpperCase() + term.slice(1);
+        return term || question;
     }
 
     function formatTutorMessage(text) {
