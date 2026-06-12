@@ -3124,6 +3124,18 @@
         '14 steps': 'The uranium-238 decay chain consists of 14 successive decays - eight alpha decays and six beta-minus decays - transforming U-238 into stable lead-206. This is the most extensively studied decay chain in nuclear physics.',
         'even numbers of both': 'Even-even nuclei have even numbers of both protons and neutrons. They are the most stable nuclear configuration due to the pairing energy term, which provides extra binding when like nucleons pair with opposite spins.',
         '⁵⁶fe': 'Iron-56 (⁵⁶Fe) is the most stable nucleus, with a binding energy per nucleon of approximately 8.79 MeV. It represents the turning point where fusion of lighter elements releases energy, but fission of heavier elements is required to extract energy.',
+        
+        // Abbreviations and aliases
+        'semf': 'The semi-empirical mass formula (SEMF or Weizsäcker formula) estimates nuclear binding energy by combining volume, surface, Coulomb, asymmetry, and pairing terms. It explains the overall trends in nuclear stability and reproduces experimental binding energies within 1–2 MeV for most nuclei.',
+        'weizsäcker formula': 'The Weizsäcker formula is another name for the semi-empirical mass formula. It estimates nuclear binding energy by combining volume, surface, Coulomb, asymmetry, and pairing terms.',
+        'antineutrino': 'An antineutrino is the antimatter counterpart of a neutrino. It is emitted during beta-minus decay when a neutron converts into a proton, carrying away energy, momentum, and spin while interacting only via the weak nuclear force.',
+        'neutrino': 'A neutrino is a neutral, nearly massless subatomic particle that interacts only via the weak nuclear force. It is emitted during beta-plus decay and electron capture, and was postulated by Wolfgang Pauli in 1930 to explain the continuous energy spectrum of beta particles.',
+        'beta particle': 'A beta particle is a high-energy electron or positron emitted during beta decay. Beta-minus decay emits an electron and an antineutrino, while beta-plus decay emits a positron and a neutrino.',
+        'positron': 'A positron is the antimatter counterpart of an electron. It has the same mass as an electron but a positive charge. Positrons are emitted during beta-plus decay.',
+        'alpha particle': 'An alpha particle is a helium-4 nucleus consisting of 2 protons and 2 neutrons. It is emitted during alpha decay, reducing the parent nucleus's mass number by 4 and atomic number by 2.',
+        'gamma ray': 'A gamma ray is a high-energy photon emitted by an excited nucleus when it transitions to a lower energy state. Gamma emission changes neither the mass number nor the atomic number.',
+        'coulomb repulsion': 'Coulomb repulsion is the electrostatic force that pushes positively charged protons apart inside the nucleus. It scales as Z(Z−1) and becomes increasingly significant in heavy nuclei, which is why extra neutrons are needed to provide additional strong-force binding.',
+        'n-z ratio': 'The neutron-to-proton ratio (N/Z) is the number of neutrons divided by the number of protons in a nucleus. For light elements it is approximately 1:1, but increases to about 1.5:1 for heavy elements to counteract Coulomb repulsion between protons.',
     };
 
     function glossaryLookup(term) {
@@ -3339,9 +3351,30 @@
         }
     }
 
+    function stripQuestionPrefix(question) {
+        let q = question.toLowerCase().replace(/[.!?]+$/, '').trim();
+        const prefixes = [
+            /^what is (?:an? |the )?/,
+            /^what are (?:the )?/,
+            /^explain (?:an? |the )?/,
+            /^define (?:an? |the )?/,
+            /^tell me about (?:an? |the )?/,
+            /^describe (?:an? |the )?/,
+            /^how does (?:an? |the )?/,
+            /^how do (?:an? |the )?/,
+            /^why does (?:an? |the )?/,
+            /^why do (?:an? |the )?/,
+        ];
+        for (const prefix of prefixes) {
+            q = q.replace(prefix, '');
+        }
+        return q.replace(/\?$/, '').trim() || question;
+    }
+
     async function tutorAskLLM(question) {
         showTyping();
-        const chunks = retrieveRelevantChunks(question, 5);
+        const searchQuery = stripQuestionPrefix(question);
+        const chunks = retrieveRelevantChunks(searchQuery, 5);
         if (chunks.length === 0) {
             hideTyping();
             const body = document.getElementById('tutorBody');
