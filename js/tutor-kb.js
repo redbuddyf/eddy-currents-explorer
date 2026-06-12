@@ -6,9 +6,33 @@ const TUTOR_KNOWLEDGE_BASE = [{"heading": "Overview: What is Radioactive Decay?"
 const QUESTION_WORDS = new Set(['what','how','why','when','where','who','which','does','did','do','can','could','would','should','will','is','are','was','were','am','be','been','being','have','has','had','get','got','explain','describe','tell','give']);
 
 function retrieveRelevantChunks(question, maxChunks = 5) {
-    const lowerQ = question.toLowerCase();
+    const lowerQ = question.toLowerCase().replace(/[.!?]+$/, '');
     const qWords = lowerQ.split(/\s+/).filter(w => w.length > 2);
     const qWordsNoQuestions = qWords.filter(w => !QUESTION_WORDS.has(w));
+    
+    // Synonym/expansion map for common chapter terms
+    const synonyms = {
+        'semf': ['semi-empirical', 'weizsacker', 'mass formula', 'binding energy'],
+        'antineutrino': ['neutrino', 'beta decay', 'beta-minus'],
+        'neutrino': ['antineutrino', 'beta decay', 'beta-plus', 'electron capture'],
+        'beta': ['beta decay', 'beta-minus', 'beta-plus', 'electron', 'positron'],
+        'alpha': ['alpha decay', 'helium', 'tunneling'],
+        'gamma': ['gamma emission', 'photon', 'excited'],
+        'half-life': ['decay constant', 'activity', 'dating'],
+        'binding energy': ['semi-empirical', 'mass defect', 'fusion', 'fission'],
+        'fission': ['nuclear reactor', 'energy', 'uranium', 'plutonium'],
+        'fusion': ['binding energy', 'stars', 'hydrogen'],
+        'decay chain': ['uranium-238', 'secular equilibrium', 'lead-206'],
+        'radiometric dating': ['carbon-14', 'uranium-lead', 'half-life'],
+        'magic numbers': ['shell model', 'doubly magic', 'closed shells'],
+    };
+    
+    const expandedWords = [...qWordsNoQuestions];
+    for (const w of qWordsNoQuestions) {
+        if (synonyms[w]) {
+            expandedWords.push(...synonyms[w]);
+        }
+    }
     
     const scores = TUTOR_KNOWLEDGE_BASE.map((chunk, idx) => {
         let score = 0;
@@ -25,10 +49,10 @@ function retrieveRelevantChunks(question, maxChunks = 5) {
             if (headingLower.includes(phrase)) score += 15;
         }
         
-        // Keyword match
+        // Keyword match (including expanded synonyms)
         for (const kw of chunk.keywords) {
             const kwLower = kw.toLowerCase();
-            for (const w of qWords) {
+            for (const w of expandedWords) {
                 if (kwLower.includes(w) || w.includes(kwLower)) score += 6;
             }
             // Multi-word keyword bonus
@@ -38,9 +62,12 @@ function retrieveRelevantChunks(question, maxChunks = 5) {
             }
         }
         
-        // Body match — increased weight for definitional content
+        // Body match
         for (const w of qWords) {
             if (bodyLower.includes(w)) score += 2;
+        }
+        for (const w of expandedWords) {
+            if (bodyLower.includes(w)) score += 1;
         }
         
         // Exact phrase bonus in body
@@ -52,7 +79,7 @@ function retrieveRelevantChunks(question, maxChunks = 5) {
         // Exact full question bonus
         if (bodyLower.includes(lowerQ)) score += 25;
         
-        // Boost synthetic overview chunks slightly for broad questions
+        // Boost overview chunks for broad questions
         if (chunk.source === 'Synthesis' && chunk.heading.startsWith('Overview:')) {
             score *= 1.2;
         }
@@ -60,7 +87,19 @@ function retrieveRelevantChunks(question, maxChunks = 5) {
         return { idx, score };
     });
     scores.sort((a, b) => b.score - a.score);
-    const top = scores.slice(0, maxChunks).filter(s => s.score > 0);
+    
+    // Always return top chunks, even with low scores, so the AI has context
+    let top = scores.slice(0, maxChunks);
+    
+    // If no good matches, add overview chunks as fallback
+    if (top.length === 0 || top[0].score < 3) {
+        const overviews = TUTOR_KNOWLEDGE_BASE
+            .map((c, idx) => ({ idx, score: c.source === 'Synthesis' && c.heading.startsWith('Overview:') ? 1 : 0 }))
+            .filter(s => s.score > 0)
+            .slice(0, 2);
+        top = top.concat(overviews);
+    }
+    
     return top.map(s => TUTOR_KNOWLEDGE_BASE[s.idx]);
 }
 
